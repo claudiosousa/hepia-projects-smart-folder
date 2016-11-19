@@ -9,7 +9,9 @@ int smart_folder_start(char *dst_path, char *search_path, file_validator_t *vali
     return 0;
 }
 
-int smart_folder_stop()
+int smart_folder_stop(char *dst_path)
 {
+    (void)dst_path;
+
     return 0;
 }
