@@ -1,4 +1,4 @@
-FLAGS=-g -Wall -Wextra -std=c99
+FLAGS=-g -Wall -Wextra -std=c99 -D_POSIX_SOURCE
 LIBS=
 
 main: main.c ipc.o smart_folder.o file_validator.o finder.o file_linker.o
