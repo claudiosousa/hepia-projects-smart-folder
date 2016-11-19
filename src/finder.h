@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include "file_validator.h"
+
 typedef struct {
     char *files;
     size_t count;

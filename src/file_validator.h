@@ -1,4 +1,5 @@
-struct file_validator_t;
+#include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct file_validator_t file_validator_t;
 
