@@ -1,7 +1,7 @@
 FLAGS=-g -Wall -Wextra -std=c99 -D_POSIX_SOURCE
 LIBS=
 
-main: main.c ipc.o smart_folder.o file_validator.o finder.o file_linker.o
+searchfolder: main.c ipc.o smart_folder.o file_validator.o finder.o file_linker.o
 	gcc $(FLAGS) -o searchfolder main.c *.o $(LIBS)
 
 ipc.o: ipc.c ipc.h
