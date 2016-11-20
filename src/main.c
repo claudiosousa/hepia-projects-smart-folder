@@ -6,19 +6,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 #include "ipc.h"
 #include "file_validator.h"
 #include "smart_folder.h"
+
+// TODO: move this somewhere else?
+smart_folder_t *smart_folder;
+char *dst_path;
+void sig_handler() {
+    if (smart_folder) {
+        smart_folder_stop(smart_folder);
+        ipc_remove_watch(dst_path);
+    }
+}
 
 /**
  * Program entry-point
  * @param argc Number of arguments
  * @param argv Array of arguments
  */
-int main(int argc, char *argv[])
-{
-    if (argc < 2)
-    {
+int main(int argc, char *argv[]) {
+    if (signal(SIGINT, sig_handler) == SIG_ERR || signal(SIGTERM, sig_handler) == SIG_ERR) {
+        perror("Failed to register SIGINT signal");
+        return EXIT_FAILURE;
+    }
+
+    if (argc < 2) {
         fprintf(stderr, "Error: missing arguments\n");
 
         printf("Usage:\n");
@@ -29,32 +43,26 @@ int main(int argc, char *argv[])
     }
 
     // Search mode
-    if (strncmp(argv[1], "-d", 3) != 0)
-    {
-        char * dst_path = argv[1];
-        char * search_path = argv[2];
+    if (strncmp(argv[1], "-d", 3) != 0) {
+        dst_path = argv[1];
+        char *search_path = argv[2];
 
         // Start the search
-        file_validator_t * validator = file_validator_create((argc > 2) ? argv+3 : NULL, argc - 3);
-        smart_folder_t * smart_folder = smart_folder_create(dst_path, search_path, validator);
-        if (!smart_folder)
-            return EXIT_FAILURE;
+        file_validator_t *validator = file_validator_create((argc > 2) ? argv + 3 : NULL, argc - 3);
+        smart_folder = smart_folder_create(dst_path, search_path, validator);
+        if (!smart_folder) return EXIT_FAILURE;
 
-        if (ipc_set_watch(dst_path))
-        {
+        if (ipc_set_watch(dst_path)) {
             return EXIT_FAILURE;
         }
 
         smart_folder_start(smart_folder);
-        smart_folder_stop(smart_folder);
     }
     // Kill mode
-    else
-    {
-        char * dst_path = argv[2];
+    else {
+        char *dst_path = argv[2];
 
-        if (ipc_stop_watch(dst_path))
-        {
+        if (ipc_stop_watch(dst_path)) {
             return EXIT_FAILURE;
         }
     }

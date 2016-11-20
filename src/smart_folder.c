@@ -49,4 +49,9 @@ void smart_folder_start(smart_folder_t* smart_folder) {
     }
 }
 
-void smart_folder_stop(smart_folder_t* smart_folder) { smart_folder->running = false; }
+void smart_folder_stop(smart_folder_t* smart_folder) {
+    smart_folder->running = false;
+    if (rmdir(smart_folder->dst_path) != 0) {
+        perror("Impossible to delete smart_folder path!");
+    }
+}

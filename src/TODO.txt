@@ -6,3 +6,10 @@ IPC:
  main:
   - one should do smart_folder_create (that validates the parameters) beforecalling IPC_watch and smart_folder_start
   - remove IPC watch if smart_folder_start fails
+
+GLOBAL:
+  - set create permissions globally (UMASK?) for all file/dir creation
+  - put MAX_PATH globally
+  - ask teacher about usage of C lib functions instead of system functions.
+     - opendir vs open & getdents
+     - fopen vs open,etc

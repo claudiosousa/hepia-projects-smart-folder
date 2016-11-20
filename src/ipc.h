@@ -20,4 +20,11 @@ int ipc_set_watch(char *dst_path);
  */
 int ipc_stop_watch(char *dst_path);
 
+/**
+ * Removes the watch file for the given search path
+ * @param dst_path The destination path that designate the instance
+ * @return Error indicator: 0 for OK, 1 for an error
+ */
+int ipc_remove_watch(char *dst_path);
+
 #endif
