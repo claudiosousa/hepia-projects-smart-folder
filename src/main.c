@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Error: missing arguments\n");
 
         printf("Usage:\n");
-        printf("       %s <dir_name> <search_path> [expression]", argv[0]);
-        printf("       %s -d <dir_name>", argv[0]);
+        printf("\t%s <dir_name> <search_path> [expression]\n", argv[0]);
+        printf("\t%s -d <dir_name>\n", argv[0]);
 
         return EXIT_FAILURE;
     }
@@ -34,14 +34,19 @@ int main(int argc, char *argv[])
         char * dst_path = argv[1];
         char * search_path = argv[2];
 
+        // Start the search
+        file_validator_t * validator = file_validator_create((argc > 2) ? argv+3 : NULL, argc - 3);
+        smart_folder_t * smart_folder = smart_folder_create(dst_path, search_path, validator);
+        if (!smart_folder)
+            return EXIT_FAILURE;
+
         if (ipc_set_watch(dst_path))
         {
             return EXIT_FAILURE;
         }
 
-        // Start the search
-        file_validator_t * validator = file_validator_create((argc > 2) ? argv+3 : NULL, argc - 3);
-        smart_folder_start(dst_path, search_path, validator);
+        smart_folder_start(smart_folder);
+        smart_folder_stop(smart_folder);
     }
     // Kill mode
     else
@@ -52,8 +57,6 @@ int main(int argc, char *argv[])
         {
             return EXIT_FAILURE;
         }
-
-        smart_folder_stop(dst_path);
     }
 
     return EXIT_SUCCESS;

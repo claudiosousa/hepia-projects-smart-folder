@@ -1,0 +1,8 @@
+IPC:
+ - convert dst path to absolute path (maybe do it in main)
+ - removal of PID file should be done by ipc watch app
+ - removal of PID file should happen if main app is closed
+
+ main:
+  - one should do smart_folder_create (that validates the parameters) beforecalling IPC_watch and smart_folder_start
+  - remove IPC watch if smart_folder_start fails

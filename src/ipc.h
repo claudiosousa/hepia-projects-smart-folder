@@ -1,3 +1,6 @@
+#ifndef IPC_H
+#define IPC_H
+
 /**
  * Manage communication between different instance of smartfolder.
  * @author Claudio Sousa, Gonzalez David
@@ -16,3 +19,5 @@ int ipc_set_watch(char *dst_path);
  * @return Error indicator: 0 for OK, 1 for an error
  */
 int ipc_stop_watch(char *dst_path);
+
+#endif

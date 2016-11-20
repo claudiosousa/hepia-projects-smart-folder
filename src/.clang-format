@@ -1,4 +1,4 @@
-BasedOnStyle: LLVM
+BasedOnStyle: Google
 UseTab: Never
 ColumnLimit: 120
 IndentWidth: 4
