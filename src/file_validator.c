@@ -18,5 +18,5 @@ bool file_validator_validate(char *filename, file_validator_t *validator)
     (void)filename;
     (void)validator;
 
-    return false;
+    return true;
 }

@@ -45,6 +45,7 @@ void smart_folder_start(smart_folder_t* smart_folder) {
     while (smart_folder->running) {
         finder_files_t* found_files = finder_find(smart_folder->search_path, smart_folder->validator);
         file_linker_update(smart_folder->dst_path, found_files);
+        finder_free(found_files);
         sleep(LOOP_INTERVAL);
     }
 }

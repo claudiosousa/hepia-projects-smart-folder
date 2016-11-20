@@ -7,6 +7,12 @@
 const int MAX_FILES = 10000;
 const int MAX_PATH = 4096;
 
+static void add_found_file(char *file, finder_files_t *finder_files) {
+    char *file_cpy = malloc(sizeof(char) * (strlen(file) + 1));
+    strcpy(file_cpy, file);
+    finder_files->files[finder_files->count++] = file_cpy;
+}
+
 static void find_in_dir(char *dir, finder_files_t *finder_files, file_validator_t *validator) {
     (void)validator;
     (void)finder_files;
@@ -26,10 +32,11 @@ static void find_in_dir(char *dir, finder_files_t *finder_files, file_validator_
         strcat(full_path, dent->d_name);
         if (dent->d_type == DT_DIR) {
             if (strcmp(dent->d_name, ".") == 0 || strcmp(dent->d_name, "..") == 0) continue;
-            printf("DIR : %s\n", full_path);
             find_in_dir(full_path, finder_files, validator);
         } else if (dent->d_type == DT_REG) {
-            printf("REG: %s\n", full_path);
+            if (file_validator_validate(full_path, validator)) {
+                add_found_file(full_path, finder_files);
+            }
         }
     }
 
