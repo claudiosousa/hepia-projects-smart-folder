@@ -1,10 +1,10 @@
-#ifndef IPC_H
-#define IPC_H
-
 /**
  * Manage communication between different instance of smartfolder.
  * @author Claudio Sousa, Gonzalez David
  */
+
+#ifndef IPC_H
+#define IPC_H
 
 /**
  * Create the instance run file for futher identification by other instances
