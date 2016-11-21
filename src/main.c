@@ -28,7 +28,7 @@ void sig_handler() {
  */
 int main(int argc, char *argv[]) {
     if (signal(SIGINT, sig_handler) == SIG_ERR || signal(SIGTERM, sig_handler) == SIG_ERR) {
-        perror("Failed to register SIGINT signal");
+        perror("Failed to register signal");
         return EXIT_FAILURE;
     }
 
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
         // Start the search
         file_validator_t *validator = file_validator_create((argc > 2) ? argv + 3 : NULL, argc - 3);
         smart_folder = smart_folder_create(dst_path, search_path, validator);
-        if (!smart_folder) return EXIT_FAILURE;
+        if (smart_folder == NULL) return EXIT_FAILURE;
 
         if (ipc_set_watch(dst_path)) {
             return EXIT_FAILURE;
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     }
     // Kill mode
     else {
-        char *dst_path = argv[2];
+        dst_path = argv[2];
 
         if (ipc_stop_watch(dst_path)) {
             return EXIT_FAILURE;

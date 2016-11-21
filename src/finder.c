@@ -4,6 +4,7 @@
 
 #include "finder.h"
 
+//replace MAX_FILES by dynamic memory allocation (+1000 each time?)
 const int MAX_FILES = 10000;
 const int MAX_PATH = 4096;
 
@@ -14,9 +15,6 @@ static void add_found_file(char *file, finder_files_t *finder_files) {
 }
 
 static void find_in_dir(char *dir, finder_files_t *finder_files, file_validator_t *validator) {
-    (void)validator;
-    (void)finder_files;
-
     DIR *d;
     d = opendir(dir);
     if (d == NULL) {

@@ -23,6 +23,7 @@
  * @param dst_path The destination path to construct the filename from
  * @param pid_path String to store the resulting pid filename
  */
+ //TODO rename function, add ensure param?
 static int ipc_get_pid_file_path(char *dst_path, char *pid_path) {
     // Get user home directory root
     char *home_dir = getenv("HOME");

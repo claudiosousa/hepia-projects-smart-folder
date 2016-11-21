@@ -1,7 +1,11 @@
 
- main:
+main:
   - convert dst path and search path to absolute path
+     - throw exception if abs path>MAX_PATH
 
+path_utils
+ - module for path operations
+ 
 GLOBAL:
   - set create permissions globally (UMASK?) for all file/dir creation
   - put MAX_PATH globally
@@ -10,3 +14,5 @@ GLOBAL:
      - fopen vs open,etc
   - test malloc res for failure
   - add module prefix in private functions?
+  - perror(), right parameter?
+  - test with VALGRIND
