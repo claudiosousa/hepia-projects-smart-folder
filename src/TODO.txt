@@ -1,22 +1,24 @@
 
 main:
   - convert dst path and search path to absolute path
-    - throw exception if abs path>MAX_PATH
+     - throw exception if abs path>MAX_PATH
 
 path_utils
   - module for path operations
 
 finder
   - realloc when needed instead of 1000000 files
- 
+  - follow symbolic links
+  - avoid loop in folders
+
 GLOBAL:
   - set create permissions globally (UMASK?) for all file/dir creation
   - put MAX_PATH globally
-  - ask teacher about usage of C lib functions instead of system functions.
+  - usage of system functions instead of C lib functions
      - opendir vs open & getdents
      - fopen vs open,etc
   - test malloc res for failure
-  - add module prefix in private functions?
+  - add module prefix in private functions ?
   - perror(), right parameter?
   - test with VALGRIND
 
@@ -24,4 +26,3 @@ Modules to implement:
   - File linker
   - file_validator (noeuds: &, ||, leafs: test_name, test_date, test_size, test_etc)
   - deamonize
-
