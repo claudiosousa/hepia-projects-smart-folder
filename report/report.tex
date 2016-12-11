@@ -63,7 +63,41 @@
 % -----------------------------------------------------------------------------
 \section{Introduction}
 
+Ce TP de deuxième année en programmation système consiste à implémenter un programme similaire au SmartFolder sur MacOSX. \\
 
+Le SmartFolder sur MacOSX recherche sur le disque des fichiers correspondant à un/des critères et
+pour chacun des fichiers trouvés, le programme crée un lien dans un dossier specifié.
+
+\subsection{Spécification fonctionnelle}
+Ce programme possède deux modes de fonctionnement.
+
+\subsubsection{Mode recherche}
+Le premier est le mode \textit{recherche}.
+C'est le mode par défaut qui simule le SmartFolder sur MacOSX.
+Par ailleurs, le programme tourne indéfiniment tant qu'auncun signal d'arrêt n'est reçu. \\
+
+Ce mode prend 3 paramètres:
+\begin{itemize}
+    \item \textit{<dir\_name>}: chemin où stocker les liens;
+    \item \textit{<search\_path>}: chemin de recherche;
+    \item \textit{[expression]}: critères de sélection. \\
+\end{itemize}
+
+\textit{<dir\_name>} et \textit{<search\_path>} sont de simples chemin vers des dossiers.
+Concernant \textit{[expression]}, ceci correspond à une liste de critères dont l'interface est identique à celle de \textit{find}.
+
+\paragraphnl{Expression}
+...
+
+\subsubsection{Mode stop}
+Le deuxième est le mode \textit{stop}.
+Il permet d'arrêter une recherche en cours. \\
+
+Ce mode prend 2 paramètres:
+\begin{itemize}
+    \item \textit{-d}: paramètre qui permet de lancer ce mode;
+    \item \textit{<dir\_name>}: chemin traité par le SmartFolder à terminé.
+\end{itemize}
 
 \newpage
 
@@ -79,6 +113,37 @@
     \label{Architecture du SmartFolder}
 \end{figure}
 
+\subsubsection{Main}
 
+Le programme principal a pour rôle de vérifier les arguments et de sélectionner le bon mon de fonctionnement.
+
+Dans le mode \textit{recherche}, il a pour tâche de:
+\begin{itemize}
+    \item mettre le processus en arrière-plan;
+    \item traiter l'expression;
+    \item poser le \textit{pidfile};
+    \item initialiser et lancer la recherche.
+\end{itemize}
+
+Lorsqu'il reçoit un signal d'arrêt, il libère la mémoire, efface le \textit{pidfile} et ce termine. \\
+
+Dans le mode \textit{stop}, son seul rôle est de signaler l'arrêt (voir \nameref{sec:ipc}).
+
+\subsubsection{SmartFolder}
+
+\subsubsection{Parser}
+
+\subsubsection{Validator}
+
+\subsubsection{Finder}
+
+\subsubsection{Linker}
+
+\subsubsection{IPC}
+\label{sec:ipc}
+
+\subsubsection{IO}
+
+\subsubsection{Logger}
 
 \end{document}
