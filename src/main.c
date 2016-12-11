@@ -8,7 +8,7 @@
 #include <string.h>
 #include <signal.h>
 #include "ipc.h"
-#include "file_validator.h"
+#include "parser.h"
 #include "smart_folder.h"
 
 // TODO: move this somewhere else?
@@ -48,8 +48,8 @@ int main(int argc, char *argv[]) {
         char *search_path = argv[2];
 
         // Start the search
-        file_validator_t *validator = file_validator_create((argc > 2) ? argv + 3 : NULL, argc - 3);
-        smart_folder = smart_folder_create(dst_path, search_path, validator);
+        parser_t *expression = parser_parse((argc > 2) ? argv + 3 : NULL, argc - 3);
+        smart_folder = smart_folder_create(dst_path, search_path, expression);
         if (smart_folder == NULL) return EXIT_FAILURE;
 
         if (ipc_set_watch(dst_path)) {

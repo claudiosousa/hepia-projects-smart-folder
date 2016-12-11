@@ -1,9 +1,4 @@
-#include "file_validator.h"
-
-struct file_validator_t
-{
-
-};
+#include "validator.h"
 
 // name exact:    -name  <filename>
 // name contains: -name -<filename>
@@ -26,16 +21,7 @@ struct file_validator_t
 // or: -or
 // expr: '\(...\)'
 
-
-file_validator_t *file_validator_create(char *expression[], size_t size)
-{
-    (void)expression;
-    (void)size;
-
-    return NULL;
-}
-
-bool file_validator_validate(char *filename, file_validator_t *validator)
+bool validator_validate(char *filename, parser_t *validator)
 {
     (void)filename;
     (void)validator;
