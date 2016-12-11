@@ -12,18 +12,18 @@
 const int MAX_FILES = 10000;
 const int MAX_PATH = 4096;
 
+static struct file_t *files = NULL;
+typedef struct file_t {
+    long unsigned int id; /* the key */
+    UT_hash_handle hh;    /* makes this structure hashable */
+} file_t;
+
 // replace by inline handling on links
 static void finder_add_found_file(char *file, finder_t *finder_files) {
     char *file_cpy = malloc(sizeof(char) * (strlen(file) + 1));
     strcpy(file_cpy, file);
     finder_files->files[finder_files->count++] = file_cpy;
 }
-
-static struct file_t *files = NULL;
-typedef struct file_t {
-    long unsigned int id; /* the key */
-    UT_hash_handle hh;    /* makes this structure hashable */
-} file_t;
 
 static bool finder_hash_exist(long unsigned int inode) {
     file_t *f;
