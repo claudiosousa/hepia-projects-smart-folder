@@ -43,6 +43,7 @@ smart_folder_t* smart_folder_create(char* dst_path, char* search_path, parser_t*
 
 void smart_folder_start(smart_folder_t* smart_folder) {
     smart_folder->running = true;
+
     while (smart_folder->running) {
         finder_t* found_files = finder_find(smart_folder->search_path, smart_folder->expression);
         linker_update(smart_folder->dst_path, found_files);
@@ -50,6 +51,8 @@ void smart_folder_start(smart_folder_t* smart_folder) {
         finder_free(found_files);
         sleep(LOOP_INTERVAL);
     }
+
+    free(smart_folder);
 }
 
 void smart_folder_stop(smart_folder_t* smart_folder) {
@@ -57,6 +60,4 @@ void smart_folder_stop(smart_folder_t* smart_folder) {
     if (rmdir(smart_folder->dst_path) != 0) {
         perror("Impossible to delete smart_folder path!");
     }
-
-    free(smart_folder);
 }
