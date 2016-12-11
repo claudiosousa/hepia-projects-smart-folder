@@ -7,10 +7,8 @@ path_utils
   - module for path operations
 
 finder
-  - realloc when needed instead of 1000000 files
-  - follow symbolic links
-  - avoid loop in folders
-
+  - realloc when needed instead of 1000000 files(NO)
+  - create link each time a new file is find?
 GLOBAL:
   - set create permissions globally (UMASK?) for all file/dir creation
   - put MAX_PATH globally

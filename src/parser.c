@@ -1,10 +1,5 @@
 #include "parser.h"
 
-struct parser_t
-{
-
-};
-
 // name exact:    -name  <filename>
 // name contains: -name -<filename>
 // group exact: -group root
@@ -32,4 +27,8 @@ parser_t *parser_parse(char *expression[], size_t size)
     (void)size;
 
     return NULL;
+}
+
+void parser_free(parser_t * expression){
+    (void)expression;
 }
