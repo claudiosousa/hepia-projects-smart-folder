@@ -130,6 +130,12 @@ Lorsqu'il reçoit un signal d'arrêt, il libère la mémoire, efface le \textit{
 Dans le mode \textit{stop}, son seul rôle est de signaler l'arrêt (voir \nameref{sec:ipc}).
 
 \subsubsection{SmartFolder}
+\textit{SmartFolder} est le module principal qui va orchestrer la recherche. \\
+
+Lorsque lancé, il va continuellement recherche les fichiers correspondant au critère,
+puis demander la mise à jour du répertoire de destination.
+
+A noter qu'entre chaque recherche, il y a une pause de quelques secondes.
 
 \subsubsection{Parser}
 
@@ -143,6 +149,7 @@ Dans le mode \textit{stop}, son seul rôle est de signaler l'arrêt (voir \namer
 \label{sec:ipc}
 
 \subsubsection{IO}
+Le but de ce module est d'offrir une interface simple aux appels systèmes.
 
 \subsubsection{Logger}
 
