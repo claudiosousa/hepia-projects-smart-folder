@@ -1,0 +1,84 @@
+\documentclass[11pt, a4paper]{article}
+
+% Packages
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage[left=2cm, right=2cm, top=2cm, bottom=2cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+
+\usepackage{float}
+
+\usepackage{graphicx}
+\graphicspath{{./img/}}
+\usepackage{tikz}
+
+% Reset paragraph indentation -------------------------------------------------
+\setlength{\parindent}{0cm}
+
+% Allow a paragraph to have a linebreak ---------------------------------------
+\newcommand{\paragraphnl}[1]{\paragraph{#1}\mbox{}\\}
+
+% Page header and footer ------------------------------------------------------
+\pagestyle{fancy}
+\setlength{\headheight}{33pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\lhead{\includegraphics[height=1cm]{hepia.jpg}}
+\chead{SmartFolder}
+\rhead{Claudio Sousa - David Gonzalez}
+\renewcommand{\footrulewidth}{0.5pt}
+\lfoot{23 décembre 2016}
+\cfoot{}
+\rfoot{Page \thepage /\pageref{LastPage}}
+
+% Table of contents depth -----------------------------------------------------
+\setcounter{tocdepth}{3}
+
+% Document --------------------------------------------------------------------
+\begin{document}
+
+\title
+{
+    \Huge{Programmation concurrente} \\
+    \Huge{SmartFolder}
+}
+\author
+{
+    \LARGE{David Gonzalez - Claudio Sousa}
+}
+\date{23 décembre 2016}
+\maketitle
+
+\begin{center}
+    %\includegraphics[scale=0.27]{logo.png}
+\end{center}
+
+\thispagestyle{empty}
+
+\newpage
+
+% -----------------------------------------------------------------------------
+\section{Introduction}
+
+
+
+\newpage
+
+% -----------------------------------------------------------------------------
+\section{Development}
+\subsection{Architecture}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=\textwidth]{modules.png}
+    \end{center}
+    \caption{Architecture du SmartFolder}
+    \label{Architecture du SmartFolder}
+\end{figure}
+
+
+
+\end{document}
