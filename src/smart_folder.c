@@ -2,10 +2,10 @@
 #include <stdbool.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
 #include "smart_folder.h"
 #include "linker.h"
 #include "finder.h"
+#include "io.h"
 
 const int LOOP_INTERVAL = 5;  // seconds
 
@@ -17,18 +17,16 @@ struct smart_folder_t {
 };
 
 smart_folder_t* smart_folder_create(char* dst_path, char* search_path, parser_t* expression) {
-    struct stat dirstat;
-
-    if (stat(dst_path, &dirstat) == 0) {
+    if (io_directory_exists(dst_path)) {
         fprintf(stderr, "Destination already exists!");
         return NULL;
     }
-    if (stat(search_path, &dirstat) != 0 || !S_ISDIR(dirstat.st_mode)) {
+    if (!io_directory_exists(search_path)) {
         fprintf(stderr, "Search path does not exist or is not a directory!");
         return NULL;
     }
-    if (mkdir(dst_path, S_IRWXU | S_IRWXG) != 0) {
-        perror("Impossible to create destination path!");
+    if (io_directory_create(dst_path) != 0) {
+        fprintf(stderr, "Impossible to create destination path!");
         return NULL;
     }
 

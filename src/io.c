@@ -11,15 +11,14 @@
 
 #define IO_TMP_BUF_SIZE 4096
 #define IO_DEFAULT_PERM 0644
+#define IO_DEFAULT_MODE S_IRWXU | S_IRWXG
 
-bool io_file_exists(char *path)
-{
+bool io_file_exists(char *path) {
     struct stat buffer;
-    return stat(path, &buffer) == 0;
+    return (stat(path, &buffer) == 0) && S_ISREG(buffer.st_mode);
 }
 
-int io_file_read_content(char *path, char *dst_buffer, size_t buf_size)
-{
+int io_file_read_content(char *path, char *dst_buffer, size_t buf_size) {
     char tmp[IO_TMP_BUF_SIZE] = "";
 
     int fd = open(path, O_RDONLY);
@@ -39,8 +38,7 @@ int io_file_read_content(char *path, char *dst_buffer, size_t buf_size)
     return 0;
 }
 
-int io_file_write(char *path, char *content)
-{
+int io_file_write(char *path, char *content) {
     (void)content;
     int content_size = strlen(content);
 
@@ -61,10 +59,23 @@ int io_file_write(char *path, char *content)
     return 0;
 }
 
-int io_file_delete(char *path)
-{
+int io_file_delete(char *path) {
     if (unlink(path)) {
         perror("Unlink failed");
+        return 1;
+    }
+
+    return 0;
+}
+
+bool io_directory_exists(char *path) {
+    struct stat buffer;
+    return (stat(path, &buffer) == 0) && S_ISDIR(buffer.st_mode);
+}
+
+int io_directory_create(char *path) {
+    if (mkdir(path, IO_DEFAULT_MODE) != 0) {
+        perror("Mkdir failed");
         return 1;
     }
 

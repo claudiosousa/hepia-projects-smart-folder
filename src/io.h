@@ -11,10 +11,9 @@
 #include <sys/stat.h>
 
 #define IO_PATH_MAX_SIZE 4096
-#define IO_DEFAULT_MODE S_IRWXU | S_IRWXG
 
 /**
- * Determine if a file i the specified path exists
+ * Determine if a file in the specified path exists
  * @param path File path to check
  * @return True if exists, false otherwise
  */
@@ -42,5 +41,18 @@ int io_file_write(char *path, char *content);
  * @return 0 if deleted, 1 if error
  */
 int io_file_delete(char *path);
+
+/**
+ * Determine if a directory in the specified path exists
+ * @param path File path to check
+ * @return True if exists, false otherwise
+ */
+bool io_directory_exists(char *path);
+
+/**
+ * Create a directory in the specified path
+ * @param path Dir path to create
+ */
+int io_directory_create(char *path);
 
 #endif

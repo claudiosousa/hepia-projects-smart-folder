@@ -22,7 +22,7 @@
  * @param dst_path The destination path to construct the filename from
  * @param pid_path String to store the resulting pid filename
  */
- //TODO rename function, add ensure param?
+// TODO: rename function, add ensure param?
 static int ipc_get_pid_file_path(char *dst_path, char *pid_path) {
     // Get user home directory root
     char *home_dir = getenv("HOME");
@@ -35,10 +35,10 @@ static int ipc_get_pid_file_path(char *dst_path, char *pid_path) {
     // No check are done because if path already exists, nothing happen.
     strncpy(pid_path, home_dir, IO_PATH_MAX_SIZE);
     strncat(pid_path, IPC_HOME_PATH, IO_PATH_MAX_SIZE);
-    mkdir(pid_path, IO_DEFAULT_MODE);
+    io_directory_create(pid_path);
 
     strncat(pid_path, IPC_RUN_PATH, IO_PATH_MAX_SIZE);
-    mkdir(pid_path, IO_DEFAULT_MODE);
+    io_directory_create(pid_path);
 
     // Store the PID to a file named after the destination path
     int folder_length = strlen(pid_path);
