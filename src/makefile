@@ -1,7 +1,7 @@
 FLAGS=-g -Wall -Wextra -std=c99 -D_POSIX_SOURCE -D_GNU_SOURCE
 LIBS=
 
-searchfolder: main.c ipc.o smart_folder.o parser.o validator.o finder.o linker.o
+searchfolder: main.c ipc.o smart_folder.o parser.o validator.o finder.o linker.o io.o
 	gcc $(FLAGS) -o searchfolder main.c *.o $(LIBS)
 
 ipc.o: ipc.c ipc.h
@@ -21,6 +21,9 @@ finder.o: finder.c finder.h
 
 linker.o: linker.c linker.h
 	gcc $(FLAGS) -c linker.c
+
+io.o: io.c io.h
+	gcc $(FLAGS) -c io.c
 
 clean:
 	rm *.o searchfolder
