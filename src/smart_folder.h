@@ -1,7 +1,7 @@
 #ifndef SMART_FOLDER_H
 #define SMART_FOLDER_H
 
-#include "validator.h"
+#include "parser.h"
 
 struct smart_folder_t;
 typedef struct smart_folder_t smart_folder_t;

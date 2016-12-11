@@ -4,15 +4,14 @@
  */
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <sys/stat.h>
 #include <unistd.h>
-#include <limits.h>
 #include <signal.h>
+#include <inttypes.h>
 #include "ipc.h"
+#include "io.h"
 
-#define IPC_MAX_PATH 4096
+#define IPC_MAX_PID_SIZE 10
 #define IPC_HOME_PATH "/.smartfolder/"
 #define IPC_RUN_PATH "/run/"
 #define IPC_HOME_RUN_PATH IPC_HOME_PATH IPC_RUN_PATH
@@ -34,16 +33,16 @@ static int ipc_get_pid_file_path(char *dst_path, char *pid_path) {
 
     // Create our run directory.
     // No check are done because if path already exists, nothing happen.
-    strncpy(pid_path, home_dir, IPC_MAX_PATH);
-    strncat(pid_path, IPC_HOME_PATH, IPC_MAX_PATH);
-    mkdir(pid_path, S_IRWXU | S_IRWXG);
+    strncpy(pid_path, home_dir, IO_PATH_MAX_SIZE);
+    strncat(pid_path, IPC_HOME_PATH, IO_PATH_MAX_SIZE);
+    mkdir(pid_path, IO_DEFAULT_MODE);
 
-    strncat(pid_path, IPC_RUN_PATH, IPC_MAX_PATH);
-    mkdir(pid_path, S_IRWXU | S_IRWXG);
+    strncat(pid_path, IPC_RUN_PATH, IO_PATH_MAX_SIZE);
+    mkdir(pid_path, IO_DEFAULT_MODE);
 
     // Store the PID to a file named after the destination path
     int folder_length = strlen(pid_path);
-    strncat(pid_path, dst_path, IPC_MAX_PATH);
+    strncat(pid_path, dst_path, IO_PATH_MAX_SIZE);
     for (int i = folder_length; pid_path[i]; ++i) {
         if (pid_path[i] == '/') {
             pid_path[i] = '_';
@@ -54,44 +53,36 @@ static int ipc_get_pid_file_path(char *dst_path, char *pid_path) {
 }
 
 int ipc_set_watch(char *dst_path) {
-    char pid_path[IPC_MAX_PATH];
+    char pid_path[IO_PATH_MAX_SIZE];
     if (ipc_get_pid_file_path(dst_path, pid_path) == 1) {
         return 1;
     }
 
-    // Before writing file, check if the pid file exists
-    struct stat buffer;
-    if (stat(pid_path, &buffer) == 0) {
+    if (io_file_exists(pid_path)) {
         fprintf(stderr, "IPC: Error: there already is a watch for '%s'", dst_path);
         return 1;
     }
 
     // Get our PID and write it to the constructed file
-    int pid = getpid();
+    char pid_str[IPC_MAX_PID_SIZE] = "";
+    sprintf(pid_str, "%d", getpid());
 
-    FILE *pid_file = fopen(pid_path, "w");
-    if (pid_file == NULL) {
+    if (io_file_write(pid_path, pid_str) != 0) {
         fprintf(stderr, "IPC: Error: cannot write pid to file '%s'\n", pid_path);
-        perror("fopen failed");
         return 1;
     }
-
-    fprintf(pid_file, "%d", pid);
-    fclose(pid_file);
 
     return 0;
 }
 
 int ipc_remove_watch(char *dst_path) {
-    char pid_path[IPC_MAX_PATH];
+    char pid_path[IO_PATH_MAX_SIZE];
     if (ipc_get_pid_file_path(dst_path, pid_path) == 1) {
         return 1;
     }
 
-    // Remove pid file
-    if (unlink(pid_path)) {
+    if (io_file_delete(pid_path)) {
         fprintf(stderr, "IPC: Error: cannot delete pid file '%s'\n", pid_path);
-        perror("unlink failed");
         return 1;
     }
 
@@ -99,25 +90,20 @@ int ipc_remove_watch(char *dst_path) {
 }
 
 int ipc_stop_watch(char *dst_path) {
-    char pid_path[IPC_MAX_PATH];
+    char pid_path[IO_PATH_MAX_SIZE];
     if (ipc_get_pid_file_path(dst_path, pid_path) == 1) {
         return 1;
     }
 
-    FILE *pid_file = fopen(pid_path, "r");
-    int pid = 0;
-    if (pid_file == NULL) {
+    char pid_str[IPC_MAX_PID_SIZE];
+    if (io_file_read_content(pid_path, pid_str, IPC_MAX_PID_SIZE) != 0) {
         fprintf(stderr, "IPC: Error: cannot get pid of instance for this path '%s'\n", dst_path);
-        perror("fopen failed");
         return 1;
     }
 
-    fscanf(pid_file, "%d", &pid);
-    fclose(pid_file);
-
+    unsigned int pid = strtoimax(pid_str, NULL, 10);
     if (pid == 0) {
-        fprintf(stderr, "IPC: Error: cannot get pid of instance for this path '%s'\n", dst_path);
-        fprintf(stderr, "   : Invalid PID data in '%s'\n", pid_path);
+        fprintf(stderr, "IPC: Error: invalid PID data in '%s'\n", pid_path);
         return 1;
     }
 
