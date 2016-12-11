@@ -6,6 +6,7 @@ void linker_update(char *dst_path, finder_t *files) {
     (void)dst_path;
 
     for (uint i; i < files->count; i++) {
-        fprintf(stdout, "File found: %s\n", files->files[i]);
+        printf("File found: %s\n", files->files[i]);
     }
+    printf("====== ITERATION FINISHED =======\n");
 }

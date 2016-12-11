@@ -16,8 +16,8 @@ parser.o: parser.c parser.h
 validator.o: validator.c validator.h
 	gcc $(FLAGS) -c validator.c
 
-finder.o: finder.c finder.h
-	gcc $(FLAGS) -c finder.c
+finder.o: finder.c finder.h vendor/uthash.h
+	gcc $(FLAGS) -c finder.c vendor/uthash.h
 
 linker.o: linker.c linker.h
 	gcc $(FLAGS) -c linker.c
