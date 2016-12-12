@@ -15,4 +15,5 @@
 
 # Binary output
 *.o
+*.gch
 searchfolder
