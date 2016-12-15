@@ -42,7 +42,7 @@
 
 \title
 {
-    \Huge{Programmation concurrente} \\
+    \Huge{Programmation système} \\
     \Huge{SmartFolder}
 }
 \author
@@ -80,11 +80,11 @@ Ce mode prend 3 paramètres:
 \begin{itemize}
     \item \textit{<dir\_name>}: chemin où stocker les liens;
     \item \textit{<search\_path>}: chemin de recherche;
-    \item \textit{[expression]}: critères de sélection. \\
+    \item \textit{<expression>}: critères de sélection. \\
 \end{itemize}
 
-\textit{<dir\_name>} et \textit{<search\_path>} sont de simples chemin vers des dossiers.
-Concernant \textit{[expression]}, ceci correspond à une liste de critères dont l'interface est un sens-ensemble à celle de \textit{find}.
+\textit{<dir\_name>} et \textit{<search\_path>} sont de simples chemins vers des dossiers.\\
+\textit{<expression>} correspond à une liste de critères dont l'interface est un sous-ensemble à celle de \textit{find}.
 
 \paragraphnl{Expression}
 Comme dit précédemment, l'interface est semblable à celle de \href{https://linux.die.net/man/1/find}{find}.
@@ -94,14 +94,17 @@ Voici la liste des options pris en charge:
     \item \textit{...}: ...;
 \end{itemize}
 
+\paragraphnl{Output/comportement}
+
+Si des liens symboliques existent, ils doivent être suivis. Des fichiers a doublent ne doivent pas apparaitre dupliqués dans le dossier de destination.
+
 \subsubsection{Mode stop}
 Le deuxième est le mode \textit{stop}.
 Il permet d'arrêter une recherche en cours. \\
 
-Ce mode prend 2 paramètres:
+Ce mode prend 1 paramètre:
 \begin{itemize}
-    \item \textit{-d}: paramètre qui permet de lancer ce mode;
-    \item \textit{<dir\_name>}: chemin traité par le SmartFolder à terminé.
+    \item \textit{-d} \textit{<dir\_name>}: termine le SmatFolder pour le chemin specifié.
 \end{itemize}
 
 \newpage
@@ -120,19 +123,17 @@ Ce mode prend 2 paramètres:
 
 \subsubsection{Main}
 
-Le programme principal a pour rôle de vérifier les arguments et de sélectionner le bon mon de fonctionnement.
+Le programme principal a pour rôle de vérifier les arguments et de sélectionner le bon mode de fonctionnement.
 
 Dans le mode \textit{recherche}, il a pour tâche de:
 \begin{itemize}
-    \item mettre le processus en arrière-plan;
-    \item traiter l'expression;
-    \item poser le \textit{pidfile};
-    \item initialiser et lancer la recherche.
+    \item met le processus en arrière-plan;
+    \item demande au module \textit{Parser} de traiter l'expression;
+    \item initialise le module \textit{IPC};
+    \item initialise et lance le module \textit{SmartFolder}.\\
 \end{itemize}
 
-Lorsqu'il reçoit un signal d'arrêt, il libère la mémoire, efface le \textit{pidfile} et ce termine. \\
-
-Dans le mode \textit{stop}, son seul rôle est de signaler l'arrêt (voir \nameref{sec:ipc}).
+Dans le mode \textit{stop}, son seul rôle est de signaler l'arrêt à l'autre instance (voir \nameref{sec:ipc}).
 
 \subsubsection{SmartFolder}
 \textit{SmartFolder} est le module principal qui va orchestrer la recherche et la mise à jour du dossier de destination. \\
@@ -142,31 +143,25 @@ puis donner la liste des fichiers retournée au module \textit{Linker} pour qu'i
 
 A noter qu'entre chaque recherche, il y a une pause de quelques secondes. \\
 
-Lorsque un arrêt a été signalé, il est chargé de détruire le répertoire de destination et de libérer les ressources.
+A l'arrêt, il est chargé de détruire le répertoire de destination et de libérer ses ressources.
 
 \subsubsection{Parser}
-\textit{Parser} est le module qui va s'occuper de prendre les paramètres de la ligne de commande
-correspondant à l'expression (critères de recherche), et de les transformer
-en une structure interne utilisable par le module \textit{Validator}.
+\textit{Parser} est le module qui transforme 
+l'expression spécifiée dans la ligne de commande (critères de recherche) en une structure interne utilisable par le module \textit{Validator}.
 
 \subsubsection{Validator}
-Ce module est responsable de la validation d'un fichier quelconque donnée en paramètre
-à l'aide de la structure interne créée par le module \textit{Parser}.
+Ce module vérifie si un fichier est valide selon l'expression créée par le module \textit{Parser}.
 
 \subsubsection{Finder}
-La responsabilité de ce module est, en partant d'un dossier,
-de parcourir l'ensemble des fichiers/dossiers qui se trouve en dessous. \\
+Ce module est responsable de produire la liste de tous les fichiers du dossier de recherche respectant les criteres de recherche.
 
-Pour chaque fichier trouvé, il doit le passé au module \textit{Validator} afin que
-celui-ci détermine s'il correspond bien au critère de recherche. \\
-
-Si le fichier est validé, alors il le stocke dans une liste à retourner.
+La verification de l'expression est deleguée au module \textit{Validator}.
 
 \subsubsection{Linker}
 Le module \textit{Linker} a pour rôle de mettre à jour le dossier de destination
-à l'aide d'une liste de fichier passé en paramètre. \\
+à l'aide d'une liste de fichiers passée en paramètre. \\
 
-Pour chaque fichier, il créera un lien si celui-ci n'existe pas.
+Pour chaque fichier, il crée un lien si celui-ci n'existe pas. Il efface les liens qui ne sont plus valides.
 
 \subsubsection{IPC}
 \label{sec:ipc}
@@ -174,16 +169,19 @@ Ce module est chargé de gérer la communication entre deux instances de \textit
 et la logique derrière le mode \textit{stop}. \\
 
 La logique choisi est la suivante: au démarrage, l'application créer un fichier dans le répertoire utilisateur
-afin d'y stocker son PID et enregistre un signal POSIX pour \textit{SIGTERM}.
+afin d'y stocker son PID et écoute le signal POSIX pour \textit{SIGTERM}.
 
 Lorsque une autre instance veut le stopper (mode \textit{stop}), il lit ce fichier
 et lance le signal \textit{SIGTERM} au PID lu. \\
 
 Ce fichier se nommera d'après le chemin du répertoire de destination.
 
+Lorsqu'il reçoit un signal d'arrêt, il libère la mémoire, efface le \textit{pidfile} et declenche le stopage du smart\_folder. \\
+
 \subsubsection{IO}
-Le but de ce module est d'offrir une interface simple aux appels systèmes.
+Le but de ce module est d'offrir une interface simple aux appels systèmes etde factoriser la gestion des erreurs.
 
 \subsubsection{Logger}
+MOdule optionel qui factorise la gestion de logs si la fonctionalité est implémentée.
 
 \end{document}

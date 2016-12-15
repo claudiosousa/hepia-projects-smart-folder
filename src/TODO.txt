@@ -9,6 +9,11 @@ path_utils
 finder
   - realloc when needed instead of 1000000 files(NO)
   - create link each time a new file is find?
+  - cleanup  finder_find_in_dir
+
+IPC
+  - remove listenning to SIG_INT
+
 GLOBAL:
   - set create permissions globally (UMASK?) for all file/dir creation
   - put MAX_PATH globally
@@ -29,3 +34,10 @@ Modules to implement:
 Implementation doc:
   - Describe singleton IPC
   - Describe callback/args
+
+Diagram:
+  - Remove params diagram
+  - remove private fields from IPC
+  - remove private functions from IPC & Finder
+  - name 1st layer (Presentation Layer)
+  - Main --- parse --> Parser
