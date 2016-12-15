@@ -24,3 +24,8 @@ Modules to implement:
   - File linker
   - file_validator (noeuds: &, ||, leafs: test_name, test_date, test_size, test_etc)
   - deamonize
+
+
+Implementation doc:
+  - Describe singleton IPC
+  - Describe callback/args
