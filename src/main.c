@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "ipc.h"
 #include "parser.h"
 #include "smart_folder.h"
@@ -32,13 +33,13 @@ int main(int argc, char *argv[]) {
         char *search_path = argv[2];
 
         // Fork
-        /*pid_t child_pid = fork();
+        pid_t child_pid = fork();
         if (child_pid == -1) {
             perror("Fork failed");
             return EXIT_FAILURE;
         } else if (child_pid != 0) {
             return EXIT_SUCCESS;
-        }*/
+        }
 
         // Start the search
         parser_t *expression = parser_parse((argc > 2) ? argv + 3 : NULL, argc - 3);
