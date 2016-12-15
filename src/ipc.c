@@ -16,6 +16,10 @@
 #define IPC_RUN_PATH "/run/"
 #define IPC_HOME_RUN_PATH IPC_HOME_PATH IPC_RUN_PATH
 
+static char g_watch_dst_path[IO_PATH_MAX_SIZE] = "";
+static ipc_stop_callback g_watch_cb = NULL;
+static void * g_watch_cb_arg = NULL;
+
 /**
  * Return the pid file path for the watch constructed from the folder.
  * The pid filename is constructed by simply replacing the '/' character by '_'
@@ -52,7 +56,27 @@ static int ipc_get_pid_file_path(char *dst_path, char *pid_path) {
     return 0;
 }
 
-int ipc_set_watch(char *dst_path) {
+/**
+ * IPC signal handler for SIGTERM that remove the watch and optionally call a callback
+ */
+void ipc_sig_handler() {
+    if (g_watch_cb != NULL) {
+        g_watch_cb(g_watch_cb_arg);
+    }
+    ipc_remove_watch(g_watch_dst_path);
+}
+
+int ipc_set_watch(char *dst_path, ipc_stop_callback cb, void * cb_arg) {
+    // Setup signal
+    if (signal(SIGINT, ipc_sig_handler) == SIG_ERR || signal(SIGTERM, ipc_sig_handler) == SIG_ERR) {
+        perror("IPC: ERROR: failed to register signal");
+        return 1;
+    }
+    strncpy(g_watch_dst_path, dst_path, IO_PATH_MAX_SIZE);
+    g_watch_cb = cb;
+    g_watch_cb_arg = cb_arg;
+
+    // Get file where to write our PID
     char pid_path[IO_PATH_MAX_SIZE];
     if (ipc_get_pid_file_path(dst_path, pid_path) == 1) {
         return 1;

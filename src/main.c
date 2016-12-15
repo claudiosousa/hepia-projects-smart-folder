@@ -6,21 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <signal.h>
 #include "ipc.h"
 #include "parser.h"
 #include "smart_folder.h"
-
-// TODO: move this somewhere else?
-smart_folder_t *smart_folder;
-char *dst_path;
-void sig_handler() {
-    if (smart_folder) {
-        smart_folder_stop(smart_folder);
-        ipc_remove_watch(dst_path);
-    }
-}
 
 /**
  * Program entry-point
@@ -28,11 +16,6 @@ void sig_handler() {
  * @param argv Array of arguments
  */
 int main(int argc, char *argv[]) {
-    if (signal(SIGINT, sig_handler) == SIG_ERR || signal(SIGTERM, sig_handler) == SIG_ERR) {
-        perror("Failed to register signal");
-        return EXIT_FAILURE;
-    }
-
     if (argc < 2) {
         fprintf(stderr, "Error: missing arguments\n");
 
@@ -45,24 +28,25 @@ int main(int argc, char *argv[]) {
 
     // Search mode
     if (strncmp(argv[1], "-d", 3) != 0) {
-        dst_path = argv[1];
+        char *dst_path = argv[1];
         char *search_path = argv[2];
 
         // Fork
-        pid_t child_pid = fork();
+        /*pid_t child_pid = fork();
         if (child_pid == -1) {
             perror("Fork failed");
             return EXIT_FAILURE;
         } else if (child_pid != 0) {
             return EXIT_SUCCESS;
-        }
+        }*/
 
         // Start the search
         parser_t *expression = parser_parse((argc > 2) ? argv + 3 : NULL, argc - 3);
-        smart_folder = smart_folder_create(dst_path, search_path, expression);
+        smart_folder_t *smart_folder = smart_folder_create(dst_path, search_path, expression);
         if (smart_folder == NULL) return EXIT_FAILURE;
 
-        if (ipc_set_watch(dst_path)) {
+        // Setup watch
+        if (ipc_set_watch(dst_path, (ipc_stop_callback)smart_folder_stop, smart_folder)) {
             return EXIT_FAILURE;
         }
 
@@ -70,7 +54,7 @@ int main(int argc, char *argv[]) {
     }
     // Kill mode
     else {
-        dst_path = argv[2];
+        char *dst_path = argv[2];
 
         if (ipc_stop_watch(dst_path)) {
             return EXIT_FAILURE;
