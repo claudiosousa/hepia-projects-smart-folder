@@ -135,23 +135,51 @@ Lorsqu'il reçoit un signal d'arrêt, il libère la mémoire, efface le \textit{
 Dans le mode \textit{stop}, son seul rôle est de signaler l'arrêt (voir \nameref{sec:ipc}).
 
 \subsubsection{SmartFolder}
-\textit{SmartFolder} est le module principal qui va orchestrer la recherche. \\
+\textit{SmartFolder} est le module principal qui va orchestrer la recherche et la mise à jour du dossier de destination. \\
 
-Lorsque lancé, il va continuellement recherche les fichiers correspondant au critère,
-puis demander la mise à jour du répertoire de destination.
+Lorsque lancé, il va continuellement utiliser le module \textit{Finder} pour rechercher les fichiers correspondant au critère,
+puis donner la liste des fichiers retournée au module \textit{Linker} pour qu'il mette à jour le répertoire de destination.
 
-A noter qu'entre chaque recherche, il y a une pause de quelques secondes.
+A noter qu'entre chaque recherche, il y a une pause de quelques secondes. \\
+
+Lorsque un arrêt a été signalé, il est chargé de détruire le répertoire de destination et de libérer les ressources.
 
 \subsubsection{Parser}
+\textit{Parser} est le module qui va s'occuper de prendre les paramètres de la ligne de commande
+correspondant à l'expression (critères de recherche), et de les transformer
+en une structure interne utilisable par le module \textit{Validator}.
 
 \subsubsection{Validator}
+Ce module est responsable de la validation d'un fichier quelconque donnée en paramètre
+à l'aide de la structure interne créée par le module \textit{Parser}.
 
 \subsubsection{Finder}
+La responsabilité de ce module est, en partant d'un dossier,
+de parcourir l'ensemble des fichiers/dossiers qui se trouve en dessous. \\
+
+Pour chaque fichier trouvé, il doit le passé au module \textit{Validator} afin que
+celui-ci détermine s'il correspond bien au critère de recherche. \\
+
+Si le fichier est validé, alors il le stocke dans une liste à retourner.
 
 \subsubsection{Linker}
+Le module \textit{Linker} a pour rôle de mettre à jour le dossier de destination
+à l'aide d'une liste de fichier passé en paramètre. \\
+
+Pour chaque fichier, il créera un lien si celui-ci n'existe pas.
 
 \subsubsection{IPC}
 \label{sec:ipc}
+Ce module est chargé de gérer la communication entre deux instances de \textit{SmartFolder}
+et la logique derrière le mode \textit{stop}. \\
+
+La logique choisi est la suivante: au démarrage, l'application créer un fichier dans le répertoire utilisateur
+afin d'y stocker son PID et enregistre un signal POSIX pour \textit{SIGTERM}.
+
+Lorsque une autre instance veut le stopper (mode \textit{stop}), il lit ce fichier
+et lance le signal \textit{SIGTERM} au PID lu. \\
+
+Ce fichier se nommera d'après le chemin du répertoire de destination.
 
 \subsubsection{IO}
 Le but de ce module est d'offrir une interface simple aux appels systèmes.
