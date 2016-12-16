@@ -26,4 +26,4 @@ io.o: io.c io.h
 	gcc $(FLAGS) -c io.c
 
 clean:
-	rm *.o searchfolder
+	rm *.o vendor/*.gch searchfolder
