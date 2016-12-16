@@ -34,10 +34,3 @@ Modules to implement:
 Implementation doc:
   - Describe singleton IPC
   - Describe callback/args
-
-Diagram:
-  - Remove params diagram
-  - remove private fields from IPC
-  - remove private functions from IPC & Finder
-  - name 1st layer (Presentation Layer)
-  - Main --- parse --> Parser
