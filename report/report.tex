@@ -65,8 +65,8 @@
 
 Ce TP de deuxième année en programmation système consiste à implémenter un programme similaire au SmartFolder sur MacOSX. \\
 
-Le SmartFolder sur MacOSX recherche sur le disque des fichiers correspondant à un/des critères et
-pour chacun des fichiers trouvés, le programme crée un lien dans un dossier specifié.
+Le SmartFolder sur MacOSX recherche sur le disque des fichiers correspondant à un/des critères et,
+pour chacun des fichiers trouvés, le programme crée un lien symbolique dans un dossier specifié.
 
 \subsection{Spécification fonctionnelle}
 Ce programme possède deux modes de fonctionnement.
@@ -74,7 +74,7 @@ Ce programme possède deux modes de fonctionnement.
 \subsubsection{Mode recherche}
 Le premier est le mode \textit{recherche}.
 C'est le mode par défaut qui simule le SmartFolder sur MacOSX.
-Par ailleurs, le programme tourne indéfiniment tant qu'auncun signal d'arrêt n'est reçu. \\
+Par ailleurs, le programme tourne en background (daemon) tant qu'auncun signal d'arrêt n'est reçu. \\
 
 Ce mode prend 3 paramètres:
 \begin{itemize}
@@ -87,7 +87,7 @@ Ce mode prend 3 paramètres:
 \textit{<expression>} correspond à une liste de critères dont l'interface est un sous-ensemble à celle de \textit{find}.
 
 \paragraphnl{Expression}
-Comme dit précédemment, l'interface est semblable à celle de \href{https://linux.die.net/man/1/find}{find}.
+Comme dit précédemment, l'interface est semblable à celle de \textit{\href{https://linux.die.net/man/1/find}{find}}.
 Voici la liste des options pris en charge:
 
 \begin{itemize}
@@ -181,9 +181,9 @@ Comme une instance de \textit{SmartFolder} est unique par dossier de destination
 ce fichier se nommera d'après le chemin de ce répertoire.
 
 \subsubsection{IO}
-Le but de ce module est d'offrir une interface simple aux appels systèmes et de factoriser la gestion des erreurs.
+Le but de ce module est d'offrir une interface simple aux appels systèmes et de centraliser la gestion des erreurs.
 
 \subsubsection{Logger}
-MOdule optionel qui factorise la gestion de logs si la fonctionalité est implémentée.
+Module qui centralise l'affichage des logs de debogage. 
 
 \end{document}
