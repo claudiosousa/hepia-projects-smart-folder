@@ -146,7 +146,7 @@ A noter qu'entre chaque recherche, il y a une pause de quelques secondes. \\
 A l'arrêt, il est chargé de détruire le répertoire de destination et de libérer ses ressources.
 
 \subsubsection{Parser}
-\textit{Parser} est le module qui transforme 
+\textit{Parser} est le module qui transforme
 l'expression spécifiée dans la ligne de commande (critères de recherche) en une structure interne utilisable par le module \textit{Validator}.
 
 \subsubsection{Validator}
@@ -165,18 +165,20 @@ Pour chaque fichier, il crée un lien si celui-ci n'existe pas. Il efface les li
 
 \subsubsection{IPC}
 \label{sec:ipc}
-Ce module est chargé de gérer la communication entre deux instances de \textit{SmartFolder}
-et la logique derrière le mode \textit{stop}. \\
+Ce module a pour but de répondre au problème du mode \textit{stop}.
+En effet, lorsqu'une instance de \textit{SmartFolder} souhaite arrêter une autre instance en cours d'exécution,
+il faut d'une manière ou d'une autre permettre une communication simple entre les deux processus afin
+qu'une instance puisse signaler un arrêt à une autre instance. \\
 
-La logique choisi est la suivante: au démarrage, l'application créer un fichier dans le répertoire utilisateur
-afin d'y stocker son PID et écoute le signal POSIX pour \textit{SIGTERM}.
+Le moyen de communication choisi a été les signaux POSIX, le signal \textit{SIGTERM} pour être plus précis.
+Une instance qui veut donc signaler l'arrêt doit envoyer le signal cité au processus concerné. \\
 
-Lorsque une autre instance veut le stopper (mode \textit{stop}), il lit ce fichier
-et lance le signal \textit{SIGTERM} au PID lu. \\
+Afin de pouvoir lancer un signal, il faut que le PID du processus cible soit connu.
+Pour cela, le PID d'une instance en mode \textit{recherche} est stocké dans un fichier
+dans le répertoire utilisateur.
 
-Ce fichier se nommera d'après le chemin du répertoire de destination.
-
-Lorsqu'il reçoit un signal d'arrêt, il libère la mémoire, efface le \textit{pidfile} et declenche le stopage du smart\_folder. \\
+Comme une instance de \textit{SmartFolder} est unique par dossier de destination,
+ce fichier se nommera d'après le chemin de ce répertoire.
 
 \subsubsection{IO}
 Le but de ce module est d'offrir une interface simple aux appels systèmes et de factoriser la gestion des erreurs.
