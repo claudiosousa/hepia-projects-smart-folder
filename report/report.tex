@@ -73,8 +73,10 @@ Ce programme possède deux modes de fonctionnement.
 
 \subsubsection{Mode recherche}
 Le premier est le mode \textit{recherche}.
-C'est le mode par défaut qui simule le SmartFolder sur MacOSX.
-Par ailleurs, le programme tourne en background (daemon) tant qu'auncun signal d'arrêt n'est reçu. \\
+C'est le mode par défaut et simule le SmartFolder sur MacOSX.\\\\
+Dans ce mode, le programme tourne en background (daemon) et maintient dans le dossier de destination une liste de liens vers les fichier trouvés correpondant au criteres de recherche choisis. Cette liste est dynamique et mise à jour si des nouveaux fichiers répondent aux criteres des recherches ou, si au contraire, des fichiers ne répondent plus à ces criteres.\\
+
+La recherche de fichiers dans le chemin de recherche est recursive et suit les chemins symboliques. 
 
 Ce mode prend 3 paramètres:
 \begin{itemize}
@@ -147,7 +149,11 @@ A l'arrêt, il est chargé de détruire le répertoire de destination et de lib�
 
 \subsubsection{Parser}
 \textit{Parser} est le module qui transforme
-l'expression spécifiée dans la ligne de commande (critères de recherche) en une structure interne utilisable par le module \textit{Validator}.
+l'expression spécifiée dans la ligne de commande (critères de recherche) en une structure interne utilisable par le module \textit{Validator}.\\
+
+La compléxitée des diferents operateurs logiques possibles (priorité, parenthèses, op uniaire) doit être connue uniquement de ce module. La structure retournée doit pouvoir être traitée simplement par le module \textit{Validator}.\\ 
+
+Suggestion d'implémentation: s'inspirer le l'algorithme de shunting-yard (ADD FOOTNODE WITH URL) pour le traitement de l'expression (url: https://en.wikipedia.org/wiki/Shunting-yard\_algorithm) (par  Edsger Dijkstra)
 
 \subsubsection{Validator}
 Ce module vérifie si un fichier est valide selon l'expression créée par le module \textit{Parser}.
@@ -155,13 +161,16 @@ Ce module vérifie si un fichier est valide selon l'expression créée par le mo
 \subsubsection{Finder}
 Ce module est responsable de produire la liste de tous les fichiers du dossier de recherche respectant les criteres de recherche.
 
-La verification de l'expression est deleguée au module \textit{Validator}.
+La verification des fichiers contre l'expression est deleguée au module \textit{Validator}.\\
+
+Lors du processus de recherche effectué au sein de ce module, un parcours d'arborescence est effectué recursivement et les liens symboliques sont suivis. Des boucles deviennent alors possibles. Ce module doit gerer ce cas spécifique et prevenir des boucles infinites ainsi que le traitement dupliqué de fichiers et dossiers.
+Possibilité d'implémentation: utilisation d'une hashtable contennant les numeros de serie des fichiers et folders deja parcourus (champ \textit{st\_ino} de \textit{struct stat}.)
 
 \subsubsection{Linker}
 Le module \textit{Linker} a pour rôle de mettre à jour le dossier de destination
 à l'aide d'une liste de fichiers passée en paramètre. \\
 
-Pour chaque fichier, il crée un lien si celui-ci n'existe pas. Il efface les liens qui ne sont plus valides.
+Pour chaque fichier, il crée un lien si celui-ci n'existe pas. Les liens qui ne sont plus valides sont effacés. 
 
 \subsubsection{IPC}
 \label{sec:ipc}
