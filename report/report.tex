@@ -92,13 +92,35 @@ Ce mode prend 3 paramètres:
 \textit{<dir\_name>} et \textit{<search\_path>} sont de simples chemins vers des dossiers.\\
 \textit{<expression>} correspond à une liste de critères dont l'interface est un sous-ensemble à celle de \textit{find}.
 
+\newpage
+
 \paragraphnl{Expression}
 Comme dit précédemment, l'interface est semblable à celle de \textit{find}\footnote{\url{https://linux.die.net/man/1/find}}.
 Voici la liste des options pris en charge:
 
 \begin{itemize}
-    \item \textit{...}: ...;
+    \item nom:
+    \begin{itemize}
+        \item exacte: \textit{-name <filename>};
+        \item contient: \textit{-name -<filename>};
+    \end{itemize}
+    \item permission:
+    \begin{itemize}
+        \item utilisateur propriétaire: \textit{-user <name>};
+        \item groupe propriétaire: \textit{-group <name>};
+        \item octal exacte: \textit{-perm nnn};
+        \item octal minimum: \textit{-perm -nnn};
+    \end{itemize}
+    \item taille: \textit{-size (+-)n(GMkc)}
+    \item date (à partir de maintenant, en minutes ou en jours):
+    \begin{itemize}
+        \item dernier accès: \textit{-atime (+-)n(md)}
+        \item dernière modification: \textit{-mtime (+-)n(md)}
+        \item création: \textit{-ctime (+-)n(md)} \\
+    \end{itemize}
 \end{itemize}
+
+Note: \textit{n} est un simple nombre.
 
 \subsubsection{Mode stop}
 Le deuxième est le mode \textit{stop}.
