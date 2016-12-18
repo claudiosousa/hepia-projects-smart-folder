@@ -80,6 +80,8 @@ Cette liste est dynamique et mise à jour si des nouveaux fichiers répondent au
 
 La recherche de fichiers est recursive et suit les liens symboliques.
 
+Par ailleurs, les fichiers en double ne doivent pas apparaître et les fichiers portant le même nom doivent être renommés intelligemment. \\
+
 Ce mode prend 3 paramètres:
 \begin{itemize}
     \item \textit{<dir\_name>}: chemin où stocker les liens;
@@ -97,10 +99,6 @@ Voici la liste des options pris en charge:
 \begin{itemize}
     \item \textit{...}: ...;
 \end{itemize}
-
-\paragraphnl{Output/comportement}
-
-Si des liens symboliques existent, ils doivent être suivis. Des fichiers a doublent ne doivent pas apparaitre dupliqués dans le dossier de destination.
 
 \subsubsection{Mode stop}
 Le deuxième est le mode \textit{stop}.
