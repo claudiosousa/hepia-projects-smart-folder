@@ -92,15 +92,82 @@ Ce mode prend 3 paramètres:
 
 \paragraphnl{Expression}
 Comme dit précédemment, l'interface est semblable à celle de \textit{find}\footnote{\url{https://linux.die.net/man/1/find}}.
-Voici la liste des options pris en charge:
+Voici la liste des options pris en charge:\\
 
+
+\textbf{Criteres:} (TODO: space text below items correctly)
 \begin{itemize}
-    \item \textit{...}: ...;
+	\renewcommand\labelitemii{}
+    \item \textit{-name}: \underline{fname}\\
+	   	Le nom de fichier est exactement \underline{fname}\\
+	   	Example, les fichiers només contenant "todo.txt": \textit{-name todo.txt}
+    \item \textit{-name}: -\underline{fname} \\
+    Le nom de fichier contient \underline{fname}.\\
+    Example, les fichiers contenant ".txt";:
+    \textit{-name -.txt}
+	\item \textit{-group}: \underline{gname}\\
+	   	Le fichier appartient au group \underline{gname}\\
+	   	Example, les fichiers appartenant au group \textit{root}: \textit{-group root}
+	\item \textit{-user}: \underline{uname}\\
+		Le fichier est possédé par utilisateur \underline{uname} \\
+	   	Example, les fichiers possédés par l'utilisateur \textit{claudio}: \textit{-user claudio}
+	\item \textit{-perm}: \underline{perm}\\
+		Le fichier permissions sont exactement \underline{perm}\\
+		Example, les fichiers ayant exactement les permissions 644: \textit{-perm 644}
+	\item \textit{-perm}: -\underline{perm}\\
+		Le fichier a au moins les permissions \underline{perm}\\
+		Example, les fichiers dont l'utilisateur peut lire et executer: \textit{-perm -300}
+	\item \textit{-size}: \underline{[+-]size[GMkc]}\\
+		Le fichier a la taille \underline{size}.
+		Les suffix indiquent les unités utilisée:
+		\begin{itemize}
+			\item \textit{'c'}: bytes
+			\item \textit{'k'}: Kilobytes
+			\item \textit{'M'}: Megabytes
+			\item \textit{'G'}: Gigabytes
+		\end{itemize}
+		Les préfixes indiquent la comparaison utilisée:
+		\begin{itemize}
+			\item \textit{'+'}: supérieur à
+			\item \textit{'-'}: inférieur à
+			\item \textit{' '}: exactement
+		\end{itemize}
+		Examples:
+		\begin{itemize}
+			\item \textit{-size 200c}: fichiers de taille 200 bytes		
+			\item \textit{-size -30k}: fichiers de taille inférieure à 30KB
+			\item \textit{-size +2M}: fichiers de taille supérieure à 2MB
+		\end{itemize}
+	\item \textit{-atime}: \underline{[+-]time[md]}\\
+	Le fichier fut accédé depuis \underline{time}.
+	Les suffix indiquent les unités utilisée:
+	\begin{itemize}
+		\item \textit{'m'}: minutes
+		\item \textit{'d'}: jours 
+	\end{itemize}
+	Les préfixes \textit{[+-]} indiquent la comparaison utilisée, comme pour le critère \underline{-size} ci-dessus.\\
+	Examples:
+	\begin{itemize}
+		\item \textit{-atime +5m}: fichiers accédés depuis plus de 5 minutes
+		\item \textit{-atime -1d}: fichiers accédés dans les dernières 24 heures
+	\end{itemize}
+	\item \textit{-ctime}: \underline{[+-]time[md]}\\
+	Le status du fichier fut changé depuis \underline{time}. Pour plus détails, voir l'explication pour le critère \underline{-atime}
+	\item \textit{-mtime}: \underline{[+-]time[md]}\\
+		Le fichier fut changé depuis \underline{time}. Pour plus détails, voir l'explication pour le critère \underline{-atime}\\		
 \end{itemize}
 
-\paragraphnl{Output/comportement}
 
-Si des liens symboliques existent, ils doivent être suivis. Des fichiers a doublent ne doivent pas apparaitre dupliqués dans le dossier de destination.
+Les differents critères de tests enumérés ci-dessus peuvent être combinés avec les opérateurs listés ci-dessos, énuméés dans l'odre de précédence décroissante:\\
+\textbf{Operateurs:}
+\begin{itemize}
+	\renewcommand\labelitemi{}
+	\item \textit{( critere )}:force la précédence de l'expressions entre paranthèses
+	\item \textit{-not}: applique le \textit{NOT} logique  au critère de droite
+	\item \textit{-and}: applique le \textit{AND} logique entre le critères à gauche et à droite de l'operateur. 
+	\item \textit{-or}: applique le \textit{OR} logique  entre les critères à gauche et à droite de l'operateur. 
+\end{itemize}
+
 
 \subsubsection{Mode stop}
 Le deuxième est le mode \textit{stop}.
@@ -108,6 +175,7 @@ Il permet d'arrêter une recherche en cours. \\
 
 Ce mode prend 1 paramètre:
 \begin{itemize}
+	\renewcommand\labelitemi{}
     \item \textit{-d} \textit{<dir\_name>}: termine le SmatFolder pour le chemin specifié.
 \end{itemize}
 
