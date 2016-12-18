@@ -30,7 +30,7 @@
 \chead{SmartFolder}
 \rhead{Claudio Sousa - David Gonzalez}
 \renewcommand{\footrulewidth}{0.5pt}
-\lfoot{23 décembre 2016}
+\lfoot{22 décembre 2016}
 \cfoot{}
 \rfoot{Page \thepage /\pageref{LastPage}}
 
@@ -49,7 +49,7 @@
 {
     \LARGE{David Gonzalez - Claudio Sousa}
 }
-\date{23 décembre 2016}
+\date{22 décembre 2016}
 \maketitle
 
 \begin{center}
@@ -80,6 +80,8 @@ Cette liste est dynamique et mise à jour si des nouveaux fichiers répondent au
 
 La recherche de fichiers est recursive et suit les liens symboliques.
 
+Par ailleurs, les fichiers en double ne doivent pas apparaître et les fichiers portant le même nom doivent être renommés intelligemment. \\
+
 Ce mode prend 3 paramètres:
 \begin{itemize}
     \item \textit{<dir\_name>}: chemin où stocker les liens;
@@ -89,6 +91,8 @@ Ce mode prend 3 paramètres:
 
 \textit{<dir\_name>} et \textit{<search\_path>} sont de simples chemins vers des dossiers.\\
 \textit{<expression>} correspond à une liste de critères dont l'interface est un sous-ensemble à celle de \textit{find}.
+
+\newpage
 
 \paragraphnl{Expression}
 Comme dit précédemment, l'interface est semblable à celle de \textit{find}\footnote{\url{https://linux.die.net/man/1/find}}.
@@ -158,7 +162,7 @@ Voici la liste des options pris en charge:\\
 \end{itemize}
 
 
-Les differents critères de tests enumérés ci-dessus peuvent être combinés avec les opérateurs listés ci-dessos, énuméés dans l'odre de précédence décroissante:\\
+Les differents critères de tests enumérés ci-dessus peuvent être combinés avec les opérateurs listés ci-dessous, énuméés dans l'odre de précédence décroissante:\\
 \textbf{Operateurs:}
 \begin{itemize}
 	\renewcommand\labelitemi{}
