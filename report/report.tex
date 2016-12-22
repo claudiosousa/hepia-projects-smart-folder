@@ -74,10 +74,10 @@ Ce programme possède deux modes de fonctionnement.
 \subsubsection{Mode recherche}
 C'est le mode par défaut et simule le SmartFolder sur MacOSX. \\
 
-Dans ce mode, le programme tourne en arrière-plan et maintient dans le dossier de destination une liste de liens vers les fichier trouvés correpondant aux critères de recherche choisis.
-Cette liste est dynamique et mise à jour si des nouveaux fichiers répondent aux critères de recherche ou, si au contraire, des fichiers ne répondent plus à ces critères. \\
+Dans ce mode, le programme tourne en arrière-plan et maintient dans le dossier de destination une liste de liens vers les fichier trouvés correspondant aux critères de recherche choisis.
+Cette liste est dynamique et mise à jour si des nouveaux fichiers répondent aux critères de recherche ou si, au contraire, des fichiers ne répondent plus à ces critères. \\
 
-La recherche de fichiers est recursive et suit les liens symboliques.
+La recherche de fichiers est récursive et suit les liens symboliques.
 
 Par ailleurs, les fichiers en double ne doivent pas apparaître et les fichiers portant le même nom doivent être renommés intelligemment. \\
 
@@ -89,110 +89,7 @@ Ce mode prend 3 paramètres:
 \end{itemize}
 
 \textit{<dir\_name>} et \textit{<search\_path>} sont de simples chemins vers des dossiers.\\
-\textit{<expression>} correspond à une liste de critères dont l'interface est un sous-ensemble de celle de \textit{find}.
-
-\paragraphnl{Expression}
-Comme dit précédemment, l'interface est semblable à celle de \textit{find}\footnote{\url{https://linux.die.net/man/1/find}}.
-Voici la liste des options pris en charge:\\
-
-
-Criteres:
-\begin{itemize}
-	\renewcommand\labelitemi{}
-	\renewcommand\labelitemii{}
-	\renewcommand\labelitemiii{}
-    \item \textit{-name}: \underline{fname}
-	\begin{itemize}
-		\item Le nom de fichier est exactement \underline{fname}
-		\item Example, les fichiers només  "todo.txt": \textit{-name todo.txt}
-	\end{itemize}
-    \item \textit{-name}: -\underline{fname} 
-	\begin{itemize}
-    \item     Le nom de fichier contient \underline{fname}.
-    \item     Example, les fichiers contenant ".txt":
-    \textit{-name -.txt}
-	\end{itemize}
-	\item \textit{-group}: \underline{gname}
-	\begin{itemize}
-    \item 	   	Le fichier appartient au group \underline{gname}
-    \item 	   	Example, les fichiers appartenant au group \textit{root}: \textit{-group root}
-\end{itemize}
-\item \textit{-user}: \underline{uname}
-	\begin{itemize}
-    \item 		Le fichier est possédé par utilisateur \underline{uname} 
-    \item 	   	Example, les fichiers possédés par l'utilisateur \textit{claudio}: \textit{-user claudio}
-	\end{itemize}
-	\item \textit{-perm}: \underline{perm}
-	\begin{itemize}
-    \item 		Les permissions sont exactement \underline{perm}
-    \item 		Example, les fichiers ayant exactement les permissions 644: \textit{-perm 644}
-	\end{itemize}
-	\item \textit{-perm}: -\underline{perm}
-	\begin{itemize}
-    \item 		Le fichier a au moins les permissions \underline{perm}
-    \item 		Example, les fichiers dont l'utilisateur peut lire et executer: \textit{-perm -500}
-	\end{itemize}
-	\item \textit{-size}: \underline{[+-]size[GMkc]}
-	\begin{itemize}
-    \item 		Le fichier a la taille \underline{size}.
-    \item 		Le suffix indique l'unité utilisée:
-		\begin{itemize}
-			\item \textit{'c'}: bytes
-			\item \textit{'k'}: Kilobytes
-			\item \textit{'M'}: Megabytes
-			\item \textit{'G'}: Gigabytes
-		\end{itemize}
-		Le préfixe indique la comparaison utilisée:
-		\begin{itemize}
-			\item \textit{'+'}: supérieur à
-			\item \textit{'-'}: inférieur à
-			\item \textit{''}: exactement
-		\end{itemize}
-		Examples:
-		\begin{itemize}
-			\item \textit{-size 200c}: fichiers de taille 200 bytes		
-			\item \textit{-size -30k}: fichiers de taille inférieure à 30KB
-			\item \textit{-size +2M}: fichiers de taille supérieure à 2MB
-		\end{itemize}
-	\end{itemize}
-	\item \textit{-atime}: \underline{[+-]time[md]}
-	\begin{itemize}
-\item	Le fichier fut accédé depuis \underline{time}. La référence de temps est le moment présent.
-\item	Le suffix indique l'unité utilisée:
-	\begin{itemize}
-		\item \textit{'m'}: minutes
-		\item \textit{'d'}: jours 
-	\end{itemize}
-	Le préfixe \textit{[+-]} indique la comparaison utilisée, comme pour le critère \underline{-size} ci-dessus.\\
-	Examples:
-	\begin{itemize}
-		\item \textit{-atime +5m}: fichiers accédés depuis plus de 5 minutes
-		\item \textit{-atime -1d}: fichiers accédés dans les dernières 24 heures
-	\end{itemize}
-	\end{itemize}
-	\item \textit{-ctime}: \underline{[+-]time[md]}
-\begin{itemize}
-	\item 	Le status du fichier fut changé depuis \underline{time}. 
-	\item Pour plus détails, voir l'explication pour le critère \underline{-atime}
-	\end{itemize}
-	\item \textit{-mtime}: \underline{[+-]time[md]}
-\begin{itemize}
-	\item 	Le fichier fut changé depuis \underline{time}.\\
-	 Pour plus détails, voir l'explication pour le critère \underline{-atime}	\\	
-	\end{itemize}
-\end{itemize}
-
-
-Les differents critères enumérés ci-dessus peuvent être combinés avec les opérateurs listés ci-dessous, énumérés dans l'odre de précédence décroissante:\\
-
-Opérateurs:
-\begin{itemize}
-	\renewcommand\labelitemi{}
-	\item \textit{( critère )}: force la précédence de l'expression entre paranthèses
-	\item \textit{-not}: applique le \textit{NOT} logique  au critère de droite
-	\item \textit{-and}: applique le \textit{AND} logique entre le critères à gauche et à droite de l'opérateur
-	\item \textit{-or}: applique le \textit{OR} logique  entre les critères à gauche et à droite de l'opérateur
-\end{itemize}
+\textit{<expression>} correspond à une liste de critères dont l'interface est un sous-ensemble de celle de \textit{find}. Son usage complet est décrit en annexe, section \nameref{ann_exp}.
 
 
 \subsubsection{Mode stop}
@@ -260,11 +157,11 @@ Ce module est responsable de produire la liste de tous les fichiers du dossier d
 
 La vérification des fichiers contre les critères est déleguée au module \textit{Validator}.\\
 
-Lors du processus de recherche effectué au sein de ce module, un parcours d'arborescence est effectué recursivement et les liens symboliques sont suivis.
+Lors du processus de recherche effectué au sein de ce module, un parcours d'arborescence est effectué récursivement et les liens symboliques sont suivis.
 
 Des boucles deviennent alors possibles. Ce module doit donc gérer ce cas spécifique et prévenir les boucles infinies ainsi que le traitement des fichiers et dossiers dupliqués. \\
 
-Possibilité d'implémentation: utilisation d'une table de hashage contenant les numéros d'inode des fichiers et répertoires déjà parcourus.
+Possibilité d'implémentation: utilisation d'une table d'hashage contenant les numéros d'inode des fichiers et répertoires déjà parcourus.
 
 \subsubsection{Linker}
 Le module \textit{Linker} a pour rôle de mettre à jour le dossier de destination
@@ -294,5 +191,113 @@ Le but de ce module est d'offrir une interface simple aux appels systèmes et de
 
 \subsubsection{Logger}
 Ce module centralise l'affichage des logs de débogage.
+
+\newpage
+
+% -----------------------------------------------------------------------------
+\section{Annexe}
+\subsection{Expression}
+\label{ann_exp}
+L'interface est semblable à celle de \textit{find}\footnote{\url{https://linux.die.net/man/1/find}}.
+Voici la liste des options prises en charge:\\
+
+
+Critères:
+\begin{itemize}
+	\renewcommand\labelitemi{}
+	\renewcommand\labelitemii{}
+	\renewcommand\labelitemiii{}
+	\item \textit{-name}: \underline{fname}
+	\begin{itemize}
+		\item Le nom de fichier est exactement \underline{fname}
+		\item Exemple, les fichiers només  "todo.txt": \textit{-name todo.txt}
+	\end{itemize}
+	\item \textit{-name}: -\underline{fname} 
+	\begin{itemize}
+		\item     Le nom de fichier contient \underline{fname}.
+		\item     Exemple, les fichiers contenant ".txt":
+		\textit{-name -.txt}
+	\end{itemize}
+	\item \textit{-group}: \underline{gname}
+	\begin{itemize}
+		\item 	   	Le fichier appartient au group \underline{gname}
+		\item 	   	Exemple, les fichiers appartenant au group \textit{root}: \textit{-group root}
+	\end{itemize}
+	\item \textit{-user}: \underline{uname}
+	\begin{itemize}
+		\item 		Le fichier est possédé par utilisateur \underline{uname} 
+		\item 	   	Exemple, les fichiers possédés par l'utilisateur \textit{claudio}: \textit{-user claudio}
+	\end{itemize}
+	\item \textit{-perm}: \underline{perm}
+	\begin{itemize}
+		\item 		Les permissions sont exactement \underline{perm}
+		\item 		Exemple, les fichiers ayant exactement les permissions 644: \textit{-perm 644}
+	\end{itemize}
+	\item \textit{-perm}: -\underline{perm}
+	\begin{itemize}
+		\item 		Le fichier a au moins les permissions \underline{perm}
+		\item 		Exemple, les fichiers dont l'utilisateur peut lire et executer: \textit{-perm -500}
+	\end{itemize}
+	\item \textit{-size}: \underline{[+-]size[GMkc]}
+	\begin{itemize}
+		\item 		Le fichier a la taille \underline{size}.
+		\item 		Le suffix indique l'unité utilisée:
+		\begin{itemize}
+			\item \textit{'c'}: bytes
+			\item \textit{'k'}: Kilobytes
+			\item \textit{'M'}: Megabytes
+			\item \textit{'G'}: Gigabytes
+		\end{itemize}
+		Le préfixe indique la comparaison utilisée:
+		\begin{itemize}
+			\item \textit{'+'}: supérieur à
+			\item \textit{'-'}: inférieur à
+			\item \textit{''}: exactement
+		\end{itemize}
+		Exemples:
+		\begin{itemize}
+			\item \textit{-size 200c}: fichiers de taille 200 bytes		
+			\item \textit{-size -30k}: fichiers de taille inférieure à 30KB
+			\item \textit{-size +2M}: fichiers de taille supérieure à 2MB
+		\end{itemize}
+	\end{itemize}
+	\item \textit{-atime}: \underline{[+-]time[md]}
+	\begin{itemize}
+		\item	Le fichier fut accédé depuis \underline{time}. La référence de temps est le moment présent.
+		\item	Le suffix indique l'unité utilisée:
+		\begin{itemize}
+			\item \textit{'m'}: minutes
+			\item \textit{'d'}: jours 
+		\end{itemize}
+		Le préfixe \textit{[+-]} indique la comparaison utilisée, comme pour le critère \underline{-size} ci-dessus.\\
+		Exemples:
+		\begin{itemize}
+			\item \textit{-atime +5m}: fichiers accédés depuis plus de 5 minutes
+			\item \textit{-atime -1d}: fichiers accédés dans les dernières 24 heures
+		\end{itemize}
+	\end{itemize}
+	\item \textit{-ctime}: \underline{[+-]time[md]}
+	\begin{itemize}
+		\item 	Le statu du fichier fut changé depuis \underline{time}. 
+		\item Pour plus détails, voir l'explication pour le critère \underline{-atime}
+	\end{itemize}
+	\item \textit{-mtime}: \underline{[+-]time[md]}
+	\begin{itemize}
+		\item 	Le fichier fut changé depuis \underline{time}.\\
+		Pour plus détails, voir l'explication pour le critère \underline{-atime}	\\	
+	\end{itemize}
+\end{itemize}
+
+
+Les differents critères énumérés ci-dessus peuvent être combinés avec les opérateurs listés ci-dessous, énumérés dans l'ordre de précédence décroissante:\\
+
+Opérateurs:
+\begin{itemize}
+	\renewcommand\labelitemi{}
+	\item \textit{( critère )}: force la précédence de l'expression entre parenthèses
+	\item \textit{-not}: applique le \textit{NOT} logique  au critère de droite
+	\item \textit{-and}: applique le \textit{AND} logique entre les critères à gauche et à droite de l'opérateur
+	\item \textit{-or}: applique le \textit{OR} logique  entre les critères à gauche et à droite de l'opérateur
+\end{itemize}
 
 \end{document}
