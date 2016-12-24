@@ -64,4 +64,11 @@ int io_directory_create(char *path);
  */
 int io_directory_create_parent(char *path);
 
+/**
+ * Delete a directory and all childrens
+ * @param path Directory path to delete
+ * @return 0 if deleted, 1 if error
+ */
+int io_directory_delete(char *path);
+
 #endif

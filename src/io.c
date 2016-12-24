@@ -101,3 +101,12 @@ int io_directory_create_parent(char *path) {
 
     return 0;
 }
+
+int io_directory_delete(char *path) {
+    if (rmdir(path) != 0) {
+        perror("Rmdir failed");
+        return 1;
+    }
+
+    return 0;
+}
