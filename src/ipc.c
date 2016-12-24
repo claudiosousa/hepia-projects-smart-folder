@@ -60,7 +60,7 @@ void ipc_sig_handler() {
 
 int ipc_set_watch(char *dst_path, ipc_stop_callback cb, void * cb_arg) {
     // Setup signal
-    if (signal(SIGTERM, ipc_sig_handler) == SIG_ERR) {
+    if ((signal(SIGINT, ipc_sig_handler) == SIG_ERR) || (signal(SIGTERM, ipc_sig_handler) == SIG_ERR)) {
         perror("IPC: ERROR: failed to register signal");
         return 1;
     }
