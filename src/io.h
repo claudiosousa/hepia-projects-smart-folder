@@ -52,6 +52,7 @@ bool io_directory_exists(char *path);
 /**
  * Create a directory in the specified path
  * @param path Dir path to create
+ * @return 0 if created, 1 if error
  */
 int io_directory_create(char *path);
 
