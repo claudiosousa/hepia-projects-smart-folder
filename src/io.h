@@ -56,4 +56,12 @@ bool io_directory_exists(char *path);
  */
 int io_directory_create(char *path);
 
+/**
+ * Create a directory in the specified path and all its parents.
+ * If a the directory and its parents already exist, nothing is done.
+ * @param path Dir path to create
+ * @return 0 if created, 1 if error
+ */
+int io_directory_create_parent(char *path);
+
 #endif

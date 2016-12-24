@@ -26,7 +26,6 @@ static void * g_watch_cb_arg = NULL;
  * @param dst_path The destination path to construct the filename from
  * @param pid_path String to store the resulting pid filename
  */
-// TODO: rename function, add ensure param?
 static int ipc_get_pid_file_path(char *dst_path, char *pid_path) {
     // Get user home directory root
     char *home_dir = getenv("HOME");
@@ -34,15 +33,8 @@ static int ipc_get_pid_file_path(char *dst_path, char *pid_path) {
         fprintf(stderr, "IPC: Error: Invalid user home directory");
         return 1;
     }
-
-    // Create our run directory.
-    // No check are done because if path already exists, nothing happen.
     strncpy(pid_path, home_dir, IO_PATH_MAX_SIZE);
-    strncat(pid_path, IPC_HOME_PATH, IO_PATH_MAX_SIZE);
-    io_directory_create(pid_path);
-
-    strncat(pid_path, IPC_RUN_PATH, IO_PATH_MAX_SIZE);
-    io_directory_create(pid_path);
+    strncat(pid_path, IPC_HOME_RUN_PATH, IO_PATH_MAX_SIZE);
 
     // Store the PID to a file named after the destination path
     int folder_length = strlen(pid_path);
@@ -81,6 +73,9 @@ int ipc_set_watch(char *dst_path, ipc_stop_callback cb, void * cb_arg) {
     if (ipc_get_pid_file_path(dst_path, pid_path) == 1) {
         return 1;
     }
+
+    // Create our run directory
+    io_directory_create_parent(pid_path);
 
     if (io_file_exists(pid_path)) {
         fprintf(stderr, "IPC: Error: there already is a watch for '%s'", dst_path);
