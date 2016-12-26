@@ -17,3 +17,7 @@
 *.o
 *.gch
 searchfolder
+*_test
+
+#vscode
+launch.json

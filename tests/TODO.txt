@@ -1,5 +1,2 @@
-Use unit test from http://cunit.sourceforge.net/example.html
-main.c
- -> file_validator_suite(..)
- -> smart_folder_suite(..) ?
- -> .. ?
+ - test other files
+  - remove debugging

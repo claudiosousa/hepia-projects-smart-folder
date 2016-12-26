@@ -6,10 +6,10 @@
 
 typedef enum { AND, OR, NOT, NAME, USER, GROUP, PERM, SIZE, ATIME, MTIME, CTIME } parser_crit_t;
 
-typedef enum { MAX, MIX, EXACT } parser_comp_t;
+typedef enum { MAX, MIN, EXACT } parser_comp_t;
 
 typedef struct parser_t {
-    parser_crit_t token;
+    parser_crit_t crit;
     void * value;
     parser_comp_t comp;
 

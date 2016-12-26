@@ -1,15 +1,15 @@
-FLAGS=-g -Wall -Wextra -std=c99 -D_POSIX_SOURCE -iquote./vendor
-
+FLAGS=-g -ggdb -Wall -Wextra -std=c99 -D_POSIX_SOURCE
 SRC=../src/
 
-tests: main.c file_validator_test.o $(SRC)ipc.o $(SRC)smart_folder.o $(SRC)file_validator.o $(SRC)finder.o $(SRC)file_linker.o
-	gcc $(FLAGS) -o tests main.c *.o $(SRC)*.o
+tests: parser_test
 
-file_validator_test.o: file_validator_test.c
-	gcc $(FLAGS) -c file_validator_test.c
+parser_test: parser_test.c $(SRC)parser.o
+	gcc $(FLAGS) -o parser_test parser_test.c $(SRC)parser.o
+
+include $(SRC)makefile
 
 clean:
-	rm *.o tests
+	rm *_test
 
 run: tests
-	./tests
+	./parser_test

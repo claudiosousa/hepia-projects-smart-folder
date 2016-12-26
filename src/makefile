@@ -1,4 +1,4 @@
-FLAGS=-g -Wall -Wextra -std=c99 -D_POSIX_SOURCE -D_GNU_SOURCE
+FLAGS=-g -ggdb -Wall -Wextra -std=c99 -D_POSIX_SOURCE -D_GNU_SOURCE
 LIBS=
 
 searchfolder: main.c ipc.o smart_folder.o parser.o validator.o finder.o linker.o io.o

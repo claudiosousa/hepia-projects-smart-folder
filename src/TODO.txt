@@ -22,6 +22,7 @@ GLOBAL:
   - add module prefix in private functions ?
   - perror(), right parameter?
   - test with VALGRIND
+  - remove compilation flags from src & tests
 
 Modules to implement:
   - File linker

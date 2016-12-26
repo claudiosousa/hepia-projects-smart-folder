@@ -1,8 +1,7 @@
-all:
+src:
 	cd ./src/ && make
 
-tests: all
-	cd ./tests/ && make
+tests:
 	cd ./tests/ && make run
 
 clean:
