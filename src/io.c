@@ -4,15 +4,16 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <dirent.h>
 #include "io.h"
 
 #define IO_TMP_BUF_SIZE 4096
 #define IO_DEFAULT_PERM 0644
 #define IO_DEFAULT_MODE S_IRWXU | S_IRWXG
-#define IO_PATH_SEP '/'
 
 bool io_file_exists(char *path) {
     struct stat buffer;
@@ -74,6 +75,40 @@ bool io_directory_exists(char *path) {
     return (stat(path, &buffer) == 0) && S_ISDIR(buffer.st_mode);
 }
 
+// TODO: use code of finder for recursive
+io_file_list * io_directory_get_all(char *path) {
+    io_file_list *filelist = NULL;
+    DIR *dir = NULL;
+    struct dirent *entry = NULL;
+
+    dir = opendir(path);
+    if (dir == NULL) {
+        perror("Open dir failed");
+        return NULL;
+    }
+
+    filelist = malloc(sizeof(io_file_list));
+    if (filelist == NULL) {
+        perror("file_list malloc failed");
+        return NULL;
+    }
+    filelist->count = 0;
+
+    while ((entry = readdir(dir)) != NULL) {
+        if ((strncmp(entry->d_name, ".", 2) != 0) && (strncmp(entry->d_name, "..", 3) != 0)) {
+            strncpy(filelist->files[filelist->count++], entry->d_name, IO_PATH_MAX_SIZE);
+        }
+    }
+
+    closedir(dir);
+
+    return filelist;
+}
+
+void io_directory_get_all_free(io_file_list *filelist) {
+    free(filelist);
+}
+
 int io_directory_create(char *path) {
     if (mkdir(path, IO_DEFAULT_MODE) != 0) {
         perror("Mkdir failed");
@@ -103,10 +138,24 @@ int io_directory_create_parent(char *path) {
 }
 
 int io_directory_delete(char *path) {
+    // TODO: use code from finder for recursive
+    char file_del[IO_PATH_MAX_SIZE] = "";
+    io_file_list * files = io_directory_get_all(path);
+    for (unsigned int i = 0; i < files->count; i++) {
+        sprintf(file_del, "%s%c%s", path, IO_PATH_SEP, files->files[i]);
+        io_file_delete(file_del);
+    }
+    io_directory_get_all_free(files);
+
     if (rmdir(path) != 0) {
         perror("Rmdir failed");
         return 1;
     }
 
     return 0;
+}
+
+bool io_link_exists(char *path) {
+    struct stat buffer;
+    return (lstat(path, &buffer) == 0) && S_ISLNK(buffer.st_mode);
 }

@@ -11,6 +11,13 @@
 #include <sys/stat.h>
 
 #define IO_PATH_MAX_SIZE 4096
+#define IO_PATH_SEP '/'
+#define IO_DIR_MAX_FILES 1024
+
+typedef struct io_file_list {
+    char files[IO_DIR_MAX_FILES][IO_PATH_MAX_SIZE];
+    size_t count;
+} io_file_list;
 
 /**
  * Determine if a file in the specified path exists
@@ -50,6 +57,19 @@ int io_file_delete(char *path);
 bool io_directory_exists(char *path);
 
 /**
+ * Get all element contained in the specified directory
+ * @param path Dir path to scan
+ * @return List of files
+ */
+io_file_list * io_directory_get_all(char *path);
+
+/**
+ * Free a previously created list of files
+ * @param filelist File list to free
+ */
+void io_directory_get_all_free(io_file_list *filelist);
+
+/**
  * Create a directory in the specified path
  * @param path Dir path to create
  * @return 0 if created, 1 if error
@@ -70,5 +90,12 @@ int io_directory_create_parent(char *path);
  * @return 0 if deleted, 1 if error
  */
 int io_directory_delete(char *path);
+
+/**
+ * Determine if a link in the specified path exists
+ * @param path Link path to check
+ * @return True if exists, false otherwise
+ */
+bool io_link_exists(char *path);
 
 #endif
