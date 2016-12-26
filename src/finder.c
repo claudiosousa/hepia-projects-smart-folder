@@ -5,7 +5,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "finder.h"
-#include "validator.h"
 #include "vendor/uthash.h"
 
 // remove MAX_FILES
@@ -48,7 +47,7 @@ static void finder_hash_clear() {
     files = NULL;
 }
 
-static void finder_find_in_dir(char *dir, finder_t *finder_files, parser_t *expression) {
+static void finder_find_in_dir(char *dir, finder_t *finder_files, validator_t* validator) {
     DIR *d = opendir(dir);
     if (d == NULL) {
         perror("Failled to open directory");
@@ -75,13 +74,13 @@ static void finder_find_in_dir(char *dir, finder_t *finder_files, parser_t *expr
         if (dent->d_type == DT_DIR) {
             if (strcmp(dent->d_name, ".") == 0 || strcmp(dent->d_name, "..") == 0)
                 continue;
-            finder_find_in_dir(full_path, finder_files, expression);
+            finder_find_in_dir(full_path, finder_files, validator);
         } else if (dent->d_type == DT_LNK) {
             stat(full_path, file_stat);
 
             if (S_ISDIR(file_stat->st_mode))
-                finder_find_in_dir(full_path, finder_files, expression);
-            else if (validator_validate(full_path, expression)) {
+                finder_find_in_dir(full_path, finder_files, validator);
+            else if (validator_validate(full_path, validator)) {
                 if (finder_hash_exist(file_stat->st_ino))
                     return;
 
@@ -90,7 +89,7 @@ static void finder_find_in_dir(char *dir, finder_t *finder_files, parser_t *expr
             }
 
         } else if (dent->d_type == DT_REG) {
-            if (validator_validate(full_path, expression)) {
+            if (validator_validate(full_path, validator)) {
                 finder_hash_add(dent->d_ino);
                 finder_add_found_file(full_path, finder_files);
             }
@@ -101,12 +100,12 @@ static void finder_find_in_dir(char *dir, finder_t *finder_files, parser_t *expr
     closedir(d);
 }
 
-finder_t *finder_find(char *search_path, parser_t *expression) {
+finder_t *finder_find(char *search_path, validator_t* validator) {
     finder_t *finder_files = (finder_t *)malloc(sizeof(finder_t));
     finder_files->files = (char **)malloc(sizeof(char *) * MAX_FILES);
     finder_files->count = 0;
 
-    finder_find_in_dir(search_path, finder_files, expression);
+    finder_find_in_dir(search_path, finder_files, validator);
 
     finder_hash_clear();
     return finder_files;

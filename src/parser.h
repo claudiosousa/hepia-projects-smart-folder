@@ -4,15 +4,13 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-typedef enum { AND, OR, NAME, OWNER, GROUP, PERM, SIZE, ATIME, MTIME, CTIME } parser_token_t;
+typedef enum { AND, OR, NOT, NAME, USER, GROUP, PERM, SIZE, ATIME, MTIME, CTIME } parser_crit_t;
 
 typedef enum { MAX, MIX, EXACT } parser_comp_t;
 
 typedef struct parser_t {
-    bool not;
-    parser_token_t token;
-    unsigned int value;
-    char *char_value;
+    parser_crit_t token;
+    void * value;
     parser_comp_t comp;
 
     struct parser_t *next;
