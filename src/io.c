@@ -12,6 +12,7 @@
 #define IO_TMP_BUF_SIZE 4096
 #define IO_DEFAULT_PERM 0644
 #define IO_DEFAULT_MODE S_IRWXU | S_IRWXG
+#define IO_PATH_SEP '/'
 
 bool io_file_exists(char *path) {
     struct stat buffer;
@@ -76,6 +77,34 @@ bool io_directory_exists(char *path) {
 int io_directory_create(char *path) {
     if (mkdir(path, IO_DEFAULT_MODE) != 0) {
         perror("Mkdir failed");
+        return 1;
+    }
+
+    return 0;
+}
+
+int io_directory_create_parent(char *path) {
+    char path_progressive[IO_PATH_MAX_SIZE] = "";
+    char * path_sep_pos = strchr(path, IO_PATH_SEP);
+
+    while (path_sep_pos != NULL) {
+        strncpy(path_progressive, path, path_sep_pos - path + 1);
+
+        if (!io_directory_exists(path_progressive)) {
+            if (io_directory_create(path_progressive) != 0) {
+                return 1;
+            }
+        }
+
+        path_sep_pos = strchr(path_sep_pos + 1, IO_PATH_SEP);
+    }
+
+    return 0;
+}
+
+int io_directory_delete(char *path) {
+    if (rmdir(path) != 0) {
+        perror("Rmdir failed");
         return 1;
     }
 

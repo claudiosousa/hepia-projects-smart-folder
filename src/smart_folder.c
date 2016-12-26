@@ -50,8 +50,8 @@ void smart_folder_start(smart_folder_t* smart_folder) {
         sleep(LOOP_INTERVAL);
     }
 
-    if (rmdir(smart_folder->dst_path) != 0) {
-        perror("Impossible to delete smart_folder path!");
+    if (io_directory_delete(smart_folder->dst_path) != 0) {
+        fprintf(stderr, "Impossible to delete smart_folder path");
     }
     free(smart_folder);
 }
