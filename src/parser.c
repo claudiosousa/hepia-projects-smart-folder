@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <pwd.h>
+#include <grp.h>
 #include "parser.h"
 
 #define CRITERIA_COUNT 8
@@ -38,6 +39,15 @@ static parser_t *parse_group(char *argv) {
 
     if (res->comp != EXACT)
         return NULL;
+
+    struct group *pwd = getgrnam((char *)res->value); /* don't free, see https://linux.die.net/man/3/getgrnam */
+    if (!pwd) {
+        fprintf(stderr, "Cannot find group '%s'\n", (char *)res->value);
+        return NULL;
+    }
+    res->value = malloc(sizeof(uint));
+    *(uint *)res->value = pwd->gr_gid;
+
     return res;
 }
 
@@ -47,13 +57,13 @@ static parser_t *parse_user(char *argv) {
     if (res->comp != EXACT)
         return NULL;
 
-    struct passwd *pwd = getpwnam((char *)res->value); /* don't free, see getpwnam() for details */
+    struct passwd *pwd = getpwnam((char *)res->value); /* don't free, see https://linux.die.net/man/3/getpwnam */
     if (!pwd) {
         fprintf(stderr, "Cannot find user '%s'\n", (char *)res->value);
         return NULL;
     }
-    res->value = malloc(sizeof(int));
-    *(int *)res->value = pwd->pw_uid;
+    res->value = malloc(sizeof(uint));
+    *(uint *)res->value = pwd->pw_uid;
 
     return res;
 }
