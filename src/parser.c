@@ -4,11 +4,6 @@
 #include <math.h>
 #include "parser.h"
 
-#define QUEUE_TOKEN(queue, token) \
-    token->next = queue;          \
-    queue = token;
-#define DEQUEUE_TOKEN 8
-
 #define CRITERIA_COUNT 8
 #define OPERATORS_COUNT 5
 #define MIN_OP '-'
@@ -200,6 +195,13 @@ parser_t *parse_token(char **expression[], size_t *size) {
     return NULL;  // invalid token
 }
 
+void move_token(parser_t **to, parser_t **from) {
+    parser_t *next = (*from)->next;
+    (*from)->next = *to;
+    *to = *from;
+    *from = next;
+}
+
 /*
  Orders the parsed expression and per the Shunting yard algorithm
  (https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
@@ -208,32 +210,55 @@ parser_t *parser_infix_notation(parser_t *exp) {
     parser_t *output = NULL;
     parser_t *stack = NULL;
 
-    while (0 && exp != NULL) {
-        //if (exp->crit & CRITERIA)  // is a criteria
-        //    exp output->
+    while (exp) {
+        if (exp->crit & CRITERIA)  // is a criteria
+            move_token(&output, &exp);
+        else if (exp->crit & OPERATOR) {  // an operator
+            while (stack && stack->crit & OPERATOR && stack->crit > exp->crit) move_token(&output, &stack);
+            move_token(&stack, &exp);
+        } else if (exp->crit == LPARENTHESIS)
+            move_token(&stack, &exp);
+        else if (exp->crit == RPARENTHESIS) {
+            while (stack && stack->crit != LPARENTHESIS) move_token(&output, &stack);
+            if (!stack)
+                return NULL;  // unmatched right parenthesis
+            stack = stack->next;
+            exp = exp->next;
+        }
     }
-    return exp;
+    if (stack) {
+        if (stack->crit & PARENTHESIS)  // unmatched left parenthesis
+            return NULL;
+        while (stack != NULL) move_token(&output, &stack);
+    }
+
+    return output;
 }
 
 parser_t *parser_parse(char *expression[], size_t size) {
-    parser_t *exp = NULL;
+    parser_t *res;
+    parser_t *last;
+    res = last = NULL;
     while (size) {
         parser_t *parsed_token = parse_token(&expression, &size);
-        if (parsed_token == NULL)
+        if (!parsed_token)
             return NULL;
 
         // inject AND operator between consequitive criteria
-        if (exp != NULL && exp->crit & CRITERIA && parsed_token->crit & CRITERIA) {
+        if (last && last->crit & CRITERIA && parsed_token->crit & CRITERIA) {
             parser_t *and_token = parse_op(AND);
-            and_token->next = exp;
-            exp = and_token;
+            last->next = and_token;
+            last = and_token;
         }
-
-        parsed_token->next = exp;
-        exp = parsed_token;
+        if (!res)
+            res = last = parsed_token;
+        else {
+            last->next = parsed_token;
+            last = parsed_token;
+        }
     }
 
-    return parser_infix_notation(exp);
+    return parser_infix_notation(res);
 }
 
 void parser_free(parser_t *expression) {

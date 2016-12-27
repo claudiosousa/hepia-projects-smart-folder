@@ -175,46 +175,46 @@ void test_parse_operators() {
 }
 
 void test_parse_parenthesis() {
-    char *test_argv[] = {"("};
-    parser_t *parser = parser_parse(test_argv, 1);
+    char *test_argv[] = {"(", "-name", "test", ")"};
+    parser_t *parser = parser_parse(test_argv, 4);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == LPARENTHESIS, "crit should be equal to LPARENTHESIS");
+    TEST_CHECK_(parser->crit == NAME, "crit token is %d should be %d", parser->crit, NAME);
+    TEST_CHECK_(strcmp(parser->value, test_argv[2]) == 0, "value is %s and should be %s", parser->value, test_argv[2]);
+    TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
+    TEST_CHECK_(parser->next == NULL, "next token should be equal to NULL");
+}
+
+void test_parse_wrong_parenthesis() {
+    char *test_argv[] = {"(", "-name", "test"};
+    TEST_CHECK_(parser_parse(test_argv, 3) == NULL, "should return null");
 
     test_argv[0] = ")";
-    parser = parser_parse(test_argv, 1);
-    TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == RPARENTHESIS, "crit should be equal to RPARENTHESIS");
+    TEST_CHECK_(parser_parse(test_argv, 1) == NULL, "should return null");
+
+    test_argv[0] = "(";
+    TEST_CHECK_(parser_parse(test_argv, 1) == NULL, "should return null");
 }
 
 void test_simple_composition() {
     char *test_argv[] = {"-name", "test", "-and", "-size", "20"};
     parser_t *parser = parser_parse(test_argv, 5);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == SIZE, "1st token is %d should be %d", parser->crit, SIZE);
-    TEST_CHECK_(parser->next->crit == AND, "2nd token is %d and should be %d", parser->next->crit, AND);
+    TEST_CHECK_(parser->crit == AND, "1st token is %d should be %d", parser->crit, AND);
+    TEST_CHECK_(parser->next->crit == SIZE, "2nd token is %d and should be %d", parser->next->crit, SIZE);
     TEST_CHECK_(parser->next->next->crit == NAME, "3rd token is %d and should be should be %d",
                 parser->next->next->crit, NAME);
     TEST_CHECK_(parser->next->next->next == NULL, "4rd token should be NULL");
 }
 
-TEST_LIST = {      
-         {"parse empty", test_parse_empty},
-             {"parse incomplete exp", test_parse_incomplete},
-             {"parse incorrect exp", test_parse_incorrect},
-             {"parse name", test_parse_name},
-             {"parse name contains", test_parse_name_contains},
-             {"parse group", test_parse_group},
-             {"parse user", test_parse_user},
-             {"parse permission", test_parse_perm},
-             {"parse perm. contains", test_parse_perm_contains},
-             {"parse wrong permission", test_parse_wrong_perm},
-             {"parse size", test_parse_size},
-             {"parse wrong size", test_parse_wrong_size},
-             {"parse atime", test_parse_atime},
-             {"parse ctime", test_parse_ctime},
-             {"parse mtime", test_parse_mtime},
-             {"parse wrong time", test_parse_wrong_time},
-             {"parse operators", test_parse_operators},
+TEST_LIST = {{"parse empty", test_parse_empty}, {"parse incomplete exp", test_parse_incomplete},
+             {"parse incorrect exp", test_parse_incorrect}, {"parse name", test_parse_name},
+             {"parse name contains", test_parse_name_contains}, {"parse group", test_parse_group},
+             {"parse user", test_parse_user}, {"parse permission", test_parse_perm},
+             {"parse perm. contains", test_parse_perm_contains}, {"parse wrong permission", test_parse_wrong_perm},
+             {"parse size", test_parse_size}, {"parse wrong size", test_parse_wrong_size},
+             {"parse atime", test_parse_atime}, {"parse ctime", test_parse_ctime}, {"parse mtime", test_parse_mtime},
+             {"parse wrong time", test_parse_wrong_time}, {"parse operators", test_parse_operators},
              {"parse parenthesis", test_parse_parenthesis},
+             {"parse wrong parenthesis", test_parse_wrong_parenthesis},
              {"simple composition", test_simple_composition},
              {0}};

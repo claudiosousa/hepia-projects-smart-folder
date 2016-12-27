@@ -4,15 +4,14 @@
 #include <stdlib.h>
 typedef enum {
     OPERATOR = 1 << 7,
-    OPERATOR_1 = OPERATOR | 1 << 6,
-    PARENTHESIS = 1 << 5,
-    CRITERIA = 1 << 4,
+    PARENTHESIS = 1 << 6,
+    CRITERIA = 1 << 5,
 } parser_crit_type_t;
 
 // enum contains the criteria type encoded bitwise on enum values
 typedef enum {
-    AND = OPERATOR,  // operators below
-    OR,
+    OR = OPERATOR,  // operators below, order by priority DESC
+    AND,
     NOT,
     LPARENTHESIS = PARENTHESIS,  // parenthesis below
     RPARENTHESIS,

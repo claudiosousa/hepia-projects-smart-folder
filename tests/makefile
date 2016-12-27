@@ -1,4 +1,4 @@
-FLAGS=-g -ggdb -lm -Wall -Wextra -std=c99 -D_POSIX_SOURCE
+FLAGS=-g -ggdb -lm -Wall -Wextra -Werror -std=c99 -D_POSIX_SOURCE
 SRC=../src/
 
 tests: parser_test
