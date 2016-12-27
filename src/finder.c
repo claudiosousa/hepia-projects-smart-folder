@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <dirent.h>
 #include <string.h>
-#include <stdbool.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include "finder.h"
@@ -47,7 +46,7 @@ static void finder_hash_clear() {
     files = NULL;
 }
 
-static void finder_find_in_dir(char *dir, finder_t *finder_files, validator_t* validator) {
+static void finder_find_in_dir(char *dir, finder_t *finder_files, validator_t *validator) {
     DIR *d = opendir(dir);
     if (d == NULL) {
         perror("Failled to open directory");
@@ -77,12 +76,11 @@ static void finder_find_in_dir(char *dir, finder_t *finder_files, validator_t* v
             finder_find_in_dir(full_path, finder_files, validator);
         } else if (dent->d_type == DT_LNK) {
             stat(full_path, file_stat);
-
             if (S_ISDIR(file_stat->st_mode))
                 finder_find_in_dir(full_path, finder_files, validator);
             else if (validator_validate(full_path, validator)) {
                 if (finder_hash_exist(file_stat->st_ino))
-                    return;
+                    continue;
 
                 finder_hash_add(file_stat->st_ino);
                 finder_add_found_file(full_path, finder_files);
@@ -90,6 +88,9 @@ static void finder_find_in_dir(char *dir, finder_t *finder_files, validator_t* v
 
         } else if (dent->d_type == DT_REG) {
             if (validator_validate(full_path, validator)) {
+                stat(full_path, file_stat);
+                if (finder_hash_exist(file_stat->st_ino))
+                    continue;
                 finder_hash_add(dent->d_ino);
                 finder_add_found_file(full_path, finder_files);
             }
@@ -100,7 +101,7 @@ static void finder_find_in_dir(char *dir, finder_t *finder_files, validator_t* v
     closedir(d);
 }
 
-finder_t *finder_find(char *search_path, validator_t* validator) {
+finder_t *finder_find(char *search_path, validator_t *validator) {
     finder_t *finder_files = (finder_t *)malloc(sizeof(finder_t));
     finder_files->files = (char **)malloc(sizeof(char *) * MAX_FILES);
     finder_files->count = 0;

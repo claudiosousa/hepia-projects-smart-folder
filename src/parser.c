@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "parser.h"
 
 #define CRITERIA_COUNT 8
@@ -52,10 +53,12 @@ static parser_t *parse_perm(char *argv) {
     if (res->comp == MAX)
         return NULL;
 
-    int val = strtol(argv, NULL, 8);
+    int val = strtol((char *)res->value, NULL, 8);
+
     if (val < 0 || val > 0777)  // invalid permission
         return NULL;
-
+    res->value = malloc(sizeof(int));
+    *(int *)res->value = val;
     return res;
 }
 

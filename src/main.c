@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
 
         // Start the search
         validator_t *validator = NULL;
-        if (argc > 2) {
+        if (argc > 3) {
             parser_t *expression = parser_parse(argv + 3, argc - 3);
             if (expression == NULL) {
                 print_usage(argv[0]);
