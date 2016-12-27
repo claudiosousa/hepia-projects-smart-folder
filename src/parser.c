@@ -4,8 +4,13 @@
 #include <math.h>
 #include "parser.h"
 
+#define QUEUE_TOKEN(queue, token) \
+    token->next = queue;          \
+    queue = token;
+#define DEQUEUE_TOKEN 8
+
 #define CRITERIA_COUNT 8
-#define OPERATORS_COUNT 3
+#define OPERATORS_COUNT 5
 #define MIN_OP '-'
 #define MAX_OP '+'
 
@@ -170,8 +175,8 @@ char *criteria[CRITERIA_COUNT] = {"-name", "-group", "-user", "-perm", "-size", 
 parse_fn_t criteria_type[CRITERIA_COUNT] = {&parse_name, &parse_group, &parse_user,  &parse_perm,
                                             &parse_size, &parse_atime, &parse_ctime, &parse_mtime};
 
-char *operator[OPERATORS_COUNT] = {"-not", "-and", "-or"};
-parser_crit_t operator_type[OPERATORS_COUNT] = {NOT, AND, OR};
+char *operator[OPERATORS_COUNT] = {"-not", "-and", "-or", "(", ")"};
+parser_crit_t operator_type[OPERATORS_COUNT] = {NOT, AND, OR, LPARENTHESIS, RPARENTHESIS};
 
 parser_t *parse_token(char **expression[], size_t *size) {
     char *exp = *expression[0];
@@ -195,17 +200,40 @@ parser_t *parse_token(char **expression[], size_t *size) {
     return NULL;  // invalid token
 }
 
+/*
+ Orders the parsed expression and per the Shunting yard algorithm
+ (https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
+*/
+parser_t *parser_infix_notation(parser_t *exp) {
+    parser_t *output = NULL;
+    parser_t *stack = NULL;
+
+    while (0 && exp != NULL) {
+        //if (exp->crit & CRITERIA)  // is a criteria
+        //    exp output->
+    }
+    return exp;
+}
+
 parser_t *parser_parse(char *expression[], size_t size) {
-    parser_t *res = NULL;
+    parser_t *exp = NULL;
     while (size) {
         parser_t *parsed_token = parse_token(&expression, &size);
         if (parsed_token == NULL)
             return NULL;
-        parsed_token->next = res;
-        res = parsed_token;
+
+        // inject AND operator between consequitive criteria
+        if (exp != NULL && exp->crit & CRITERIA && parsed_token->crit & CRITERIA) {
+            parser_t *and_token = parse_op(AND);
+            and_token->next = exp;
+            exp = and_token;
+        }
+
+        parsed_token->next = exp;
+        exp = parsed_token;
     }
 
-    return res;
+    return parser_infix_notation(exp);
 }
 
 void parser_free(parser_t *expression) {

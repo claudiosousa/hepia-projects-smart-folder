@@ -2,10 +2,6 @@
 #include "../src/parser.h"
 #include "vendor/cutest.h"
 
-void test_init() {
-    setbuf(stdout, NULL);  // we want our printf to print immediatly for debugging purposes
-}
-
 void test_parse_empty() {
     TEST_CHECK_(parser_parse(NULL, 0) == NULL, "should return null");
 }
@@ -24,7 +20,7 @@ void test_parse_name() {
     char *test_argv[] = {"-name", "some_name"};
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == NAME, "crit should be equal to NAME");
+    TEST_CHECK_(parser->crit == NAME, "crit token is %d should be %d", parser->crit, NAME);
     TEST_CHECK_(strcmp(parser->value, test_argv[1]) == 0, "value should be equal to %s", test_argv[1]);
     TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
 }
@@ -40,7 +36,7 @@ void test_parse_group() {
     char *test_argv[] = {"-group", "some_group"};
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == GROUP, "crit should be equal to GROUP");
+    TEST_CHECK_(parser->crit == GROUP, "crit token is %d should be %d", parser->crit, GROUP);
     TEST_CHECK_(strcmp(parser->value, test_argv[1]) == 0, "value should be equal to %s", test_argv[1]);
     TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
 }
@@ -49,7 +45,7 @@ void test_parse_user() {
     char *test_argv[] = {"-user", "some_user"};
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == USER, "crit should be equal to USER");
+    TEST_CHECK_(parser->crit == USER, "crit token is %d should be %d", parser->crit, USER);
     TEST_CHECK_(strcmp(parser->value, test_argv[1]) == 0, "value should be equal to %s", test_argv[1]);
     TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
 }
@@ -58,7 +54,7 @@ void test_parse_perm() {
     char *test_argv[] = {"-perm", "776"};
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == PERM, "crit should be equal to PERM");
+    TEST_CHECK_(parser->crit == PERM, "crit token is %d should be %d", parser->crit, PERM);
     TEST_CHECK_(*(int *)parser->value == 0776, "value is %d and should be %d", *(int *)parser->value, 0776);
     TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
 
@@ -71,7 +67,7 @@ void test_parse_perm_contains() {
     char *test_argv[] = {"-perm", "-224"};
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == PERM, "crit should be equal to PERM");
+    TEST_CHECK_(parser->crit == PERM, "crit token is %d should be %d", parser->crit, PERM);
     TEST_CHECK_(*(int *)parser->value == 0224, "value is %d and should be %d", *(int *)parser->value, 0224);
     TEST_CHECK_(parser->comp == MIN, "comp should be equal to MIN");
 }
@@ -89,7 +85,7 @@ void test_parse_size() {
     char *test_argv[] = {"-size", "200"};
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == SIZE, "crit should be equal to SIZE");
+    TEST_CHECK_(parser->crit == SIZE, "crit token is %d should be %d", parser->crit, SIZE);
     TEST_CHECK_(*(long *)parser->value == 200, "value is %ld and should be %ld", *(long *)parser->value, 200);
     TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
 
@@ -129,7 +125,7 @@ void test_parse_atime() {
     char *test_argv[] = {"-atime", "-20"};
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == ATIME, "crit should be equal to ATIME");
+    TEST_CHECK_(parser->crit == ATIME, "crit token is %d should be %d", parser->crit, ATIME);
     TEST_CHECK_(*(long *)parser->value == 20, "value is %d and should be %d", *(long *)parser->value, 20);
     TEST_CHECK_(parser->comp == MIN, "comp should be equal to MIN");
 }
@@ -138,7 +134,7 @@ void test_parse_ctime() {
     char *test_argv[] = {"-ctime", "+3d"};
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == CTIME, "crit should be equal to CTIME");
+    TEST_CHECK_(parser->crit == CTIME, "crit token is %d should be %d", parser->crit, CTIME);
     TEST_CHECK_(*(long *)parser->value == 3 * 24 * 60 * 60, "value is %d and should be %d", *(long *)parser->value,
                 3 * 24 * 60 * 60);
     TEST_CHECK_(parser->comp == MAX, "comp should be equal to MAX");
@@ -148,7 +144,7 @@ void test_parse_mtime() {
     char *test_argv[] = {"-mtime", "300m"};
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == MTIME, "crit should be equal to MTIME");
+    TEST_CHECK_(parser->crit == MTIME, "crit token is %d should be %d", parser->crit, MTIME);
     TEST_CHECK_(*(long *)parser->value == 300 * 60, "value is %d and should be %d", *(long *)parser->value, 300 * 60);
     TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
 }
@@ -165,21 +161,44 @@ void test_parse_operators() {
     char *test_argv[] = {"-and"};
     parser_t *parser = parser_parse(test_argv, 1);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == AND, "crit should be equal to AND");
+    TEST_CHECK_(parser->crit == AND, "crit token is %d should be %d", parser->crit, AND);
 
     test_argv[0] = "-or";
     parser = parser_parse(test_argv, 1);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == OR, "crit should be equal to OR");
+    TEST_CHECK_(parser->crit == OR, "crit token is %d should be %d", parser->crit, OR);
 
     test_argv[0] = "-not";
     parser = parser_parse(test_argv, 1);
     TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == NOT, "crit should be equal to NOT");
+    TEST_CHECK_(parser->crit == NOT, "crit token is %d should be %d", parser->crit, NOT);
 }
 
-TEST_LIST = {{"initialization", test_init},
-             {"parse empty", test_parse_empty},
+void test_parse_parenthesis() {
+    char *test_argv[] = {"("};
+    parser_t *parser = parser_parse(test_argv, 1);
+    TEST_CHECK_(parser != NULL, "should not return null");
+    TEST_CHECK_(parser->crit == LPARENTHESIS, "crit should be equal to LPARENTHESIS");
+
+    test_argv[0] = ")";
+    parser = parser_parse(test_argv, 1);
+    TEST_CHECK_(parser != NULL, "should not return null");
+    TEST_CHECK_(parser->crit == RPARENTHESIS, "crit should be equal to RPARENTHESIS");
+}
+
+void test_simple_composition() {
+    char *test_argv[] = {"-name", "test", "-and", "-size", "20"};
+    parser_t *parser = parser_parse(test_argv, 5);
+    TEST_CHECK_(parser != NULL, "should not return null");
+    TEST_CHECK_(parser->crit == SIZE, "1st token is %d should be %d", parser->crit, SIZE);
+    TEST_CHECK_(parser->next->crit == AND, "2nd token is %d and should be %d", parser->next->crit, AND);
+    TEST_CHECK_(parser->next->next->crit == NAME, "3rd token is %d and should be should be %d",
+                parser->next->next->crit, NAME);
+    TEST_CHECK_(parser->next->next->next == NULL, "4rd token should be NULL");
+}
+
+TEST_LIST = {      
+         {"parse empty", test_parse_empty},
              {"parse incomplete exp", test_parse_incomplete},
              {"parse incorrect exp", test_parse_incorrect},
              {"parse name", test_parse_name},
@@ -196,4 +215,6 @@ TEST_LIST = {{"initialization", test_init},
              {"parse mtime", test_parse_mtime},
              {"parse wrong time", test_parse_wrong_time},
              {"parse operators", test_parse_operators},
+             {"parse parenthesis", test_parse_parenthesis},
+             {"simple composition", test_simple_composition},
              {0}};
