@@ -36,3 +36,6 @@ Modules to implement:
 Implementation doc:
   - Describe singleton IPC
   - Describe callback/args
+
+Logger:
+ - replace all err and log message to calls to this configurable module

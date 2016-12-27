@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <pwd.h>
 #include "parser.h"
 
 #define CRITERIA_COUNT 8
@@ -45,6 +46,15 @@ static parser_t *parse_user(char *argv) {
 
     if (res->comp != EXACT)
         return NULL;
+
+    struct passwd *pwd = getpwnam((char *)res->value); /* don't free, see getpwnam() for details */
+    if (!pwd) {
+        fprintf(stderr, "Cannot find user '%s'\n", (char *)res->value);
+        return NULL;
+    }
+    res->value = malloc(sizeof(int));
+    *(int *)res->value = pwd->pw_uid;
+
     return res;
 }
 

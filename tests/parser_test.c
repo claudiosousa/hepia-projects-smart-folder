@@ -42,12 +42,17 @@ void test_parse_group() {
 }
 
 void test_parse_user() {
-    char *test_argv[] = {"-user", "some_user"};
+    char *test_argv[] = {"-user", "root"};
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
     TEST_CHECK_(parser->crit == USER, "crit token is %d should be %d", parser->crit, USER);
-    TEST_CHECK_(strcmp(parser->value, test_argv[1]) == 0, "value should be equal to %s", test_argv[1]);
+    TEST_CHECK_(*(int *)parser->value == 0, "value is %d and should be 0", parser->value);
     TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
+}
+
+void test_parse_wrong_user() {
+    char *test_argv[] = {"-user", "unknown_user"};
+    TEST_CHECK_(parser_parse(test_argv, 2) == NULL, "should return null");
 }
 
 void test_parse_perm() {
@@ -259,39 +264,39 @@ void test_name_and_size() {
 
 void test_user_and_size_or_name() {
     // OR(NAME, AND(SIZE, USER))
-    test_order("-user user -and -size 20 -or -name test", (parser_crit_t[]){OR, NAME, AND, SIZE, USER, 0});
+    test_order("-user root -and -size 20 -or -name test", (parser_crit_t[]){OR, NAME, AND, SIZE, USER, 0});
 }
 
 void test_user_and_size_or_name_p() {
     // AND(OR(NAME, SIZE), USER))
-    test_order("-user user -and ( -size 20 -or -name test )", (parser_crit_t[]){AND, OR, NAME, SIZE, USER, 0});
+    test_order("-user root -and ( -size 20 -or -name test )", (parser_crit_t[]){AND, OR, NAME, SIZE, USER, 0});
 }
 
 void test_name_or_size_and_user() {
     // OR(AND(USER, SIZE), NAME)
-    test_order("-name test -or -size 20 -and -user user", (parser_crit_t[]){OR, AND, USER, SIZE, NAME, 0});
+    test_order("-name test -or -size 20 -and -user root", (parser_crit_t[]){OR, AND, USER, SIZE, NAME, 0});
 }
 
 void test_name_or_size_and_user_p() {
     // OR(AND(USER, SIZE), NAME)
-    test_order("( -name test -or -size 20 ) -and -user user", (parser_crit_t[]){AND, USER, OR, SIZE, NAME, 0});
+    test_order("( -name test -or -size 20 ) -and -user root", (parser_crit_t[]){AND, USER, OR, SIZE, NAME, 0});
 }
 
 void test_group_size_not_user_or_perm() {
     // OR(OR(PERM, NOT(USER)), AND(SIZE, GROUP))
-    test_order("-group group -and -size 20 -or -not -user user -or -perm 777",
+    test_order("-group group -and -size 20 -or -not -user root -or -perm 777",
                (parser_crit_t[]){OR, OR, PERM, NOT, USER, AND, SIZE, GROUP, 0});
 }
 
 void test_group_not_size_or_user_perm() {
     // OR(AND(PERM, USER), AND(NOT(SIZE)), GROUP))
-    test_order("-group group -not -size 20 -or -user user -perm 777",
+    test_order("-group group -not -size 20 -or -user root -perm 777",
                (parser_crit_t[]){OR, AND, PERM, USER, AND, NOT, SIZE, GROUP, 0});
 }
 
 void test_group_not_size_or_user_perm_p() {
     // AND(AND(PERM, NOT(OR(USER, SIZE)), GROUP)
-    test_order("-group group -not ( -size 20 -or -user user ) -perm 777",
+    test_order("-group group -not ( -size 20 -or -user root ) -perm 777",
                (parser_crit_t[]){AND, AND, PERM, NOT, OR, USER, SIZE, GROUP, 0});
 }
 
@@ -302,6 +307,7 @@ TEST_LIST = {{"parse empty", test_parse_empty},
              {"parse name contains", test_parse_name_contains},
              {"parse group", test_parse_group},
              {"parse user", test_parse_user},
+             {"parse wrong user", test_parse_wrong_user},
              {"parse permission", test_parse_perm},
              {"parse perm. contains", test_parse_perm_contains},
              {"parse wrong permission", test_parse_wrong_perm},
