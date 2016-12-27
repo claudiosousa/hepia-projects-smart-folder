@@ -117,6 +117,14 @@ void test_parse_size() {
     TEST_CHECK_(parser->comp == MIN, "comp should be equal to MIN");
 }
 
+void test_parse_wrong_size() {
+    char *test_argv[] = {"-size", "20v"};
+    TEST_CHECK_(parser_parse(test_argv, 2) == NULL, "should return null");
+
+    test_argv[1] = "G";
+    TEST_CHECK_(parser_parse(test_argv, 2) == NULL, "should return null");
+}
+
 TEST_LIST = {{"initialization", test_init},
              {"parse empty", test_parse_empty},
              {"parse incomplete exp", test_parse_incomplete},
@@ -129,4 +137,5 @@ TEST_LIST = {{"initialization", test_init},
              {"parse perm. contains", test_parse_perm_contains},
              {"parse wrong permission", test_parse_wrong_perm},
              {"parse size", test_parse_size},
+             {"parse wrong size", test_parse_wrong_size},
              {0}};

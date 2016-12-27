@@ -75,6 +75,9 @@ static parser_t *parse_size(char *argv) {
     char last_char = strval[strval_len - 1];
     long unity_multiplier = 1;
     if (last_char > '9') {
+        if (strval_len == 1)
+            return NULL;
+
         if (last_char <= 'Z')
             last_char += 'a' - 'A';  // tolower
 
@@ -99,7 +102,7 @@ static parser_t *parse_size(char *argv) {
     return res;
 }
 
-static parser_t *parse_time(char *argv,  parser_crit_t criteria) {
+static parser_t *parse_time(char *argv, parser_crit_t criteria) {
     (void)argv;
     return NULL;
 }
