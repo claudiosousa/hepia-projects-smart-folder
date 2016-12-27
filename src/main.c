@@ -49,17 +49,15 @@ int main(int argc, char *argv[]) {
         }
 
         // Start the search
-        validator_t *validator = NULL;
+        parser_t *expression = NULL;
         if (argc > 3) {
-            parser_t *expression = parser_parse(argv + 3, argc - 3);
+            expression = parser_parse(argv + 3, argc - 3);
             if (expression == NULL) {
                 print_usage(argv[0]);
                 return EXIT_FAILURE;
             }
-            validator = validator_create(expression);
-            parser_free(expression);
         }
-        smart_folder_t *smart_folder = smart_folder_create(dst_path, search_path, validator);
+        smart_folder_t *smart_folder = smart_folder_create(dst_path, search_path, expression);
         if (smart_folder == NULL)
             return EXIT_FAILURE;
 
@@ -70,8 +68,9 @@ int main(int argc, char *argv[]) {
 
         smart_folder_start(smart_folder);
 
-        if (validator != NULL)
-            validator_free(validator);
+        if (expression != NULL)
+            parser_free(expression);
+
     }
     // Kill mode
     else {

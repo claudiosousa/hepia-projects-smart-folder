@@ -9,7 +9,7 @@ typedef struct {
     size_t count;
 } finder_t;
 
-finder_t *finder_find(char *search_path, validator_t* validator);
+finder_t *finder_find(char *search_path, parser_t *expression);
 void finder_free(finder_t *finder);
 
 #endif
