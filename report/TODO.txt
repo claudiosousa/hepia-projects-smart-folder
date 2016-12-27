@@ -4,4 +4,3 @@ architecture document fixes:
  - time postfix unity also accepts seconds and hours ([dmhs])
  - time postfix is optional (seconds by default)
  - time postfix is case insensitive
-
