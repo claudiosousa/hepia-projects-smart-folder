@@ -1,6 +1,10 @@
+#include <math.h>
 #include "../src/parser.h"
 #include "vendor/cutest.h"
-//#define TEST_CHECK_ //
+
+void test_init() {
+    setbuf(stdout, NULL);  // we want our printf to print immediatly for debugging purposes
+}
 
 void test_parse_empty() {
     TEST_CHECK_(parser_parse(NULL, 0) == NULL, "should return null");
@@ -55,23 +59,22 @@ void test_parse_perm() {
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
     TEST_CHECK_(parser->crit == PERM, "crit should be equal to PERM");
-    TEST_CHECK_(*(int *)parser->value == 0776, "value is %d and should be %s", parser->value, 0776);
+    TEST_CHECK_(*(int *)parser->value == 0776, "value is %d and should be %d", *(int *)parser->value, 0776);
     TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
-    
+
     test_argv[1] = "022";
     parser = parser_parse(test_argv, 2);
-    TEST_CHECK_(*(int *)parser->value == 022, "value is %d and should be %s", parser->value, 022);
+    TEST_CHECK_(*(int *)parser->value == 022, "value is %d and should be %d", *(int *)parser->value, 022);
 }
-
 
 void test_parse_perm_contains() {
     char *test_argv[] = {"-perm", "-224"};
     parser_t *parser = parser_parse(test_argv, 2);
     TEST_CHECK_(parser != NULL, "should not return null");
     TEST_CHECK_(parser->crit == PERM, "crit should be equal to PERM");
-    TEST_CHECK_(*(int *)parser->value == 0224, "value is %d and should be %s", parser->value, 0224);
+    TEST_CHECK_(*(int *)parser->value == 0224, "value is %d and should be %d", *(int *)parser->value, 0224);
     TEST_CHECK_(parser->comp == MIN, "comp should be equal to MIN");
-    }
+}
 
 void test_parse_wrong_perm() {
     char *test_argv[] = {"-perm", "1234"};
@@ -80,7 +83,42 @@ void test_parse_wrong_perm() {
     TEST_CHECK_(parser_parse(test_argv, 2) == NULL, "should return null");
 }
 
-TEST_LIST = {{"parse empty", test_parse_empty},
+void test_parse_size() {
+    long K_BINARY = powl(2, 8);
+
+    char *test_argv[] = {"-size", "200"};
+    parser_t *parser = parser_parse(test_argv, 2);
+    TEST_CHECK_(parser != NULL, "should not return null");
+    TEST_CHECK_(parser->crit == SIZE, "crit should be equal to SIZE");
+    TEST_CHECK_(*(long *)parser->value == 200, "value is %ld and should be %ld", *(long *)parser->value, 200);
+    TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
+
+    test_argv[1] = "-10c";
+    parser = parser_parse(test_argv, 2);
+    TEST_CHECK_(*(long *)parser->value == 10, "value is %ld and should be %ld", *(long *)parser->value, 10);
+    TEST_CHECK_(parser->comp == MIN, "comp should be equal to MIN");
+
+    test_argv[1] = "+2k";
+    parser = parser_parse(test_argv, 2);
+    TEST_CHECK_(*(long *)parser->value == 2 * K_BINARY, "value is %ld and should be %ld", *(long *)parser->value,
+                2 * K_BINARY);
+    TEST_CHECK_(parser->comp == MAX, "comp should be equal to MAX");
+
+    test_argv[1] = "+123M";
+    parser = parser_parse(test_argv, 2);
+    TEST_CHECK_(*(long *)parser->value == 123 * K_BINARY * K_BINARY, "value is %ld and should be %ld",
+                *(long *)parser->value, 123 * K_BINARY * K_BINARY);
+    TEST_CHECK_(parser->comp == MAX, "comp should be equal to MAX");
+
+    test_argv[1] = "-5G";
+    parser = parser_parse(test_argv, 2);
+    TEST_CHECK_(*(long *)parser->value == 5 * K_BINARY * K_BINARY * K_BINARY, "value is %ld and should be %ld",
+                *(long *)parser->value, 5 * K_BINARY * K_BINARY * K_BINARY);
+    TEST_CHECK_(parser->comp == MIN, "comp should be equal to MIN");
+}
+
+TEST_LIST = {{"initialization", test_init},
+             {"parse empty", test_parse_empty},
              {"parse incomplete exp", test_parse_incomplete},
              {"parse incorrect exp", test_parse_incorrect},
              {"parse name", test_parse_name},
@@ -90,8 +128,5 @@ TEST_LIST = {{"parse empty", test_parse_empty},
              {"parse permission", test_parse_perm},
              {"parse perm. contains", test_parse_perm_contains},
              {"parse wrong permission", test_parse_wrong_perm},
+             {"parse size", test_parse_size},
              {0}};
-
-// void main(){
-//   test_parse_name();
-// }

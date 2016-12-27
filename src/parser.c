@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include "parser.h"
 
 #define CRITERIA_COUNT 8
@@ -49,7 +50,6 @@ static parser_t *parse_user(char *argv) {
 
 static parser_t *parse_perm(char *argv) {
     parser_t *res = parse_base(argv, PERM);
-
     if (res->comp == MAX)
         return NULL;
 
@@ -63,8 +63,40 @@ static parser_t *parse_perm(char *argv) {
 }
 
 static parser_t *parse_size(char *argv) {
-    (void)argv;
-    return NULL;
+    long K_BINARY = powl(2, 8);
+
+    parser_t *res = parse_base(argv, SIZE);
+
+    char *strval = (char *)res->value;
+    int strval_len = strlen(strval);
+    if (!strval_len)
+        return NULL;
+
+    char last_char = strval[strval_len - 1];
+    long unity_multiplier = 1;
+    if (last_char > '9') {
+        if (last_char <= 'Z')
+            last_char += 'a' - 'A';  // tolower
+
+        switch (last_char) {  // fallthrough switch
+            case 'g':
+                unity_multiplier *= K_BINARY;
+            case 'm':
+                unity_multiplier *= K_BINARY;
+            case 'k':
+                unity_multiplier *= K_BINARY;
+            case 'c':
+                break;
+            default:
+                return NULL;  // invalid unity character
+        }
+    }
+
+    long val = atoi(strval);
+
+    res->value = malloc(sizeof(long));
+    *(long *)res->value = val * unity_multiplier;
+    return res;
 }
 
 static parser_t *parse_atime(char *argv) {
@@ -89,7 +121,6 @@ static parser_t *parse_op(parser_crit_t op) {
     return res;
 }
 
-#include <stdio.h>
 typedef parser_t *(*parse_fn_t)(char *);
 
 char *criteria[CRITERIA_COUNT] = {"-name", "-group", "-user", "-perm", "-size", "-atime", "-ctime", "-mtime"};
