@@ -12,6 +12,10 @@ finder
   - cleanup  finder_find_in_dir
   - split finder_find_in_dir into diferent functions
 
+io:
+  - need recursive delete (move code of finder ?)
+  - merge with finder or remove (io_directory_get_all / io_directory_get_all_free)
+
 GLOBAL:
   - set create permissions globally (UMASK?) for all file/dir creation
   - put MAX_PATH globally
