@@ -195,26 +195,138 @@ void test_parse_wrong_parenthesis() {
     TEST_CHECK_(parser_parse(test_argv, 1) == NULL, "should return null");
 }
 
-void test_simple_composition() {
-    char *test_argv[] = {"-name", "test", "-and", "-size", "20"};
-    parser_t *parser = parser_parse(test_argv, 5);
-    TEST_CHECK_(parser != NULL, "should not return null");
-    TEST_CHECK_(parser->crit == AND, "1st token is %d should be %d", parser->crit, AND);
-    TEST_CHECK_(parser->next->crit == SIZE, "2nd token is %d and should be %d", parser->next->crit, SIZE);
-    TEST_CHECK_(parser->next->next->crit == NAME, "3rd token is %d and should be should be %d",
-                parser->next->next->crit, NAME);
-    TEST_CHECK_(parser->next->next->next == NULL, "4rd token should be NULL");
+void test_order(char *args, parser_crit_t *expected) {
+    int MAX_ARGV_COUNT = 100;
+    char *argv[MAX_ARGV_COUNT];
+    char *args_cp = strdup(args);
+    char *token;
+    int argc = 0;
+    while ((token = strsep(&args_cp, " "))) argv[argc++] = token;
+
+    free(args_cp);
+
+    parser_t *parser = parser_parse(argv, argc);
+    int i = 0;
+    while (expected[i] != 0) {
+        TEST_CHECK_(parser != NULL, "parser %d should not be null", i);
+        TEST_CHECK_(parser->crit == expected[i], "token %d is %d should be %d", i, parser->crit, expected[i]);
+        parser = parser->next;
+        i++;
+    }
+
+    TEST_CHECK_(parser == NULL, "token %d should be NULL", i);
 }
 
-TEST_LIST = {{"parse empty", test_parse_empty}, {"parse incomplete exp", test_parse_incomplete},
-             {"parse incorrect exp", test_parse_incorrect}, {"parse name", test_parse_name},
-             {"parse name contains", test_parse_name_contains}, {"parse group", test_parse_group},
-             {"parse user", test_parse_user}, {"parse permission", test_parse_perm},
-             {"parse perm. contains", test_parse_perm_contains}, {"parse wrong permission", test_parse_wrong_perm},
-             {"parse size", test_parse_size}, {"parse wrong size", test_parse_wrong_size},
-             {"parse atime", test_parse_atime}, {"parse ctime", test_parse_ctime}, {"parse mtime", test_parse_mtime},
-             {"parse wrong time", test_parse_wrong_time}, {"parse operators", test_parse_operators},
+void test_not_name() {
+    // NOT(NAME)
+    test_order("-not -name test", (parser_crit_t[]){NOT, NAME, 0});
+}
+
+void test_name_or_size() {
+    // OR(SIZE, NAME)
+    test_order("-name test -or -size 20", (parser_crit_t[]){OR, SIZE, NAME, 0});
+}
+
+void test_not_name_or_size() {
+    // OR(SIZE, NOT(NAME))
+    test_order("-not -name test -or -size 20", (parser_crit_t[]){OR, SIZE, NOT, NAME, 0});
+}
+
+void test_name_or_not_size() {
+    // OR(NOT(SIZE), NAME)
+    test_order("-name test -or -not -size 20", (parser_crit_t[]){OR, NOT, SIZE, NAME, 0});
+}
+
+void test_not_name_or_size_p() {
+    // NOT(OR(SIZE, NAME))
+    test_order("-not ( -name test -or -size 20 )", (parser_crit_t[]){NOT, OR, SIZE, NAME, 0});
+}
+
+void test_name_size() {
+    // AND(SIZE, NAME)
+    test_order("-name test -size 20", (parser_crit_t[]){AND, SIZE, NAME, 0});
+}
+
+void test_name_not_size() {
+    // AND(NOT(SIZE), NAME)
+    test_order("-name test -not -size 20", (parser_crit_t[]){AND, NOT, SIZE, NAME, 0});
+}
+
+void test_name_and_size() {
+    // AND(SIZE, NAME)
+    test_order("-name test -and -size 20", (parser_crit_t[]){AND, SIZE, NAME, 0});
+}
+
+void test_user_and_size_or_name() {
+    // OR(NAME, AND(SIZE, USER))
+    test_order("-user user -and -size 20 -or -name test", (parser_crit_t[]){OR, NAME, AND, SIZE, USER, 0});
+}
+
+void test_user_and_size_or_name_p() {
+    // AND(OR(NAME, SIZE), USER))
+    test_order("-user user -and ( -size 20 -or -name test )", (parser_crit_t[]){AND, OR, NAME, SIZE, USER, 0});
+}
+
+void test_name_or_size_and_user() {
+    // OR(AND(USER, SIZE), NAME)
+    test_order("-name test -or -size 20 -and -user user", (parser_crit_t[]){OR, AND, USER, SIZE, NAME, 0});
+}
+
+void test_name_or_size_and_user_p() {
+    // OR(AND(USER, SIZE), NAME)
+    test_order("( -name test -or -size 20 ) -and -user user", (parser_crit_t[]){AND, USER, OR, SIZE, NAME, 0});
+}
+
+void test_group_size_not_user_or_perm() {
+    // OR(OR(PERM, NOT(USER)), AND(SIZE, GROUP))
+    test_order("-group group -and -size 20 -or -not -user user -or -perm 777",
+               (parser_crit_t[]){OR, OR, PERM, NOT, USER, AND, SIZE, GROUP, 0});
+}
+
+void test_group_not_size_or_user_perm() {
+    // OR(AND(PERM, USER), AND(NOT(SIZE)), GROUP))
+    test_order("-group group -not -size 20 -or -user user -perm 777",
+               (parser_crit_t[]){OR, AND, PERM, USER, AND, NOT, SIZE, GROUP, 0});
+}
+
+void test_group_not_size_or_user_perm_p() {
+    // AND(AND(PERM, NOT(OR(USER, SIZE)), GROUP)
+    test_order("-group group -not ( -size 20 -or -user user ) -perm 777",
+               (parser_crit_t[]){AND, AND, PERM, NOT, OR, USER, SIZE, GROUP, 0});
+}
+
+TEST_LIST = {{"parse empty", test_parse_empty},
+             {"parse incomplete exp", test_parse_incomplete},
+             {"parse incorrect exp", test_parse_incorrect},
+             {"parse name", test_parse_name},
+             {"parse name contains", test_parse_name_contains},
+             {"parse group", test_parse_group},
+             {"parse user", test_parse_user},
+             {"parse permission", test_parse_perm},
+             {"parse perm. contains", test_parse_perm_contains},
+             {"parse wrong permission", test_parse_wrong_perm},
+             {"parse size", test_parse_size},
+             {"parse wrong size", test_parse_wrong_size},
+             {"parse atime", test_parse_atime},
+             {"parse ctime", test_parse_ctime},
+             {"parse mtime", test_parse_mtime},
+             {"parse wrong time", test_parse_wrong_time},
+             {"parse operators", test_parse_operators},
              {"parse parenthesis", test_parse_parenthesis},
              {"parse wrong parenthesis", test_parse_wrong_parenthesis},
-             {"simple composition", test_simple_composition},
+             {"-not -name test", test_not_name},
+             {"-name test -or -size 20", test_name_or_size},
+             {"-not -name test -or -size 20", test_not_name_or_size},
+             {"-name test -or -not -size 20", test_name_or_not_size},
+             {"-not ( -name test -or -size 20 )", test_not_name_or_size_p},
+             {"-name test -size 20", test_name_size},
+             {"-name test -not -size 20", test_name_not_size},
+             {"-name test -and -size 20", test_name_and_size},
+             {"-user user -and -size 20 -or -name test", test_user_and_size_or_name},
+             {"-user user -and ( -size 20 -or -name test )", test_user_and_size_or_name_p},
+             {"-name test -or -size 20 -and -user user", test_name_or_size_and_user},
+             {"( -name test -or -size 20 ) -and -user user", test_name_or_size_and_user_p},
+             {"-group group -and -size 20 -or -not -user user -or -perm 777", test_group_size_not_user_or_perm},
+             {"-group group -not -size 20 -or -user user -perm 777", test_group_not_size_or_user_perm},
+             {"-group group -not ( -size 20 -or -user user ) -perm 777", test_group_not_size_or_user_perm_p},
              {0}};

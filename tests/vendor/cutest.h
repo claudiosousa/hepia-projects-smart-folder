@@ -10,10 +10,10 @@
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
  * and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -305,13 +305,13 @@ test_do_run__(const struct test__* test)
     test_current_already_logged__ = 0;
 
     if(test_verbose_level__ >= 3) {
-        test_print_in_color__(CUTEST_COLOR_DEFAULT_INTENSIVE__, "Test %s:\n", test->name);
+        test_print_in_color__(CUTEST_COLOR_DEFAULT_INTENSIVE__, "Test: %s:\n", test->name);
         test_current_already_logged__++;
     } else if(test_verbose_level__ >= 1) {
         size_t n;
         char spaces[32];
 
-        n = test_print_in_color__(CUTEST_COLOR_DEFAULT_INTENSIVE__, "Test %s... ", test->name);
+        n = test_print_in_color__(CUTEST_COLOR_DEFAULT_INTENSIVE__, "Test: %-*s ", 60, test->name);
         memset(spaces, ' ', sizeof(spaces));
         if(n < sizeof(spaces))
             printf("%.*s", (int) (sizeof(spaces) - n), spaces);

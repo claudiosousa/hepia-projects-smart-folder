@@ -245,7 +245,8 @@ parser_t *parser_parse(char *expression[], size_t size) {
             return NULL;
 
         // inject AND operator between consequitive criteria
-        if (last && last->crit & CRITERIA && parsed_token->crit & CRITERIA) {
+        if (last && (last->crit & CRITERIA || last->crit == RPARENTHESIS) &&
+            (parsed_token->crit & CRITERIA || parsed_token->crit == LPARENTHESIS || parsed_token->crit == NOT)) {
             parser_t *and_token = parse_op(AND);
             last->next = and_token;
             last = and_token;
