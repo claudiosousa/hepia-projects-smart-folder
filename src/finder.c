@@ -78,7 +78,7 @@ static void finder_find_in_dir(char *dir, finder_t *finder_files, parser_t *expr
             stat(full_path, file_stat);
             if (S_ISDIR(file_stat->st_mode))
                 finder_find_in_dir(full_path, finder_files, expression);
-            else if (validator_validate(full_path, expression)) {
+            else if (validator_validate(dent->d_name, file_stat, expression)) {
                 if (finder_hash_exist(file_stat->st_ino))
                     continue;
 
@@ -87,10 +87,10 @@ static void finder_find_in_dir(char *dir, finder_t *finder_files, parser_t *expr
             }
 
         } else if (dent->d_type == DT_REG) {
-            if (validator_validate(full_path, expression)) {
-                stat(full_path, file_stat);
-                if (finder_hash_exist(file_stat->st_ino))
-                    continue;
+            stat(full_path, file_stat);
+            if (finder_hash_exist(file_stat->st_ino))
+                continue;
+            if (validator_validate(dent->d_name, file_stat, expression)) {
                 finder_hash_add(dent->d_ino);
                 finder_add_found_file(full_path, finder_files);
             }
