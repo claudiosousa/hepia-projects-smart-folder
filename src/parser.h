@@ -1,7 +1,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <stdbool.h>
 #include <stdlib.h>
 
 typedef enum { AND, OR, NOT, NAME, USER, GROUP, PERM, SIZE, ATIME, MTIME, CTIME } parser_crit_t;

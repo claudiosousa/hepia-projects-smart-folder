@@ -105,7 +105,7 @@ parser_t *parse_token(char **expression[], size_t *size) {
         if (strcmp(exp, operator[i]) == 0)
             return parse_op(operator_type[i]);
 
-    if (!size)  // end of expression
+    if (!*size)  // end of expression
         return NULL;
 
     char *exp_param = *expression[0];
