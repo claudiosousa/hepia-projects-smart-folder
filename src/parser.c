@@ -171,7 +171,7 @@ parse_fn_t criteria_type[CRITERIA_COUNT] = {&parse_name, &parse_group, &parse_us
                                             &parse_size, &parse_atime, &parse_ctime, &parse_mtime};
 
 char *operator[OPERATORS_COUNT] = {"-not", "-and", "-or"};
-parser_crit_t operator_type[OPERATORS_COUNT] = {NOT, AND, NOT};
+parser_crit_t operator_type[OPERATORS_COUNT] = {NOT, AND, OR};
 
 parser_t *parse_token(char **expression[], size_t *size) {
     char *exp = *expression[0];

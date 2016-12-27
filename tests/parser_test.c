@@ -156,9 +156,26 @@ void test_parse_mtime() {
 void test_parse_wrong_time() {
     char *test_argv[] = {"-mtime", "300x"};
     TEST_CHECK_(parser_parse(test_argv, 2) == NULL, "should return null");
-    
+
     test_argv[1] = "m";
     TEST_CHECK_(parser_parse(test_argv, 2) == NULL, "should return null");
+}
+
+void test_parse_operators() {
+    char *test_argv[] = {"-and"};
+    parser_t *parser = parser_parse(test_argv, 1);
+    TEST_CHECK_(parser != NULL, "should not return null");
+    TEST_CHECK_(parser->crit == AND, "crit should be equal to AND");
+
+    test_argv[0] = "-or";
+    parser = parser_parse(test_argv, 1);
+    TEST_CHECK_(parser != NULL, "should not return null");
+    TEST_CHECK_(parser->crit == OR, "crit should be equal to OR");
+
+    test_argv[0] = "-not";
+    parser = parser_parse(test_argv, 1);
+    TEST_CHECK_(parser != NULL, "should not return null");
+    TEST_CHECK_(parser->crit == NOT, "crit should be equal to NOT");
 }
 
 TEST_LIST = {{"initialization", test_init},
@@ -178,4 +195,5 @@ TEST_LIST = {{"initialization", test_init},
              {"parse ctime", test_parse_ctime},
              {"parse mtime", test_parse_mtime},
              {"parse wrong time", test_parse_wrong_time},
+             {"parse operators", test_parse_operators},
              {0}};
