@@ -1,9 +1,11 @@
-src:
+src: FORCE
 	cd ./src/ && make
 
-tests:
+tests: FORCE
 	cd ./tests/ && make run
 
-clean:
+clean: FORCE
 	cd ./src/ && make clean
 	cd ./tests/ && make clean
+
+FORCE:
