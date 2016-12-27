@@ -63,7 +63,7 @@ static parser_t *parse_perm(char *argv) {
 }
 
 static parser_t *parse_size(char *argv) {
-    long K_BINARY = powl(2, 8);
+    long K_BINARY = powl(2, 10);
 
     parser_t *res = parse_base(argv, SIZE);
 
@@ -97,6 +97,11 @@ static parser_t *parse_size(char *argv) {
     res->value = malloc(sizeof(long));
     *(long *)res->value = val * unity_multiplier;
     return res;
+}
+
+static parser_t *parse_time(char *argv,  parser_crit_t criteria) {
+    (void)argv;
+    return NULL;
 }
 
 static parser_t *parse_atime(char *argv) {

@@ -84,7 +84,7 @@ void test_parse_wrong_perm() {
 }
 
 void test_parse_size() {
-    long K_BINARY = powl(2, 8);
+    long K_BINARY = powl(2, 10);
 
     char *test_argv[] = {"-size", "200"};
     parser_t *parser = parser_parse(test_argv, 2);
