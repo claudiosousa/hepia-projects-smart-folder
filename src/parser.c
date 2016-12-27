@@ -62,25 +62,37 @@ static parser_t *parse_perm(char *argv) {
     return res;
 }
 
+/*
+    @return the unity character. 0 if no unity char, -1 if error
+*/
+static char parse_exp_unity(char *exp) {
+    int exp_len = strlen(exp);
+    if (!exp_len)
+        return -1;
+
+    char last_char = exp[exp_len - 1];
+    if (last_char <= '9')
+        return 0;  // no unity char
+
+    if (exp_len == 1)
+        return -1;  // only unity without numeric value is invalid
+
+    if (last_char <= 'Z')
+        last_char += 'a' - 'A';  // tolower
+    return last_char;
+}
+
 static parser_t *parse_size(char *argv) {
     long K_BINARY = powl(2, 10);
 
     parser_t *res = parse_base(argv, SIZE);
 
-    char *strval = (char *)res->value;
-    int strval_len = strlen(strval);
-    if (!strval_len)
+    char last_char = parse_exp_unity((char *)res->value);
+    if (last_char == -1)
         return NULL;
 
-    char last_char = strval[strval_len - 1];
     long unity_multiplier = 1;
-    if (last_char > '9') {
-        if (strval_len == 1)
-            return NULL;
-
-        if (last_char <= 'Z')
-            last_char += 'a' - 'A';  // tolower
-
+    if (last_char != 0) {
         switch (last_char) {  // fallthrough switch
             case 'g':
                 unity_multiplier *= K_BINARY;
@@ -95,7 +107,7 @@ static parser_t *parse_size(char *argv) {
         }
     }
 
-    long val = atoi(strval);
+    long val = atoi((char *)res->value);
 
     res->value = malloc(sizeof(long));
     *(long *)res->value = val * unity_multiplier;
@@ -103,23 +115,46 @@ static parser_t *parse_size(char *argv) {
 }
 
 static parser_t *parse_time(char *argv, parser_crit_t criteria) {
-    (void)argv;
-    return NULL;
+    parser_t *res = parse_base(argv, criteria);
+
+    char last_char = parse_exp_unity((char *)res->value);
+    if (last_char == -1)
+        return NULL;
+
+    long unity_multiplier = 1;
+    if (last_char != 0) {
+        switch (last_char) {  // fallthrough switch
+            case 'd':
+                unity_multiplier *= 24;
+            case 'h':
+                unity_multiplier *= 60;
+            case 'm':
+                unity_multiplier *= 60;
+            case 's':
+                break;
+            default:
+                return NULL;  // invalid unity character
+        }
+    }
+
+    long val = atoi((char *)res->value);
+
+    res->value = malloc(sizeof(long));
+    *(long *)res->value = val * unity_multiplier;
+
+    return res;
 }
 
 static parser_t *parse_atime(char *argv) {
-    (void)argv;
-    return NULL;
+    return parse_time(argv, ATIME);
 }
 
 static parser_t *parse_ctime(char *argv) {
-    (void)argv;
-    return NULL;
+    return parse_time(argv, CTIME);
 }
 
 static parser_t *parse_mtime(char *argv) {
-    (void)argv;
-    return NULL;
+    return parse_time(argv, MTIME);
 }
 
 static parser_t *parse_op(parser_crit_t op) {

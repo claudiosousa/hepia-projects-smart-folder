@@ -125,6 +125,42 @@ void test_parse_wrong_size() {
     TEST_CHECK_(parser_parse(test_argv, 2) == NULL, "should return null");
 }
 
+void test_parse_atime() {
+    char *test_argv[] = {"-atime", "-20"};
+    parser_t *parser = parser_parse(test_argv, 2);
+    TEST_CHECK_(parser != NULL, "should not return null");
+    TEST_CHECK_(parser->crit == ATIME, "crit should be equal to ATIME");
+    TEST_CHECK_(*(long *)parser->value == 20, "value is %d and should be %d", *(long *)parser->value, 20);
+    TEST_CHECK_(parser->comp == MIN, "comp should be equal to MIN");
+}
+
+void test_parse_ctime() {
+    char *test_argv[] = {"-ctime", "+3d"};
+    parser_t *parser = parser_parse(test_argv, 2);
+    TEST_CHECK_(parser != NULL, "should not return null");
+    TEST_CHECK_(parser->crit == CTIME, "crit should be equal to CTIME");
+    TEST_CHECK_(*(long *)parser->value == 3 * 24 * 60 * 60, "value is %d and should be %d", *(long *)parser->value,
+                3 * 24 * 60 * 60);
+    TEST_CHECK_(parser->comp == MAX, "comp should be equal to MAX");
+}
+
+void test_parse_mtime() {
+    char *test_argv[] = {"-mtime", "300m"};
+    parser_t *parser = parser_parse(test_argv, 2);
+    TEST_CHECK_(parser != NULL, "should not return null");
+    TEST_CHECK_(parser->crit == MTIME, "crit should be equal to MTIME");
+    TEST_CHECK_(*(long *)parser->value == 300 * 60, "value is %d and should be %d", *(long *)parser->value, 300 * 60);
+    TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
+}
+
+void test_parse_wrong_time() {
+    char *test_argv[] = {"-mtime", "300x"};
+    TEST_CHECK_(parser_parse(test_argv, 2) == NULL, "should return null");
+    
+    test_argv[1] = "m";
+    TEST_CHECK_(parser_parse(test_argv, 2) == NULL, "should return null");
+}
+
 TEST_LIST = {{"initialization", test_init},
              {"parse empty", test_parse_empty},
              {"parse incomplete exp", test_parse_incomplete},
@@ -138,4 +174,8 @@ TEST_LIST = {{"initialization", test_init},
              {"parse wrong permission", test_parse_wrong_perm},
              {"parse size", test_parse_size},
              {"parse wrong size", test_parse_wrong_size},
+             {"parse atime", test_parse_atime},
+             {"parse ctime", test_parse_ctime},
+             {"parse mtime", test_parse_mtime},
+             {"parse wrong time", test_parse_wrong_time},
              {0}};
