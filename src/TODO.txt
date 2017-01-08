@@ -6,6 +6,9 @@ main:
 path_utils
   - module for path operations
 
+IPC:
+  - check if lock file exist before fork and log error message
+
 finder
   - realloc when needed instead of 1000000 files(NO)
   - create link each time a new file is find?

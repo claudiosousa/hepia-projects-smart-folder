@@ -18,7 +18,7 @@ typedef enum {
     O = 0    // others
 } validate_perm_owner_t;
 
-int PERM_OPTIONS[PERM_OPTIONS_COUNT] = {U * R, U *W, U *X, G *R, G *W, G *X, O *R, O *W, O *X};
+int PERM_OPTIONS[PERM_OPTIONS_COUNT] = {U | R, U | W, U | X, G | R, G | W, G | X, O | R, O | W, O | X};
 int PERM_FLAGS[PERM_OPTIONS_COUNT] = {S_IRUSR, S_IWUSR, S_IXUSR, S_IRGRP, S_IWGRP, S_IXGRP, S_IROTH, S_IWOTH, S_IXOTH};
 
 bool validate_exp_token(char *filename, struct stat *filestat, parser_t *exp);
@@ -105,7 +105,8 @@ bool validate_exp_token(char *filename, struct stat *filestat, parser_t *exp) {
         fprintf(stderr, "Expected expression but found NULL");
         return false;
     }
-    return validators[exp->crit](filename, filestat, exp);
+
+    return validators[exp->crit & 0b1111](filename, filestat, exp);
 }
 
 bool validator_validate(char *filename, struct stat *filestat, parser_t *exp) {

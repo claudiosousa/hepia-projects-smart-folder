@@ -8,21 +8,22 @@ typedef enum {
     CRITERIA = 1 << 5,
 } parser_crit_type_t;
 
-// enum contains the criteria type encoded bitwise on enum values
+// enum contains the criteria type encoded bitwise on 3 most significant bits enum values
 typedef enum {
     OR = OPERATOR,  // operators below, order by priority DESC
     AND,
     NOT,
-    LPARENTHESIS = PARENTHESIS,  // parenthesis below
-    RPARENTHESIS,
-    NAME = CRITERIA,  // all bellow are criteria
+    NAME = CRITERIA | 3,  // bellow are criteria
     USER,
     GROUP,
     PERM,
     SIZE,
     ATIME,
     MTIME,
-    CTIME
+    CTIME,
+    LPARENTHESIS = PARENTHESIS,  // parenthesis below
+    RPARENTHESIS,
+
 } parser_crit_t;
 
 typedef enum { MAX, MIN, EXACT } parser_comp_t;
