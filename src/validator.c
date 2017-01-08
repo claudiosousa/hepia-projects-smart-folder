@@ -7,18 +7,21 @@
 #define CRITERIA_COUNT 11
 #define PERM_OPTIONS_COUNT 9
 
+// permission bit to flag
 typedef enum {
     R = 4,  // read
     W = 2,  // write
     X = 1   // execute
 } validate_perm_type_t;
+
+// permission bits to shift left
 typedef enum {
-    U = 64,  // user
-    G = 8,   // group
-    O = 0    // others
+    U = 6,  // user
+    G = 3,  // group
+    O = 0   // others
 } validate_perm_owner_t;
 
-int PERM_OPTIONS[PERM_OPTIONS_COUNT] = {U | R, U | W, U | X, G | R, G | W, G | X, O | R, O | W, O | X};
+int PERM_OPTIONS[PERM_OPTIONS_COUNT] = {R << U, W << U, X << U, R << G, W << G, X << G, R << O, W << O, X << O};
 int PERM_FLAGS[PERM_OPTIONS_COUNT] = {S_IRUSR, S_IWUSR, S_IXUSR, S_IRGRP, S_IWGRP, S_IXGRP, S_IROTH, S_IWOTH, S_IXOTH};
 
 bool validate_exp_token(char *filename, struct stat *filestat, parser_t *exp);
@@ -61,7 +64,7 @@ bool validate_perm(char *filename, struct stat *filestat, parser_t *exp) {
     for (int i = 0; i < PERM_OPTIONS_COUNT; i++) {
         bool req_perm = !!(refperm & PERM_OPTIONS[i]);
         bool file_perm = !!(filemode & PERM_FLAGS[i]);
-        if (req_perm == file_perm || (!exact_perm && file_perm))
+        if (req_perm != file_perm && (exact_perm || !file_perm))
             return false;  // perm mismatch
     }
     return true;

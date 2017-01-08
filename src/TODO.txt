@@ -8,6 +8,7 @@ path_utils
 
 IPC:
   - check if lock file exist before fork and log error message
+  - incoherence between binary name and folder created within $HOME
 
 finder
   - realloc when needed instead of 1000000 files(NO)
@@ -42,3 +43,4 @@ Implementation doc:
 
 Logger:
  - replace all err and log message to calls to this configurable module
+
