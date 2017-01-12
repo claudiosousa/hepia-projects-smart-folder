@@ -12,4 +12,4 @@ clean:
 	rm *_test
 
 run: tests
-	./parser_test
+	./parser_test 2>/dev/null

@@ -24,10 +24,6 @@ smart_folder_t* smart_folder_create(char* dst_path, char* search_path, parser_t*
         fprintf(stderr, "Search path does not exist or is not a directory!");
         return NULL;
     }
-    if (io_directory_create(dst_path) != 0) {
-        fprintf(stderr, "Impossible to create destination path!");
-        return NULL;
-    }
 
     smart_folder_t* smart_folder = (smart_folder_t*)malloc(sizeof(smart_folder_t));
     smart_folder->running = false;
@@ -39,6 +35,11 @@ smart_folder_t* smart_folder_create(char* dst_path, char* search_path, parser_t*
 }
 
 void smart_folder_start(smart_folder_t* smart_folder) {
+    if (io_directory_create(dst_path) != 0) {
+        fprintf(stderr, "Impossible to create destination path!");
+        return NULL;
+    }
+
     smart_folder->running = true;
 
     while (smart_folder->running) {

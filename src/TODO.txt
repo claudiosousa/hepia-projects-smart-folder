@@ -1,47 +1,34 @@
-
+GLOBAL:
+ -  DOCUMENT FUNCTIONS
+    - CLAUDIO: finder, smart_folder, validator, parser
+    - DAVID: main, io, logger, ipc, linker
 main:
-  - convert dst path and search path to absolute path
-     - throw exception if abs path>MAX_PATH
-
-path_utils
-  - module for path operations
+  - convert dst path and search path to absolute path !!! DAVID
 
 IPC:
-  - check if lock file exist before fork and log error message
-  - incoherence between binary name and folder created within $HOME
+  - if IPCwatch  cannot be set, free parser instance  DAVID
+  - incoherence between binary name and folder created within $HOME. Use searchfolder everywhere DAVID
+  - replace SIGNAL api DAVID
 
 finder
-  - realloc when needed instead of 1000000 files(NO)
-  - create link each time a new file is find?
-  - cleanup  finder_find_in_dir
-  - split finder_find_in_dir into diferent functions
-
-io:
-  - need recursive delete (move code of finder ?)
-  - merge with finder or remove (io_directory_get_all / io_directory_get_all_free)
-
-GLOBAL:
-  - set create permissions globally (UMASK?) for all file/dir creation
-  - put MAX_PATH globally
-  - usage of system functions instead of C lib functions
-     - opendir vs open & getdents
-     - fopen vs open,etc
-  - test malloc res for failure
-  - add module prefix in private functions ?
-  - perror(), right parameter?
-  - test with VALGRIND
-  - remove compilation flags from src & tests
-
-Modules to implement:
-  - File linker
-  - file_validator (noeuds: &, ||, leafs: test_name, test_date, test_size, test_etc)
-
-
-Implementation doc:
-  - Describe singleton IPC
-  - Describe callback/args
-  - create doxigen doc
+  - if 100000 files found, stop searching for more !!! CLAUDIO
+  - cleanup  finder_find_in_dir !! CLAUDIO
+  - use io MAX_PATH and not local DAVID
 
 Logger:
- - replace all err and log message to calls to this configurable module
+ - replace all err and log message to calls to this configurable module. INFO,ERROR, DEBUG (precompile constant) DAVID
+
+smart_folder
+ - if cannot be instanciated: free parser instance DAVID
+
+Validator:
+ - put 0b1111 in named constant: CLAUDIO
+
+Tests:
+ - put big file documenttation on top. comment frees no done
+
+AT END:
+  - usage of system functions instead of C lib functions !!!!!!
+     - opendir vs open & getdents
+     - fopen vs open,etc
 
