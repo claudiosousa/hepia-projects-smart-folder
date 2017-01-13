@@ -9,7 +9,6 @@ IPC:
 finder
   - if 100000 files found, stop searching for more !!! CLAUDIO
   - cleanup  finder_find_in_dir !! CLAUDIO
-  - use io MAX_PATH and not local DAVID
 
 Logger:
  - replace all err and log message to calls to this configurable module. INFO,ERROR, DEBUG (precompile constant) DAVID

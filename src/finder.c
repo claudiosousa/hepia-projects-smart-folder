@@ -4,11 +4,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "finder.h"
+#include "io.h"
 #include "vendor/uthash.h"
 
 // remove MAX_FILES
 const int MAX_FILES = 10000;
-const int MAX_PATH = 4096;
 
 static struct file_t *files = NULL;
 typedef struct file_t {
@@ -62,7 +62,7 @@ static void finder_find_in_dir(char *dir, finder_t *finder_files, parser_t *expr
     finder_hash_add(file_stat->st_ino);
 
     struct dirent *dent;
-    char full_path[MAX_PATH];
+    char full_path[IO_PATH_MAX_SIZE];
     while ((dent = readdir(d)) != NULL) {
         if (finder_hash_exist(dent->d_ino))
             continue;
