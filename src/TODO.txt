@@ -4,8 +4,10 @@ GLOBAL:
     - DAVID: main, io, logger, ipc, linker
 
 finder
-  - if 100000 files found, stop searching for more !!! CLAUDIO
   - cleanup  finder_find_in_dir !! CLAUDIO
+
+Linker:
+   - fix bug 'remove 1 file src, duplicates files in dest' cf email !!! DAVID
 
 Tests:
  - put big file documenttation on top. comment frees not done
