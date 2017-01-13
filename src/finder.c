@@ -8,6 +8,7 @@
 #include "vendor/uthash.h"
 
 static struct file_t *files = NULL;
+
 typedef struct file_t {
     long unsigned int id; /* the key */
     UT_hash_handle hh;    /* makes this structure hashable */
@@ -45,6 +46,37 @@ static void finder_hash_clear() {
     files = NULL;
 }
 
+static finder_t *finder_find_in_dir(char *dir, finder_t *filelist, parser_t *expression);
+static finder_t *finder_process_dent(struct dirent *dent, char *dirpath, finder_t *filelist, parser_t *expression) {
+    struct stat file_stat;
+
+    switch (dent->d_type) {
+        case DT_DIR:
+            if (strcmp(dent->d_name, ".") != 0 && strcmp(dent->d_name, "..") != 0)
+                filelist = finder_find_in_dir(dirpath, filelist, expression);
+            break;
+        case DT_LNK:
+            stat(dirpath, &file_stat);
+            if (S_ISDIR(file_stat.st_mode))
+                filelist = finder_find_in_dir(dirpath, filelist, expression);
+            else if (validator_validate(dent->d_name, &file_stat, expression)) {
+                if (!finder_hash_exist(file_stat.st_ino)) {
+                    finder_hash_add(file_stat.st_ino);
+                    filelist = finder_add_found_file(dirpath, filelist);
+                }
+            }
+            break;
+        case DT_REG:
+            stat(dirpath, &file_stat);
+            if (!finder_hash_exist(file_stat.st_ino) && validator_validate(dent->d_name, &file_stat, expression)) {
+                finder_hash_add(dent->d_ino);
+                filelist = finder_add_found_file(dirpath, filelist);
+            }
+    }
+
+    return filelist;
+}
+
 static finder_t *finder_find_in_dir(char *dir, finder_t *filelist, parser_t *expression) {
     DIR *d = opendir(dir);
     if (d == NULL) {
@@ -52,13 +84,13 @@ static finder_t *finder_find_in_dir(char *dir, finder_t *filelist, parser_t *exp
         return filelist;
     }
 
-    struct stat *file_stat = malloc(sizeof(struct stat));
-    stat(dir, file_stat);
+    struct stat file_stat;
+    stat(dir, &file_stat);
 
-    if (finder_hash_exist(file_stat->st_ino))
+    if (finder_hash_exist(file_stat.st_ino))
         return filelist;
 
-    finder_hash_add(file_stat->st_ino);
+    finder_hash_add(file_stat.st_ino);
 
     struct dirent *dent;
     char full_path[IO_PATH_MAX_SIZE];
@@ -69,34 +101,10 @@ static finder_t *finder_find_in_dir(char *dir, finder_t *filelist, parser_t *exp
         strcpy(full_path, dir);
         strcat(full_path, "/");
         strcat(full_path, dent->d_name);
-        if (dent->d_type == DT_DIR) {
-            if (strcmp(dent->d_name, ".") == 0 || strcmp(dent->d_name, "..") == 0)
-                continue;
-            filelist = finder_find_in_dir(full_path, filelist, expression);
-        } else if (dent->d_type == DT_LNK) {
-            stat(full_path, file_stat);
-            if (S_ISDIR(file_stat->st_mode))
-                filelist = finder_find_in_dir(full_path, filelist, expression);
-            else if (validator_validate(dent->d_name, file_stat, expression)) {
-                if (finder_hash_exist(file_stat->st_ino))
-                    continue;
 
-                finder_hash_add(file_stat->st_ino);
-                filelist = finder_add_found_file(full_path, filelist);
-            }
-
-        } else if (dent->d_type == DT_REG) {
-            stat(full_path, file_stat);
-            if (finder_hash_exist(file_stat->st_ino))
-                continue;
-            if (validator_validate(dent->d_name, file_stat, expression)) {
-                finder_hash_add(dent->d_ino);
-                filelist = finder_add_found_file(full_path, filelist);
-            }
-        }
+        filelist = finder_process_dent(dent, full_path, filelist, expression);
     }
 
-    free(file_stat);
     closedir(d);
 
     return filelist;
