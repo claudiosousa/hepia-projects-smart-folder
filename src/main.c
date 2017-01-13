@@ -10,6 +10,7 @@
 #include "ipc.h"
 #include "parser.h"
 #include "smart_folder.h"
+#include "io.h"
 
 /**
  * Prints program usage
@@ -38,6 +39,10 @@ int main(int argc, char *argv[]) {
     if (strncmp(argv[1], "-d", 3) != 0) {
         char *dst_path = argv[1];
         char *search_path = argv[2];
+        char dst_path_abs[IO_PATH_MAX_SIZE] = "";
+        char search_path_abs[IO_PATH_MAX_SIZE] = "";
+        realpath(dst_path, dst_path_abs);
+        realpath(search_path, search_path_abs);
 
         // Fork
         pid_t child_pid = fork();
@@ -57,12 +62,12 @@ int main(int argc, char *argv[]) {
                 return EXIT_FAILURE;
             }
         }
-        smart_folder_t *smart_folder = smart_folder_create(dst_path, search_path, expression);
+        smart_folder_t *smart_folder = smart_folder_create(dst_path_abs, search_path_abs, expression);
         if (smart_folder == NULL)
             return EXIT_FAILURE;
 
         // Setup watch
-        if (ipc_set_watch(dst_path, (ipc_stop_callback)smart_folder_stop, smart_folder)) {
+        if (ipc_set_watch(dst_path_abs, (ipc_stop_callback)smart_folder_stop, smart_folder)) {
             return EXIT_FAILURE;
         }
 
@@ -75,8 +80,10 @@ int main(int argc, char *argv[]) {
     // Kill mode
     else {
         char *dst_path = argv[2];
+        char dst_path_abs[IO_PATH_MAX_SIZE] = "";
+        realpath(dst_path, dst_path_abs);
 
-        if (ipc_stop_watch(dst_path)) {
+        if (ipc_stop_watch(dst_path_abs)) {
             return EXIT_FAILURE;
         }
     }
