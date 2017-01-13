@@ -13,9 +13,6 @@ finder
 Logger:
  - replace all err and log message to calls to this configurable module. INFO,ERROR, DEBUG (precompile constant) DAVID
 
-smart_folder
- - if cannot be instanciated: free parser instance DAVID
-
 Validator:
  - put 0b1111 in named constant: CLAUDIO
 

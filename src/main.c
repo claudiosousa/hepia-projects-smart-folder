@@ -64,6 +64,9 @@ int main(int argc, char *argv[]) {
         }
         searchfolder_t *searchfolder = searchfolder_create(dst_path_abs, search_path_abs, expression);
         if (searchfolder == NULL)
+            if (expression != NULL) {
+                parser_free(expression);
+            }
             return EXIT_FAILURE;
 
         // Setup watch
