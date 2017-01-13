@@ -1,14 +1,14 @@
 FLAGS=-g -ggdb -lm -Wall -Wextra -Werror -std=c99 -D_POSIX_SOURCE -D_GNU_SOURCE
 LIBS=
 
-searchfolder: main.c ipc.o smart_folder.o parser.o validator.o finder.o linker.o io.o
+searchfolder: main.c ipc.o searchfolder.o parser.o validator.o finder.o linker.o io.o
 	gcc $(FLAGS) -o searchfolder main.c *.o $(LIBS)
 
 ipc.o: ipc.c ipc.h
 	gcc $(FLAGS) -c ipc.c
 
-smart_folder.o: smart_folder.c smart_folder.h
-	gcc $(FLAGS) -c smart_folder.c
+searchfolder.o: searchfolder.c searchfolder.h
+	gcc $(FLAGS) -c searchfolder.c
 
 parser.o: parser.c parser.h
 	gcc $(FLAGS) -c parser.c

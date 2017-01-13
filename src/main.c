@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include "ipc.h"
 #include "parser.h"
-#include "smart_folder.h"
+#include "searchfolder.h"
 #include "io.h"
 
 /**
@@ -62,19 +62,19 @@ int main(int argc, char *argv[]) {
                 return EXIT_FAILURE;
             }
         }
-        smart_folder_t *smart_folder = smart_folder_create(dst_path_abs, search_path_abs, expression);
-        if (smart_folder == NULL)
+        searchfolder_t *searchfolder = searchfolder_create(dst_path_abs, search_path_abs, expression);
+        if (searchfolder == NULL)
             return EXIT_FAILURE;
 
         // Setup watch
-        if (ipc_set_watch(dst_path_abs, (ipc_stop_callback)smart_folder_stop, smart_folder)) {
+        if (ipc_set_watch(dst_path_abs, (ipc_stop_callback)searchfolder_stop, searchfolder)) {
             if (expression != NULL) {
                 parser_free(expression);
             }
             return EXIT_FAILURE;
         }
 
-        smart_folder_start(smart_folder);
+        searchfolder_start(searchfolder);
 
         if (expression != NULL)
             parser_free(expression);

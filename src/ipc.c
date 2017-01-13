@@ -12,7 +12,7 @@
 #include "io.h"
 
 #define IPC_MAX_PID_SIZE 10
-#define IPC_HOME_PATH "/.smartfolder/"
+#define IPC_HOME_PATH "/.searchfolder/"
 #define IPC_RUN_PATH "/run/"
 #define IPC_HOME_RUN_PATH IPC_HOME_PATH IPC_RUN_PATH
 

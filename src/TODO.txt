@@ -4,7 +4,6 @@ GLOBAL:
     - DAVID: main, io, logger, ipc, linker
 
 IPC:
-  - incoherence between binary name and folder created within $HOME. Use searchfolder everywhere DAVID
   - replace SIGNAL api DAVID
 
 finder
