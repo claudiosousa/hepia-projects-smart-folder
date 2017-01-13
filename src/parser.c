@@ -1,10 +1,10 @@
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <math.h>
 #include <pwd.h>
 #include <grp.h>
 #include "parser.h"
+#include "logger.h"
 
 #define CRITERIA_COUNT 8
 #define OPERATORS_COUNT 5
@@ -42,7 +42,7 @@ static parser_t *parse_group(char *argv) {
 
     struct group *pwd = getgrnam((char *)res->value); /* don't free, see https://linux.die.net/man/3/getgrnam */
     if (!pwd) {
-        fprintf(stderr, "Cannot find group '%s'\n", (char *)res->value);
+        logger_error("Parser: error: cannot find group '%s'\n", (char *)res->value);
         return NULL;
     }
     res->value = malloc(sizeof(uint));
@@ -59,7 +59,7 @@ static parser_t *parse_user(char *argv) {
 
     struct passwd *pwd = getpwnam((char *)res->value); /* don't free, see https://linux.die.net/man/3/getpwnam */
     if (!pwd) {
-        fprintf(stderr, "Cannot find user '%s'\n", (char *)res->value);
+        logger_error("Parser: error: cannot find user '%s'\n", (char *)res->value);
         return NULL;
     }
     res->value = malloc(sizeof(uint));

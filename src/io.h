@@ -36,11 +36,19 @@ int io_file_read_content(char *path, char *dst_buffer, size_t buf_size);
 
 /**
  * Write the content in the specified path
- * @param path File path to read
+ * @param path File path to write in
  * @param content Content to put in the file
  * @return Success result, return 0 only when it has fully written it, 1 if any error occurs
  */
 int io_file_write(char *path, char *content);
+
+/**
+ * Write the content in the specified path
+ * @param fd file descriptor to write in
+ * @param content Content to put in the file descriptor
+ * @return Success result, return 0 only when it has fully written it, 1 if any error occurs
+ */
+int io_file_write_fd(int fd, char *content);
 
 /**
  * Delete a file

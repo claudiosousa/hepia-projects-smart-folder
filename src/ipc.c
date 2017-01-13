@@ -10,6 +10,7 @@
 #include <inttypes.h>
 #include "ipc.h"
 #include "io.h"
+#include "logger.h"
 
 #define IPC_MAX_PID_SIZE 10
 #define IPC_HOME_PATH "/.searchfolder/"
@@ -30,7 +31,7 @@ static int ipc_get_pid_file_path(char *dst_path, char *pid_path) {
     // Get user home directory root
     char *home_dir = getenv("HOME");
     if (home_dir == NULL) {
-        fprintf(stderr, "IPC: Error: Invalid user home directory");
+        logger_perror("IPC: Error: Invalid user home directory");
         return 1;
     }
     strncpy(pid_path, home_dir, IO_PATH_MAX_SIZE);
@@ -65,7 +66,7 @@ int ipc_set_watch(char *dst_path, ipc_stop_callback cb, void * cb_arg) {
     act.sa_flags = 0;
     sigemptyset(&act.sa_mask);
     if ((sigaction(SIGINT, &act, NULL) == -1) || (sigaction(SIGTERM, &act, NULL) == -1)) {
-        perror("IPC: ERROR: failed to register signal");
+        logger_perror("IPC: ERROR: failed to register signal");
         return 1;
     }
     strncpy(g_watch_dst_path, dst_path, IO_PATH_MAX_SIZE);
@@ -82,16 +83,16 @@ int ipc_set_watch(char *dst_path, ipc_stop_callback cb, void * cb_arg) {
     io_directory_create_parent(pid_path);
 
     if (io_file_exists(pid_path)) {
-        fprintf(stderr, "IPC: Error: there already is a watch for '%s'", dst_path);
+        logger_error("IPC: Error: there already is a watch for '%s'\n", dst_path);
         return 1;
     }
 
     // Get our PID and write it to the constructed file
     char pid_str[IPC_MAX_PID_SIZE] = "";
-    sprintf(pid_str, "%d", getpid());
+    snprintf(pid_str, IPC_MAX_PID_SIZE, "%d", getpid());
 
     if (io_file_write(pid_path, pid_str) != 0) {
-        fprintf(stderr, "IPC: Error: cannot write pid to file '%s'\n", pid_path);
+        logger_error("IPC: Error: cannot write pid to file '%s'\n", pid_path);
         return 1;
     }
 
@@ -105,7 +106,7 @@ int ipc_remove_watch(char *dst_path) {
     }
 
     if (io_file_delete(pid_path)) {
-        fprintf(stderr, "IPC: Error: cannot delete pid file '%s'\n", pid_path);
+        logger_error("IPC: Error: cannot delete pid file '%s'\n", pid_path);
         return 1;
     }
 
@@ -120,20 +121,20 @@ int ipc_stop_watch(char *dst_path) {
 
     char pid_str[IPC_MAX_PID_SIZE];
     if (io_file_read_content(pid_path, pid_str, IPC_MAX_PID_SIZE) != 0) {
-        fprintf(stderr, "IPC: Error: cannot get pid of instance for this path '%s'\n", dst_path);
+        logger_error("IPC: Error: cannot get pid of instance for this path '%s'\n", dst_path);
         return 1;
     }
 
     unsigned int pid = strtoimax(pid_str, NULL, 10);
     if (pid == 0) {
-        fprintf(stderr, "IPC: Error: invalid PID data in '%s'\n", pid_path);
+        logger_error("IPC: Error: invalid PID data in '%s'\n", pid_path);
         return 1;
     }
 
     // Kill process SIGTERM
     if (kill(pid, SIGTERM)) {
-        fprintf(stderr, "IPC: Error: cannot kill process '%d'\n", pid);
-        perror("kill failed");
+        logger_error("IPC: Error: cannot kill process '%d'\n", pid);
+        logger_perror("  ");
 
         // smartfolder not running, we remove the watch file
         ipc_remove_watch(dst_path);

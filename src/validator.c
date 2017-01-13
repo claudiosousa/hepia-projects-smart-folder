@@ -1,8 +1,8 @@
-#include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <sys/types.h>
 #include "validator.h"
+#include "logger.h"
 
 #define CRITERIA_COUNT 11
 #define PERM_OPTIONS_COUNT 9
@@ -105,7 +105,7 @@ validate_fn_t validators[CRITERIA_COUNT] = {&validate_or,    &validate_and,   &v
 
 bool validate_exp_token(char *filename, struct stat *filestat, parser_t *exp) {
     if (!exp) {
-        fprintf(stderr, "Expected expression but found NULL");
+        logger_error("Validator: error: expected expression but found NULL\n");
         return false;
     }
 

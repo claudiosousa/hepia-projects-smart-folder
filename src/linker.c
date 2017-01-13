@@ -4,6 +4,7 @@
 #include <libgen.h>
 #include "linker.h"
 #include "io.h"
+#include "logger.h"
 
 /**
  * Delete all invalid or not found link in the given list,
@@ -20,7 +21,7 @@ void linker_purge(char *dst_path, finder_t *files) {
 
     for (unsigned int i = 0; i < links->count; i++) {
         found = false;
-        sprintf(link_del, "%s%c%s", dst_path, IO_PATH_SEP, links->files[i]);
+        snprintf(link_del, IO_PATH_MAX_SIZE, "%s%c%s", dst_path, IO_PATH_SEP, links->files[i]);
         realpath(link_del, real_link_del);
 
         for (unsigned int j = 0; (j < files->count) && (!found); j++) {
@@ -31,7 +32,7 @@ void linker_purge(char *dst_path, finder_t *files) {
 
         if (!found) {
             if (io_file_delete(link_del) != 0) {
-                fprintf(stderr, "Linker error: cannot purge '%s'\n", link_del);
+                logger_error("Linker error: cannot purge '%s'\n", link_del);
             }
         }
     }
@@ -57,18 +58,18 @@ void linker_update(char *dst_path, finder_t *files) {
         }
 
         if (dup_count > 0) {
-            sprintf(filename_final, "%s.%d", basename(files->files[i]), dup_count);
+            snprintf(filename_final, IO_PATH_MAX_SIZE, "%s.%d", basename(files->files[i]), dup_count);
         }
-        sprintf(filepath_final, "%s%c%s", dst_path, IO_PATH_SEP, filename_final);
+        snprintf(filepath_final, IO_PATH_MAX_SIZE, "%s%c%s", dst_path, IO_PATH_SEP, filename_final);
 
         if (!io_link_exists(filepath_final)) {
             realpath(files->files[i], real_dst_filepath);
             symlink(real_dst_filepath, filepath_final);
         }
 
-        printf("File found: %s | %s | %d\n", files->files[i], filename_final, dup_count);
+        logger_debug("File found '%s'\n", files->files[i]);
     }
-    printf("====== ITERATION FINISHED =======\n");
+    logger_debug("====== ITERATION FINISHED =======\n");
 
     linker_purge(dst_path, files);
 }

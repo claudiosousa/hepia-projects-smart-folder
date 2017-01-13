@@ -1,10 +1,10 @@
-#include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include "searchfolder.h"
 #include "linker.h"
 #include "finder.h"
 #include "io.h"
+#include "logger.h"
 
 const int LOOP_INTERVAL = 5;  // seconds
 
@@ -17,11 +17,11 @@ struct searchfolder_t {
 
 searchfolder_t* searchfolder_create(char* dst_path, char* search_path, parser_t* expression) {
     if (io_directory_exists(dst_path)) {
-        fprintf(stderr, "Destination already exists!");
+        logger_error("Destination '%s' already exists\n", dst_path);
         return NULL;
     }
     if (!io_directory_exists(search_path)) {
-        fprintf(stderr, "Search path does not exist or is not a directory!");
+        logger_error("Search path '%s' does not exist or is not a directory\n", search_path);
         return NULL;
     }
 
@@ -36,7 +36,7 @@ searchfolder_t* searchfolder_create(char* dst_path, char* search_path, parser_t*
 
 void searchfolder_start(searchfolder_t* searchfolder) {
     if (io_directory_create(searchfolder->dst_path) != 0) {
-        fprintf(stderr, "Impossible to create destination path!");
+        logger_error("Impossible to create destination path '%s'\n", searchfolder->dst_path);
         return;
     }
 
@@ -51,7 +51,7 @@ void searchfolder_start(searchfolder_t* searchfolder) {
     }
 
     if (io_directory_delete(searchfolder->dst_path) != 0) {
-        fprintf(stderr, "Impossible to delete searchfolder path");
+        logger_error("Impossible to delete destination path '%s'\n", searchfolder->dst_path);
     }
     free(searchfolder);
 }

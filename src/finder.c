@@ -1,10 +1,10 @@
-#include <stdio.h>
 #include <dirent.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include "finder.h"
 #include "io.h"
+#include "logger.h"
 #include "vendor/uthash.h"
 
 // remove MAX_FILES
@@ -49,7 +49,7 @@ static void finder_hash_clear() {
 static void finder_find_in_dir(char *dir, finder_t *finder_files, parser_t *expression) {
     DIR *d = opendir(dir);
     if (d == NULL) {
-        perror("Failled to open directory");
+        logger_perror("Finder: error: failed to open directory");
         return;
     }
 

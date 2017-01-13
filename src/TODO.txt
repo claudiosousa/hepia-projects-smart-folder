@@ -7,9 +7,6 @@ finder
   - if 100000 files found, stop searching for more !!! CLAUDIO
   - cleanup  finder_find_in_dir !! CLAUDIO
 
-Logger:
- - replace all err and log message to calls to this configurable module. INFO,ERROR, DEBUG (precompile constant) DAVID
-
 Validator:
  - put 0b1111 in named constant: CLAUDIO
 

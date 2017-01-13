@@ -11,17 +11,18 @@
 #include "parser.h"
 #include "searchfolder.h"
 #include "io.h"
+#include "logger.h"
 
 /**
  * Prints program usage
  * @param prog_name Program name
  */
 void print_usage(char *prog_name) {
-    fprintf(stderr, "Error: incorrect arguments\n");
+    logger_error("Error: incorrect arguments\n");
 
-    printf("Usage:\n");
-    printf("\t%s <dir_name> <search_path> [expression]\n", prog_name);
-    printf("\t%s -d <dir_name>\n", prog_name);
+    logger_info("Usage");
+    logger_info("\t%s <dir_name> <search_path> [expression]\n", prog_name);
+    logger_info("\t%s -d <dir_name>\n", prog_name);
 }
 
 /**
@@ -47,7 +48,7 @@ int main(int argc, char *argv[]) {
         // Fork
         pid_t child_pid = fork();
         if (child_pid == -1) {
-            perror("Fork failed");
+            logger_perror("Fork failed");
             return EXIT_FAILURE;
         } else if (child_pid != 0) {
             return EXIT_SUCCESS;

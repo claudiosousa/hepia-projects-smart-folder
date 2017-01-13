@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include "io.h"
+#include "logger.h"
 
 #define IO_TMP_BUF_SIZE 4096
 #define IO_DEFAULT_PERM 0644
@@ -25,7 +26,7 @@ int io_file_read_content(char *path, char *dst_buffer, size_t buf_size) {
 
     int fd = open(path, O_RDONLY);
     if (fd == -1) {
-        perror("Open failed");
+        logger_perror("Open failed");
         return 1;
     }
 
@@ -41,29 +42,36 @@ int io_file_read_content(char *path, char *dst_buffer, size_t buf_size) {
 }
 
 int io_file_write(char *path, char *content) {
-    (void)content;
-    int content_size = strlen(content);
-
     int fd = open(path, O_WRONLY | O_CREAT, IO_DEFAULT_PERM);
     if (fd == -1) {
-        perror("Open failed");
+        logger_perror("Open failed");
         return 1;
     }
 
-    int write_size = write(fd, content, content_size);
-    if (write_size != content_size) {
-        perror("Write failed");
+    if (io_file_write_fd(fd, content) != 0) {
+        close(fd);
         return 1;
     }
 
     close(fd);
+    return 0;
+}
+
+int io_file_write_fd(int fd, char *content) {
+    int content_size = strlen(content);
+
+    int write_size = write(fd, content, content_size);
+    if (write_size != content_size) {
+        logger_perror("Write failed");
+        return 1;
+    }
 
     return 0;
 }
 
 int io_file_delete(char *path) {
     if (unlink(path)) {
-        perror("Unlink failed");
+        logger_perror("Unlink failed");
         return 1;
     }
 
@@ -83,13 +91,13 @@ io_file_list * io_directory_get_all(char *path) {
 
     dir = opendir(path);
     if (dir == NULL) {
-        perror("Open dir failed");
+        logger_perror("Open dir failed");
         return NULL;
     }
 
     filelist = malloc(sizeof(io_file_list));
     if (filelist == NULL) {
-        perror("file_list malloc failed");
+        logger_perror("file_list malloc failed");
         return NULL;
     }
     filelist->count = 0;
@@ -111,7 +119,7 @@ void io_directory_get_all_free(io_file_list *filelist) {
 
 int io_directory_create(char *path) {
     if (mkdir(path, IO_DEFAULT_MODE) != 0) {
-        perror("Mkdir failed");
+        logger_perror("Mkdir failed");
         return 1;
     }
 
@@ -148,7 +156,7 @@ int io_directory_delete(char *path) {
     io_directory_get_all_free(files);
 
     if (rmdir(path) != 0) {
-        perror("Rmdir failed");
+        logger_perror("Rmdir failed");
         return 1;
     }
 
