@@ -7,14 +7,11 @@ finder
   - if 100000 files found, stop searching for more !!! CLAUDIO
   - cleanup  finder_find_in_dir !! CLAUDIO
 
-Validator:
- - put 0b1111 in named constant: CLAUDIO
-
 Tests:
- - put big file documenttation on top. comment frees no done
+ - put big file documenttation on top. comment frees not done
 
 AT END:
-  - usage of system functions instead of C lib functions !!!!!!
+  - verify usage of system functions instead of C lib functions !!!!!!
      - opendir vs open & getdents
      - fopen vs open,etc
 

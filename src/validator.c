@@ -6,6 +6,7 @@
 
 #define CRITERIA_COUNT 11
 #define PERM_OPTIONS_COUNT 9
+#define CRITERIA_ORDER_MASK 0b1111
 
 // permission bit to flag
 typedef enum {
@@ -109,7 +110,7 @@ bool validate_exp_token(char *filename, struct stat *filestat, parser_t *exp) {
         return false;
     }
 
-    return validators[exp->crit & 0b1111](filename, filestat, exp);
+    return validators[exp->crit & CRITERIA_ORDER_MASK](filename, filestat, exp);
 }
 
 bool validator_validate(char *filename, struct stat *filestat, parser_t *exp) {

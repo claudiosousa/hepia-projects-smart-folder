@@ -7,20 +7,19 @@
 #include "logger.h"
 #include "vendor/uthash.h"
 
-// remove MAX_FILES
-const int MAX_FILES = 10000;
-
 static struct file_t *files = NULL;
 typedef struct file_t {
     long unsigned int id; /* the key */
     UT_hash_handle hh;    /* makes this structure hashable */
 } file_t;
 
-// replace by inline handling on links
-static void finder_add_found_file(char *file, finder_t *finder_files) {
-    char *file_cpy = malloc(sizeof(char) * (strlen(file) + 1));
-    strcpy(file_cpy, file);
-    finder_files->files[finder_files->count++] = file_cpy;
+static finder_t *finder_add_found_file(char *filename, finder_t *currentfile) {
+    finder_t *newfile = (finder_t *)malloc(sizeof(finder_t));
+    char *filename_cpy = malloc(sizeof(char) * (strlen(filename) + 1));
+    strcpy(filename_cpy, filename);
+    newfile->filename = filename_cpy;
+    newfile->next = currentfile;
+    return newfile;
 }
 
 static bool finder_hash_exist(long unsigned int inode) {
@@ -46,18 +45,18 @@ static void finder_hash_clear() {
     files = NULL;
 }
 
-static void finder_find_in_dir(char *dir, finder_t *finder_files, parser_t *expression) {
+static finder_t *finder_find_in_dir(char *dir, finder_t *filelist, parser_t *expression) {
     DIR *d = opendir(dir);
     if (d == NULL) {
         logger_perror("Finder: error: failed to open directory");
-        return;
+        return filelist;
     }
 
     struct stat *file_stat = malloc(sizeof(struct stat));
     stat(dir, file_stat);
 
     if (finder_hash_exist(file_stat->st_ino))
-        return;
+        return filelist;
 
     finder_hash_add(file_stat->st_ino);
 
@@ -73,17 +72,17 @@ static void finder_find_in_dir(char *dir, finder_t *finder_files, parser_t *expr
         if (dent->d_type == DT_DIR) {
             if (strcmp(dent->d_name, ".") == 0 || strcmp(dent->d_name, "..") == 0)
                 continue;
-            finder_find_in_dir(full_path, finder_files, expression);
+            filelist = finder_find_in_dir(full_path, filelist, expression);
         } else if (dent->d_type == DT_LNK) {
             stat(full_path, file_stat);
             if (S_ISDIR(file_stat->st_mode))
-                finder_find_in_dir(full_path, finder_files, expression);
+                filelist = finder_find_in_dir(full_path, filelist, expression);
             else if (validator_validate(dent->d_name, file_stat, expression)) {
                 if (finder_hash_exist(file_stat->st_ino))
                     continue;
 
                 finder_hash_add(file_stat->st_ino);
-                finder_add_found_file(full_path, finder_files);
+                filelist = finder_add_found_file(full_path, filelist);
             }
 
         } else if (dent->d_type == DT_REG) {
@@ -92,30 +91,30 @@ static void finder_find_in_dir(char *dir, finder_t *finder_files, parser_t *expr
                 continue;
             if (validator_validate(dent->d_name, file_stat, expression)) {
                 finder_hash_add(dent->d_ino);
-                finder_add_found_file(full_path, finder_files);
+                filelist = finder_add_found_file(full_path, filelist);
             }
         }
     }
 
     free(file_stat);
     closedir(d);
+
+    return filelist;
 }
 
 finder_t *finder_find(char *search_path, parser_t *expression) {
-    finder_t *finder_files = (finder_t *)malloc(sizeof(finder_t));
-    finder_files->files = (char **)malloc(sizeof(char *) * MAX_FILES);
-    finder_files->count = 0;
-
-    finder_find_in_dir(search_path, finder_files, expression);
+    finder_t *foundfiles = finder_find_in_dir(search_path, NULL, expression);
 
     finder_hash_clear();
-    return finder_files;
+    return foundfiles;
 }
 
 void finder_free(finder_t *finder) {
-    for (uint i = 0; i < finder->count; i++) {
-        free(finder->files[i]);
+    finder_t *previous;
+    while (finder) {
+        previous = finder;
+        finder = finder->next;
+        free(previous->filename);
+        free(previous);
     }
-    free(finder->files);
-    free(finder);
 }
