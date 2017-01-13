@@ -68,6 +68,9 @@ int main(int argc, char *argv[]) {
 
         // Setup watch
         if (ipc_set_watch(dst_path_abs, (ipc_stop_callback)smart_folder_stop, smart_folder)) {
+            if (expression != NULL) {
+                parser_free(expression);
+            }
             return EXIT_FAILURE;
         }
 
