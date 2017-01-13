@@ -35,9 +35,9 @@ smart_folder_t* smart_folder_create(char* dst_path, char* search_path, parser_t*
 }
 
 void smart_folder_start(smart_folder_t* smart_folder) {
-    if (io_directory_create(dst_path) != 0) {
+    if (io_directory_create(smart_folder->dst_path) != 0) {
         fprintf(stderr, "Impossible to create destination path!");
-        return NULL;
+        return;
     }
 
     smart_folder->running = true;
