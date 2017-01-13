@@ -3,11 +3,11 @@ GLOBAL:
     - CLAUDIO: finder, smart_folder, validator, parser
     - DAVID: main, io, logger, ipc, linker
 
-finder
-  - cleanup  finder_find_in_dir !! CLAUDIO
-
 Linker:
    - fix bug 'remove 1 file src, duplicates files in dest' cf email !!! DAVID
+
+validator:
+ - discuss with David about renaming to parser_validator
 
 Tests:
  - put big file documenttation on top. comment frees not done
