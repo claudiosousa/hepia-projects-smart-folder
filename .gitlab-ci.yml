@@ -1,6 +1,9 @@
-buil_searchfolder:
+image: alpine
+
+build_searchfolder:
   stage: build
   script:
+  - apk update && apk add make
   - make src
   only:
   - master
@@ -12,12 +15,10 @@ unit_tests:
   only:
   - master
 
-image: alpine
-
 pages:
   stage: deploy
   script:
-  - apk update && apk add doxygen && apk add graphviz
+  - apk add doxygen && apk add graphviz
   - cd doxygen 
   - doxygen Doxyfile
   - cd ..
