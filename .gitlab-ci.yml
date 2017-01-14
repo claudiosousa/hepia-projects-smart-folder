@@ -3,7 +3,7 @@ image: alpine
 build_searchfolder:
   stage: build
   script:
-  - apk update && apk add make
+  - apk update && apk add make bash build-base gcc
   - make src
   only:
   - master
@@ -18,7 +18,7 @@ unit_tests:
 pages:
   stage: deploy
   script:
-  - apk add doxygen && apk add graphviz
+  - apk add doxygen graphviz
   - cd doxygen 
   - doxygen Doxyfile
   - cd ..
