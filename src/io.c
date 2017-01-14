@@ -83,7 +83,6 @@ bool io_directory_exists(char *path) {
     return (stat(path, &buffer) == 0) && S_ISDIR(buffer.st_mode);
 }
 
-// TODO: use code of finder for recursive
 io_file_list * io_directory_get_all(char *path) {
     io_file_list *filelist = NULL;
     DIR *dir = NULL;
@@ -102,10 +101,14 @@ io_file_list * io_directory_get_all(char *path) {
     }
     filelist->count = 0;
 
-    while ((entry = readdir(dir)) != NULL) {
+    while (((entry = readdir(dir)) != NULL) && (filelist->count < IO_DIR_MAX_FILES)) {
         if ((strncmp(entry->d_name, ".", 2) != 0) && (strncmp(entry->d_name, "..", 3) != 0)) {
             strncpy(filelist->files[filelist->count++], entry->d_name, IO_PATH_MAX_SIZE);
         }
+    }
+    if (filelist->count >= IO_DIR_MAX_FILES)
+    {
+        logger_error("IO: error: maximum file number exceeded: '%d'\n", IO_DIR_MAX_FILES);
     }
 
     closedir(dir);
@@ -146,7 +149,6 @@ int io_directory_create_parent(char *path) {
 }
 
 int io_directory_delete(char *path) {
-    // TODO: use code from finder for recursive
     char file_del[IO_PATH_MAX_SIZE] = "";
     io_file_list * files = io_directory_get_all(path);
     for (unsigned int i = 0; i < files->count; i++) {
