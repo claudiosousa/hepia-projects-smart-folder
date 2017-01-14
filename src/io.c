@@ -26,7 +26,7 @@ int io_file_read_content(char *path, char *dst_buffer, size_t buf_size) {
 
     int fd = open(path, O_RDONLY);
     if (fd == -1) {
-        logger_perror("Open failed");
+        logger_perror("IO: error: open failed");
         return 1;
     }
 
@@ -44,7 +44,7 @@ int io_file_read_content(char *path, char *dst_buffer, size_t buf_size) {
 int io_file_write(char *path, char *content) {
     int fd = open(path, O_WRONLY | O_CREAT, IO_DEFAULT_PERM);
     if (fd == -1) {
-        logger_perror("Open failed");
+        logger_perror("IO: error: open failed");
         return 1;
     }
 
@@ -62,7 +62,7 @@ int io_file_write_fd(int fd, char *content) {
 
     int write_size = write(fd, content, content_size);
     if (write_size != content_size) {
-        logger_perror("Write failed");
+        logger_perror("IO: error: write failed");
         return 1;
     }
 
@@ -71,7 +71,7 @@ int io_file_write_fd(int fd, char *content) {
 
 int io_file_delete(char *path) {
     if (unlink(path)) {
-        logger_perror("Unlink failed");
+        logger_perror("IO: error: unlink failed");
         return 1;
     }
 
@@ -91,13 +91,13 @@ io_file_list * io_directory_get_all(char *path) {
 
     dir = opendir(path);
     if (dir == NULL) {
-        logger_perror("Open dir failed");
+        logger_perror("IO: error: open dir failed");
         return NULL;
     }
 
     filelist = malloc(sizeof(io_file_list));
     if (filelist == NULL) {
-        logger_perror("file_list malloc failed");
+        logger_perror("IO: error: file_list malloc failed");
         return NULL;
     }
     filelist->count = 0;
@@ -119,7 +119,7 @@ void io_directory_get_all_free(io_file_list *filelist) {
 
 int io_directory_create(char *path) {
     if (mkdir(path, IO_DEFAULT_MODE) != 0) {
-        logger_perror("Mkdir failed");
+        logger_perror("IO: error: mkdir failed");
         return 1;
     }
 
@@ -156,7 +156,7 @@ int io_directory_delete(char *path) {
     io_directory_get_all_free(files);
 
     if (rmdir(path) != 0) {
-        logger_perror("Rmdir failed");
+        logger_perror("IO: error: rmdir failed");
         return 1;
     }
 
