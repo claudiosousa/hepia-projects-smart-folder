@@ -1,5 +1,3 @@
-image: alpine
-
 buil_searchfolder:
   stage: build
   script:
@@ -13,6 +11,8 @@ unit_tests:
   - make tests
   only:
   - master
+
+image: alpine
 
 pages:
   stage: deploy
