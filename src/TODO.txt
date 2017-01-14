@@ -1,6 +1,6 @@
 GLOBAL:
  -  DOCUMENT FUNCTIONS
-    - CLAUDIO: finder, smart_folder, validator, parser
+    - CLAUDIO: finder, smart_folder, parser
     - DAVID: main, io, logger, ipc, linker
 
 Linker:

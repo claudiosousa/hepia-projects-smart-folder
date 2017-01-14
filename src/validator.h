@@ -1,7 +1,5 @@
 /** Validates files against a parsed criteria expression.
     @file
-
-    Contains the logic to evaluate each possible critera and operator.
  */
 #ifndef VALIDATOR_H
 #define VALIDATOR_H
