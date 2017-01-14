@@ -6,11 +6,9 @@ architecture document fixes:
  - time postfix is case insensitive
  - add flow diagram
 
-IMplementattion doc:
+IMplementattion doc to add to doxygen output:
  - tester doxygen
- - max  100000 files output
  -  unit test
   - Describe singleton IPC
   - Describe callback/args
-  - describe bitwise operations
 

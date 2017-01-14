@@ -52,7 +52,7 @@ typedef enum {
 
 /** The comparator used to evaluate criteria values.
 
-    Calculated for criteria that accepts the \pm in the values.
+    Calculated for criteria that accepts the +- in the values.
       - Example: `-SIZE +20k` or `-NAME -.txt`
 
     @see parser_t

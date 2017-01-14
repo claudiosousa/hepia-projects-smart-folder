@@ -7,6 +7,8 @@
      - boolean operators priority
      - parentheses forced priority
      - combinations of all above
+
+    /!\ attention: to keep the code as concice and readable as possible, allocated memory is not freed
 */
 
 #include <math.h>

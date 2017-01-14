@@ -1,5 +1,5 @@
 <map id="io.h" name="io.h">
-<area shape="rect" id="node2" href="$finder_8c_source.html" title="finder.c" alt="" coords="5,80,71,107"/>
+<area shape="rect" id="node2" href="$finder_8c.html" title="The finder retrives the list of files matching an expression. " alt="" coords="5,80,71,107"/>
 <area shape="rect" id="node3" href="$io_8c.html" title="Helpers function around system calls for IO purpose. " alt="" coords="95,80,138,107"/>
 <area shape="rect" id="node4" href="$ipc_8c.html" title="Manage communication between different instance of smartfolder. " alt="" coords="162,80,213,107"/>
 <area shape="rect" id="node5" href="$linker_8c.html" title="The linker maintains an updated list of links to the found files. " alt="" coords="237,80,301,107"/>

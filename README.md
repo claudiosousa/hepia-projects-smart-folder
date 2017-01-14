@@ -15,4 +15,3 @@ The criteria above may be combined using logical operators (*and, or, not*) or p
 
 
 For further information please have a look at the [architecture document](https://gitlab.com/hepia-projects/smart-folder/blob/master/report/SmartFolder-architecture-document.pdf).
-

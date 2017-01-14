@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['io_5ffile_5flist',['io_file_list',['../io_8h.html#aff2e2b3b9ce6a73d29d9a69f32a4c8ee',1,'io.h']]]
+  ['file_5ft',['file_t',['../finder_8c.html#a67703743f2db513ba0def3664b12c985',1,'finder.c']]],
+  ['finder_5ft',['finder_t',['../finder_8h.html#a0a83931979ff8debdb25fb5b4c486af9',1,'finder.h']]]
 ];

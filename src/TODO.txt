@@ -1,15 +1,13 @@
 GLOBAL:
  -  DOCUMENT FUNCTIONS
-    - CLAUDIO: finder, smart_folder, parser
+    - CLAUDIO: smart_folder,
 
 validator:
  - discuss with David about renaming to parser_validator
-
-Tests:
- - put big file documenttation on top. comment frees not done
 
 AT END:
   - verify usage of system functions instead of C lib functions !!!!!!
      - opendir vs open & getdents
      - fopen vs open,etc
+  - verify error codes return by system calls
 

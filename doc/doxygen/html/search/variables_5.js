@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['validators',['validators',['../validator_8c.html#a9839e177025c582f4ad9d7c007141636',1,'validator.c']]],
-  ['value',['value',['../structparser__t.html#a0f61d63b009d0880a89c843bd50d8d76',1,'parser_t']]]
+  ['next',['next',['../structfinder__t.html#a7db9cac9324009990f14b7f84bf47d3c',1,'finder_t::next()'],['../structparser__t.html#a044a5d882012dfdd9ea5e4f3a98fd8a2',1,'parser_t::next()']]]
 ];
