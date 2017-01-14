@@ -1,3 +1,9 @@
+/** Parses a string expression and return a formal representation.
+    @file
+
+    Full unit test coverage
+*/
+
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
@@ -6,12 +12,29 @@
 #include "parser.h"
 #include "logger.h"
 
+/** Number of criteria belonging to the CRITERIA criteria type
+    @see parser_crit_t
+    @see parser_crit_type_t
+ */
 #define CRITERIA_COUNT 8
+
+/** Number of criteria belonging to the OPERATOR criteria type
+    @see parser_crit_t
+    @see parser_crit_type_t
+ */
 #define OPERATORS_COUNT 5
+
+/** Symbol for MIN comparison operator. @see parser_comp_t*/
 #define MIN_OP '-'
+/** Symbol for MAX comparison operator. @see parser_comp_t*/
 #define MAX_OP '+'
 
-static parser_t *parse_base(char *argv, parser_crit_t criteria) {
+/** Parses an expression value and evaluates value prefix.
+    @param argv Argument for value token
+    @param criteria The criteria type to use
+    @returns The resulting `parser_t`instance
+ */
+static parser_t *parse_value(char *argv, parser_crit_t criteria) {
     parser_t *res = malloc(sizeof(parser_t));
     res->next = NULL;
     res->crit = criteria;
@@ -26,16 +49,18 @@ static parser_t *parse_base(char *argv, parser_crit_t criteria) {
     return res;
 }
 
+/** Parses NAME criteria.*/
 static parser_t *parse_name(char *argv) {
-    parser_t *res = parse_base(argv, NAME);
+    parser_t *res = parse_value(argv, NAME);
 
     if (res->comp == MAX)
         return NULL;
     return res;
 }
 
+/** Parses GROUP criteria.*/
 static parser_t *parse_group(char *argv) {
-    parser_t *res = parse_base(argv, GROUP);
+    parser_t *res = parse_value(argv, GROUP);
 
     if (res->comp != EXACT)
         return NULL;
@@ -51,8 +76,9 @@ static parser_t *parse_group(char *argv) {
     return res;
 }
 
+/** Parses USER criteria.*/
 static parser_t *parse_user(char *argv) {
-    parser_t *res = parse_base(argv, USER);
+    parser_t *res = parse_value(argv, USER);
 
     if (res->comp != EXACT)
         return NULL;
@@ -68,8 +94,9 @@ static parser_t *parse_user(char *argv) {
     return res;
 }
 
+/** Parses PERM criteria.*/
 static parser_t *parse_perm(char *argv) {
-    parser_t *res = parse_base(argv, PERM);
+    parser_t *res = parse_value(argv, PERM);
     if (res->comp == MAX)
         return NULL;
 
@@ -82,9 +109,10 @@ static parser_t *parse_perm(char *argv) {
     return res;
 }
 
-/*
-    @return the unity character. 0 if no unity char, -1 if error
-*/
+/** Extracts the unity character of the value.
+    @param exp The criteria value
+    @returns The unity character if found. 0 If no unity character found. -1 if error
+ */
 static char parse_exp_unity(char *exp) {
     int exp_len = strlen(exp);
     if (!exp_len)
@@ -102,10 +130,11 @@ static char parse_exp_unity(char *exp) {
     return last_char;
 }
 
+/** Parses SIZE criteria.*/
 static parser_t *parse_size(char *argv) {
     long K_BINARY = powl(2, 10);
 
-    parser_t *res = parse_base(argv, SIZE);
+    parser_t *res = parse_value(argv, SIZE);
 
     char last_char = parse_exp_unity((char *)res->value);
     if (last_char == -1)
@@ -134,8 +163,9 @@ static parser_t *parse_size(char *argv) {
     return res;
 }
 
+/** Parses TIME criteria.*/
 static parser_t *parse_time(char *argv, parser_crit_t criteria) {
-    parser_t *res = parse_base(argv, criteria);
+    parser_t *res = parse_value(argv, criteria);
 
     char last_char = parse_exp_unity((char *)res->value);
     if (last_char == -1)
@@ -165,18 +195,22 @@ static parser_t *parse_time(char *argv, parser_crit_t criteria) {
     return res;
 }
 
+/** Parses ATIME criteria.*/
 static parser_t *parse_atime(char *argv) {
     return parse_time(argv, ATIME);
 }
 
+/** Parses CTIME criteria.*/
 static parser_t *parse_ctime(char *argv) {
     return parse_time(argv, CTIME);
 }
 
+/** Parses MTIME criteria.*/
 static parser_t *parse_mtime(char *argv) {
     return parse_time(argv, MTIME);
 }
 
+/** Parses operator.*/
 static parser_t *parse_op(parser_crit_t op) {
     parser_t *res = malloc(sizeof(parser_t));
     res->value = NULL;
@@ -184,16 +218,50 @@ static parser_t *parse_op(parser_crit_t op) {
     return res;
 }
 
+/** Function pointer for token parser functions*/
 typedef parser_t *(*parse_fn_t)(char *);
+parser_t
+/** List of criteria string tokens.
+    The criteria in their string representation are used for recognizing then in the given expression.
+    @see parser_crit_t
+*/
+static char *criteria[CRITERIA_COUNT] = {"-name", "-group", "-user", "-perm", "-size", "-atime", "-ctime", "-mtime"};
 
-char *criteria[CRITERIA_COUNT] = {"-name", "-group", "-user", "-perm", "-size", "-atime", "-ctime", "-mtime"};
-parse_fn_t criteria_type[CRITERIA_COUNT] = {&parse_name, &parse_group, &parse_user,  &parse_perm,
-                                            &parse_size, &parse_atime, &parse_ctime, &parse_mtime};
+/** List of of criteria parsing functions.
+    When a token from `criteria` is found in the expression, the function in `criteria_type` at the same position is
+    used to parse the next criteria value.
 
-char *operator[OPERATORS_COUNT] = {"-not", "-and", "-or", "(", ")"};
-parser_crit_t operator_type[OPERATORS_COUNT] = {NOT, AND, OR, LPARENTHESIS, RPARENTHESIS};
+    @see parser_crit_t
+    @see parse_token
+*/
+static parse_fn_t criteria_type[CRITERIA_COUNT] = {&parse_name, &parse_group, &parse_user,  &parse_perm,
+                                                   &parse_size, &parse_atime, &parse_ctime, &parse_mtime};
 
-parser_t *parse_token(char **expression[], size_t *size) {
+/** List of operators and parenthesis string tokens.
+    Used for recognizing then in the given expression.
+
+    @see parser_crit_t
+    @see parse_token
+*/
+static char *operator[OPERATORS_COUNT] = {"-not", "-and", "-or", "(", ")"};
+
+/** List of operators and parenthesis matching the operators in `operator`.
+
+    @see parser_crit_t
+    @see parse_token
+*/
+static parser_crit_t operator_type[OPERATORS_COUNT] = {NOT, AND, OR, LPARENTHESIS, RPARENTHESIS};
+
+/** Parses a token in the expression.
+
+    The token in the expression in compared against `criteria` and `operator`.
+    Once a token has been recognized, the corresponding function in `criteria_type` or `parse_op` is called.
+
+    @param expression Pointer to the current token to be parsed
+    @param size Current tokens left to be parsed
+    @returns The corresponding `parser_t` instance
+*/
+static parser_t *parse_token(char **expression[], size_t *size) {
     char *exp = *expression[0];
     *expression = *expression + 1;
     (*size)--;
@@ -215,7 +283,8 @@ parser_t *parse_token(char **expression[], size_t *size) {
     return NULL;  // invalid token
 }
 
-void move_token(parser_t **to, parser_t **from) {
+/** Helper method to move the top `parser_t` from a stack to another */
+static void move_token(parser_t **to, parser_t **from) {
     parser_t *next = (*from)->next;
     (*from)->next = *to;
     *to = *from;
@@ -226,7 +295,19 @@ void move_token(parser_t **to, parser_t **from) {
  Orders the parsed expression and per the Shunting yard algorithm
  (https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
 */
-parser_t *parser_infix_notation(parser_t *exp) {
+
+/** Orders a chained list of `parser_t`.
+
+    The chained list is reordered in a infix notation that encodes the priority depending
+    on the operators relative priority and the usage of parenthesis. Therefor, by using the perfect ordering, parenthesis can be stripted out
+    and consequently the returned ordered chained list does not contain any parenthesis tokens.
+
+    Based on the [Shunting yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm) by Edsger Dijkstra.
+
+    @param exp Chained list of `parser_t` to order
+    @returns The ordered `parser_t` chained list
+ */
+static parser_t *parser_infix_notation(parser_t *exp) {
     parser_t *output = NULL;
     parser_t *stack = NULL;
 
