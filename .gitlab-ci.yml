@@ -1,11 +1,11 @@
-compile:
-  stage: build
-  script: 
-  - make src
-  only:
-  - master
+#compile:
+#  stage: build
+#  script: 
+#  - make src
+#  only:
+#  - master
 
-doxygen:
+pages:
   stage: deploy
   script:
   - mkdir .public
