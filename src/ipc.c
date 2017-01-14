@@ -53,10 +53,10 @@ static int ipc_get_pid_file_path(char *dst_path, char *pid_path) {
  * IPC signal handler for SIGTERM that remove the watch and optionally call a callback
  */
 void ipc_sig_handler() {
+    ipc_remove_watch(g_watch_dst_path);
     if (g_watch_cb != NULL) {
         g_watch_cb(g_watch_cb_arg);
     }
-    ipc_remove_watch(g_watch_dst_path);
 }
 
 int ipc_set_watch(char *dst_path, ipc_stop_callback cb, void * cb_arg) {
