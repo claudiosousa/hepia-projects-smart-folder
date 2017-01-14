@@ -1,7 +1,7 @@
 /** Parses a string expression and return a formal representation.
     @file
 
-    Full unit test coverage
+    Completely unit tested
 */
 
 #ifndef PARSER_H

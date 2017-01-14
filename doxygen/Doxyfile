@@ -135,7 +135,7 @@ ABBREVIATE_BRIEF       = "The $name class" \
 # description.
 # The default value is: NO.
 
-ALWAYS_DETAILED_SEC    = NO
+ALWAYS_DETAILED_SEC    = YES
 
 # If the INLINE_INHERITED_MEMB tag is set to YES, doxygen will show all
 # inherited members of a class in the documentation of that class as if those
@@ -783,7 +783,7 @@ WARN_LOGFILE           =
 
 INPUT                  = ../src \
                          ../README.md \
-                         ../report/SmartFolder-architecture-document.pdf \
+                         ../report/TODO.txt \
                          ../report/TODO.txt
 
 # This tag can be used to specify the character encoding of the source files
@@ -1483,7 +1483,7 @@ GENERATE_TREEVIEW      = NO
 # Minimum value: 0, maximum value: 20, default value: 4.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-ENUM_VALUES_PER_LINE   = 4
+ENUM_VALUES_PER_LINE   = 1
 
 # If the treeview is enabled (see GENERATE_TREEVIEW) then this tag can be used
 # to set the initial width (in pixels) of the frame in which the tree is shown.

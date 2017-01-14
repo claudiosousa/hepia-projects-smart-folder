@@ -1,3 +1,13 @@
+/** Orchestrates the file search and creation of related symbolic links
+
+    This is the main module.
+
+    Once started it runs continously. It uses the `finder` module to get the files matching the `expression` within `search_path`.
+    The resulting list is past to the `linker` module to update the `dst_path`
+    It will wait a few seconds, and it will start over.
+
+    @file
+ */
 #include <sys/stat.h>
 #include <unistd.h>
 #include "searchfolder.h"
@@ -6,13 +16,15 @@
 #include "io.h"
 #include "logger.h"
 
-const int LOOP_INTERVAL = 5;  // seconds
+/** The time in seconds to wait between to executions */
+#define LOOP_INTERVAL 5  // seconds
 
+/** Contains the information about a searchfolder instance */
 struct searchfolder_t {
-    bool running;
-    char* dst_path;
-    char* search_path;
-    parser_t* expression;
+    bool running;          /**< If it is running */
+    char* dst_path;        /**< The output folder */
+    char* search_path;     /**< The search folder */
+    parser_t* expression;  /**< The file filtering expression */
 };
 
 searchfolder_t* searchfolder_create(char* dst_path, char* search_path, parser_t* expression) {
