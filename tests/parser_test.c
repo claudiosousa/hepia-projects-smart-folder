@@ -54,7 +54,6 @@ void test_parse_group() {
     TEST_CHECK_(parser->comp == EXACT, "comp should be equal to EXACT");
 }
 
-
 void test_parse_wrong_group() {
     char *test_argv[] = {"-group", "unknown_group"};
     TEST_CHECK_(parser_parse(test_argv, 2) == NULL, "should return null");
@@ -286,10 +285,10 @@ void test_user_and_size_or_name() {
     test_order("-user root -and -size 20 -or -name test", (parser_crit_t[]){OR, NAME, AND, SIZE, USER, 0});
 }
 
-// void test_user_and_size_or_name_p() {
-//     // AND(OR(NAME, SIZE), USER))
-//     test_order("-user root -and ( -size 20 -or -name test )", (parser_crit_t[]){AND, OR, NAME, SIZE, USER, 0});
-// }
+void test_user_and_size_or_name_p() {
+    //     // AND(OR(NAME, SIZE), USER))
+    //     test_order("-user root -and ( -size 20 -or -name test )", (parser_crit_t[]){AND, OR, NAME, SIZE, USER, 0});
+}
 
 void test_name_or_size_and_user() {
     // OR(AND(USER, SIZE), NAME)
@@ -319,7 +318,7 @@ void test_group_not_size_or_user_perm_p() {
                (parser_crit_t[]){AND, AND, PERM, NOT, OR, USER, SIZE, GROUP, 0});
 }
 
-//List of tests to be performed
+// List of tests to be performed
 TEST_LIST = {{"parse empty", test_parse_empty},
              {"parse incomplete exp", test_parse_incomplete},
              {"parse incorrect exp", test_parse_incorrect},
