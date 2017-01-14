@@ -3,8 +3,8 @@ SRC=../src/
 
 tests: parser_test
 
-parser_test: parser_test.c $(SRC)parser.o
-	gcc $(FLAGS) -o parser_test parser_test.c $(SRC)parser.o
+parser_test: parser_test.c $(SRC)parser.o $(SRC)logger.o $(SRC)io.o
+	gcc $(FLAGS) -o parser_test parser_test.c $(SRC)parser.o $(SRC)logger.o $(SRC)io.o
 
 include $(SRC)makefile
 
