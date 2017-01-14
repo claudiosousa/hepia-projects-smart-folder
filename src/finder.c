@@ -16,8 +16,8 @@ typedef struct file_t {
 
 static finder_t *finder_add_found_file(char *filename, finder_t *currentfile) {
     finder_t *newfile = (finder_t *)malloc(sizeof(finder_t));
-    char *filename_cpy = malloc(sizeof(char) * (strlen(filename) + 1));
-    strcpy(filename_cpy, filename);
+    char *filename_cpy = malloc(sizeof(char) * IO_PATH_MAX_SIZE);
+    realpath(filename, filename_cpy);
     newfile->filename = filename_cpy;
     newfile->next = currentfile;
     return newfile;

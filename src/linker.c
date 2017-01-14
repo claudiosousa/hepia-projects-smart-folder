@@ -54,7 +54,7 @@ void linker_update(char *dst_path, finder_t *files) {
         dup_count = 0;
         finder_t *filecpy = files;
         while (filecpy != file) {
-            if (strncmp(basename(file->filename), filename_final, IO_PATH_MAX_SIZE) == 0) {
+            if (strncmp(basename(filecpy->filename), filename_final, IO_PATH_MAX_SIZE) == 0) {
                 dup_count++;
             }
             filecpy = filecpy->next;
@@ -70,7 +70,7 @@ void linker_update(char *dst_path, finder_t *files) {
             symlink(real_dst_filepath, filepath_final);
         }
 
-        logger_debug("File found '%s'\n", file->filename);
+        logger_debug("File found '%s' | %d\n", file->filename, dup_count);
 
         file = file->next;
     }
