@@ -16,5 +16,5 @@ The criteria above may be combined using logical operators (*and, or, not*) or p
 ## Documentation
 For further information please have a look at:
  - [Code documentation](https://hepia-projects.gitlab.io/smart-folder/)
- - [Architecture document](https://gitlab.com/hepia-projects/smart-folder/blob/master/report/SmartFolder-architecture-document.pdf)
+ - [Architecture document](https://gitlab.com/hepia-projects/smart-folder/raw/241c3db48603ed35ae2515ab321b59c2d513c413/report/SmartFolder-architecture-document.pdf)
 
