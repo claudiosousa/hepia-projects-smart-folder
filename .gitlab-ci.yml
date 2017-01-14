@@ -10,7 +10,7 @@ image: alpine
 pages:
   stage: deploy
   script:
-  - apk update && apk add doxygen && apk graphviz
+  - apk update && apk add doxygen && apk add graphviz
   - doxygen doxygen/Doxyfile
   - mv doxygen/html/ public/
   artifacts:
