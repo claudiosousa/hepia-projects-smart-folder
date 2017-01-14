@@ -90,13 +90,13 @@ static bool validate_name(char *filename, struct stat *filestat, parser_t *exp) 
 /** Validates USER criteria. */
 static bool validate_user(char *filename, struct stat *filestat, parser_t *exp) {
     (void)filename;
-    return filestat->st_uid == *(uint *)exp->value;
+    return filestat->st_uid == *(unsigned int *)exp->value;
 }
 
 /** Validates GROUP criteria. */
 static bool validate_group(char *filename, struct stat *filestat, parser_t *exp) {
     (void)filename;
-    return filestat->st_gid == *(uint *)exp->value;
+    return filestat->st_gid == *(unsigned int *)exp->value;
 }
 
 /** Validates PERM criteria. */

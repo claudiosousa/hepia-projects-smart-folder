@@ -70,8 +70,8 @@ static parser_t *parse_group(char *argv) {
         logger_error("Parser: error: cannot find group '%s'\n", (char *)res->value);
         return NULL;
     }
-    res->value = malloc(sizeof(uint));
-    *(uint *)res->value = pwd->gr_gid;
+    res->value = malloc(sizeof(unsigned int));
+    *(unsigned int *)res->value = pwd->gr_gid;
 
     return res;
 }
@@ -88,8 +88,8 @@ static parser_t *parse_user(char *argv) {
         logger_error("Parser: error: cannot find user '%s'\n", (char *)res->value);
         return NULL;
     }
-    res->value = malloc(sizeof(uint));
-    *(uint *)res->value = pwd->pw_uid;
+    res->value = malloc(sizeof(unsigned int));
+    *(unsigned int *)res->value = pwd->pw_uid;
 
     return res;
 }
