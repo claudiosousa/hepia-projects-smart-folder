@@ -1,5 +1,0 @@
-<map id="validator.c" name="validator.c">
-<area shape="rect" id="node5" href="$validator_8h.html" title="Validates files against a parsed criteria expression. " alt="" coords="293,80,375,107"/>
-<area shape="rect" id="node10" href="$logger_8h.html" title="Simple logger functions that allow logging of various informations and errors. " alt="" coords="400,80,468,107"/>
-<area shape="rect" id="node8" href="$parser_8h.html" title="Parses a string expression and return a formal representation. " alt="" coords="398,155,467,181"/>
-</map>

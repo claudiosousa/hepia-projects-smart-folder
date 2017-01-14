@@ -1,8 +1,0 @@
-<map id="linker.c" name="linker.c">
-<area shape="rect" id="node6" href="$linker_8h.html" title="The linker maintains an updated list of links to the found files. " alt="" coords="364,80,428,107"/>
-<area shape="rect" id="node13" href="$io_8h.html" title="Helpers function around system calls for IO purpose. " alt="" coords="516,229,559,256"/>
-<area shape="rect" id="node14" href="$logger_8h.html" title="Simple logger functions that allow logging of various informations and errors. " alt="" coords="503,80,571,107"/>
-<area shape="rect" id="node8" href="$finder_8h.html" title="The finder retrives the list of files matching an expression. " alt="" coords="362,155,427,181"/>
-<area shape="rect" id="node9" href="$validator_8h.html" title="Validates files against a parsed criteria expression. " alt="" coords="407,229,489,256"/>
-<area shape="rect" id="node12" href="$parser_8h.html" title="Parses a string expression and return a formal representation. " alt="" coords="360,304,429,331"/>
-</map>

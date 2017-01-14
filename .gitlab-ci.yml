@@ -1,6 +1,6 @@
 #compile:
 #  stage: build
-#  script: 
+#  script:
 #  - make src
 #  only:
 #  - master
@@ -8,9 +8,9 @@
 pages:
   stage: deploy
   script:
-  - mkdir .public
-  - cp -r doc/doxygen/html/* .public
-  - mv .public public
+  - apk update && apk add doxygen && apk graphviz
+  - doxygen doxygen/Doxyfile
+  - mv doxygen/html/ public/
   artifacts:
     paths:
     - public
