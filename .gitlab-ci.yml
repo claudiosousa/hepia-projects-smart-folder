@@ -11,6 +11,7 @@ build_searchfolder:
 unit_tests:
   stage: test
   script:
+  - apk update && apk add make bash build-base gcc
   - make tests
   only:
   - master
@@ -18,7 +19,7 @@ unit_tests:
 pages:
   stage: deploy
   script:
-  - apk add doxygen graphviz
+  - apk update && apk add doxygen graphviz
   - cd doxygen 
   - doxygen Doxyfile
   - cd ..
