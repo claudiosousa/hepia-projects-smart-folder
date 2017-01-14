@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operator_5ftype',['operator_type',['../parser_8c.html#a40fc071998f92796527a47358d5ec42b',1,'parser.c']]]
+  ['next',['next',['../structparser__t.html#a044a5d882012dfdd9ea5e4f3a98fd8a2',1,'parser_t']]]
 ];

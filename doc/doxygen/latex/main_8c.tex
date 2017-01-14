@@ -1,0 +1,91 @@
+\hypertarget{main_8c}{}\section{main.\+c File Reference}
+\label{main_8c}\index{main.\+c@{main.\+c}}
+
+
+Main program\+: deamonise, parse argument and launch the search.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}ipc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}parser.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}searchfolder.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}logger.\+h\char`\"{}}\\*
+Include dependency graph for main.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{main_8c_a5724b5d5bd1fb93f9ae44b8d46b64328}{print\+\_\+usage} (char $\ast$prog\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Prints program usage. \end{DoxyCompactList}\item 
+int \hyperlink{main_8c_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Program entry-\/point. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main program\+: deamonise, parse argument and launch the search. 
+
+Its role is to parse command-\/line arguments and\+:
+\begin{DoxyItemize}
+\item launch the parser to create the expression to validate against files;
+\item set up the communication channel between instance;
+\item launch the main searchfoler loop. Also, it can run in two mode\+:
+\item normal\+: do what is above;
+\item kill (-\/d)\+: use the communication channel to stop the designated instance. \begin{DoxyAuthor}{Author}
+Claudio Sousa, Gonzalez David 
+\end{DoxyAuthor}
+
+\end{DoxyItemize}
+
+\subsection{Function Documentation}
+\index{main.\+c@{main.\+c}!main@{main}}
+\index{main@{main}!main.\+c@{main.\+c}}
+\subsubsection[{\texorpdfstring{main(int argc, char $\ast$argv[])}{main(int argc, char *argv[])}}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\hypertarget{main_8c_a0ddf1224851353fc92bfbff6f499fa97}{}\label{main_8c_a0ddf1224851353fc92bfbff6f499fa97}
+
+
+Program entry-\/point. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & Number of arguments \\
+\hline
+{\em argv} & Array of arguments \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 41 of file main.\+c.
+
+\index{main.\+c@{main.\+c}!print\+\_\+usage@{print\+\_\+usage}}
+\index{print\+\_\+usage@{print\+\_\+usage}!main.\+c@{main.\+c}}
+\subsubsection[{\texorpdfstring{print\+\_\+usage(char $\ast$prog\+\_\+name)}{print_usage(char *prog_name)}}]{\setlength{\rightskip}{0pt plus 5cm}void print\+\_\+usage (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{prog\+\_\+name}
+\end{DoxyParamCaption}
+)}\hypertarget{main_8c_a5724b5d5bd1fb93f9ae44b8d46b64328}{}\label{main_8c_a5724b5d5bd1fb93f9ae44b8d46b64328}
+
+
+Prints program usage. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em prog\+\_\+name} & Program name \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 28 of file main.\+c.
+

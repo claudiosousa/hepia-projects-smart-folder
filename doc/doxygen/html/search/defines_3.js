@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['perm_5foptions_5fcount',['PERM_OPTIONS_COUNT',['../validator_8c.html#abe2627a9935b96daef8d9a2478934647',1,'validator.c']]]
+  ['operators_5fcount',['OPERATORS_COUNT',['../parser_8c.html#aa072d0e80f3a95589705ecb2000fbe03',1,'parser.c']]]
 ];

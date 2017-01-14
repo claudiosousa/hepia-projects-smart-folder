@@ -1,0 +1,369 @@
+\hypertarget{io_8h}{}\section{io.\+h File Reference}
+\label{io_8h}\index{io.\+h@{io.\+h}}
+
+
+Helpers function around system calls for IO purpose.  
+
+
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$sys/stat.\+h$>$}\\*
+Include dependency graph for io.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=280pt]{io_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{io_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structio__file__list}{io\+\_\+file\+\_\+list}
+\begin{DoxyCompactList}\small\item\em Container for file lists (fixed size for simplification), used by \hyperlink{io_8c_adb8d68b54b043f5118a4cbfd49a8ec51}{io\+\_\+directory\+\_\+get\+\_\+all()}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{io_8h_a3459a8a15f99dc120380d828bc7a4cd8}{I\+O\+\_\+\+P\+A\+T\+H\+\_\+\+M\+A\+X\+\_\+\+S\+I\+ZE}~4096\hypertarget{io_8h_a3459a8a15f99dc120380d828bc7a4cd8}{}\label{io_8h_a3459a8a15f99dc120380d828bc7a4cd8}
+
+\begin{DoxyCompactList}\small\item\em Maximum string size for path. \end{DoxyCompactList}\item 
+\#define \hyperlink{io_8h_a4f83737c59830cd64451f3e29bfe714d}{I\+O\+\_\+\+P\+A\+T\+H\+\_\+\+S\+EP}~\textquotesingle{}/\textquotesingle{}\hypertarget{io_8h_a4f83737c59830cd64451f3e29bfe714d}{}\label{io_8h_a4f83737c59830cd64451f3e29bfe714d}
+
+\begin{DoxyCompactList}\small\item\em Path separator for path construction. \end{DoxyCompactList}\item 
+\#define \hyperlink{io_8h_a467d28fd66a94e856cb73b80110d730a}{I\+O\+\_\+\+D\+I\+R\+\_\+\+M\+A\+X\+\_\+\+F\+I\+L\+ES}~1024\hypertarget{io_8h_a467d28fd66a94e856cb73b80110d730a}{}\label{io_8h_a467d28fd66a94e856cb73b80110d730a}
+
+\begin{DoxyCompactList}\small\item\em Maximum files allowed in the list of files. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structio__file__list}{io\+\_\+file\+\_\+list} \hyperlink{io_8h_aff2e2b3b9ce6a73d29d9a69f32a4c8ee}{io\+\_\+file\+\_\+list}\hypertarget{io_8h_aff2e2b3b9ce6a73d29d9a69f32a4c8ee}{}\label{io_8h_aff2e2b3b9ce6a73d29d9a69f32a4c8ee}
+
+\begin{DoxyCompactList}\small\item\em Container for file lists (fixed size for simplification), used by \hyperlink{io_8c_adb8d68b54b043f5118a4cbfd49a8ec51}{io\+\_\+directory\+\_\+get\+\_\+all()}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{io_8h_a159fbc793fca80d55a1f441af6c0fff6}{io\+\_\+file\+\_\+exists} (char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Determine if a file in the specified path exists. \end{DoxyCompactList}\item 
+int \hyperlink{io_8h_a9954a448697a3890f6de7e204c0bbc63}{io\+\_\+file\+\_\+read\+\_\+content} (char $\ast$path, char $\ast$dst\+\_\+buffer, size\+\_\+t buf\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Fully read a file and put it in the destination buffer. \end{DoxyCompactList}\item 
+int \hyperlink{io_8h_aa7db87fd66e6470dc35ce6683302c27a}{io\+\_\+file\+\_\+write} (char $\ast$path, char $\ast$content)
+\begin{DoxyCompactList}\small\item\em Write the content in the specified path. \end{DoxyCompactList}\item 
+int \hyperlink{io_8h_a0f360b2e15078bfa6c1870168c7c5290}{io\+\_\+file\+\_\+write\+\_\+fd} (int fd, char $\ast$content)
+\begin{DoxyCompactList}\small\item\em Write the content in the specified path. \end{DoxyCompactList}\item 
+int \hyperlink{io_8h_af87219af18ad7932389bf1f6074b490e}{io\+\_\+file\+\_\+delete} (char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Delete a file. \end{DoxyCompactList}\item 
+bool \hyperlink{io_8h_a923afb970c89a949e354ca2e37e2b41a}{io\+\_\+directory\+\_\+exists} (char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Determine if a directory in the specified path exists. \end{DoxyCompactList}\item 
+\hyperlink{structio__file__list}{io\+\_\+file\+\_\+list} $\ast$ \hyperlink{io_8h_adb8d68b54b043f5118a4cbfd49a8ec51}{io\+\_\+directory\+\_\+get\+\_\+all} (char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Get all element contained in the specified directory. \end{DoxyCompactList}\item 
+void \hyperlink{io_8h_a0a8c4afe4b5ca881249bd543d0e10893}{io\+\_\+directory\+\_\+get\+\_\+all\+\_\+free} (\hyperlink{structio__file__list}{io\+\_\+file\+\_\+list} $\ast$filelist)
+\begin{DoxyCompactList}\small\item\em Free a previously created list of files. \end{DoxyCompactList}\item 
+int \hyperlink{io_8h_a8ba974718b179b7e353ca509d9624025}{io\+\_\+directory\+\_\+create} (char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Create a directory in the specified path. \end{DoxyCompactList}\item 
+int \hyperlink{io_8h_aaa99d4fcb2d73da0b4f999576139cbdf}{io\+\_\+directory\+\_\+create\+\_\+parent} (char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Create a directory in the specified path and all its parents. \end{DoxyCompactList}\item 
+int \hyperlink{io_8h_a6624d60efc4bbe979fcaf6f1ff7706a1}{io\+\_\+directory\+\_\+delete} (char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Delete a directory and all childrens. \end{DoxyCompactList}\item 
+bool \hyperlink{io_8h_aaec48033f093fde5912023e4dc887121}{io\+\_\+link\+\_\+exists} (char $\ast$path)
+\begin{DoxyCompactList}\small\item\em Determine if a link in the specified path exists. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Helpers function around system calls for IO purpose. 
+
+\begin{DoxyAuthor}{Author}
+Claudio Sousa, Gonzalez David 
+\end{DoxyAuthor}
+
+
+\subsection{Function Documentation}
+\index{io.\+h@{io.\+h}!io\+\_\+directory\+\_\+create@{io\+\_\+directory\+\_\+create}}
+\index{io\+\_\+directory\+\_\+create@{io\+\_\+directory\+\_\+create}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+directory\+\_\+create(char $\ast$path)}{io_directory_create(char *path)}}]{\setlength{\rightskip}{0pt plus 5cm}int io\+\_\+directory\+\_\+create (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_a8ba974718b179b7e353ca509d9624025}{}\label{io_8h_a8ba974718b179b7e353ca509d9624025}
+
+
+Create a directory in the specified path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Dir path to create \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if created, 1 if error 
+\end{DoxyReturn}
+
+
+Definition at line 124 of file io.\+c.
+
+\index{io.\+h@{io.\+h}!io\+\_\+directory\+\_\+create\+\_\+parent@{io\+\_\+directory\+\_\+create\+\_\+parent}}
+\index{io\+\_\+directory\+\_\+create\+\_\+parent@{io\+\_\+directory\+\_\+create\+\_\+parent}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+directory\+\_\+create\+\_\+parent(char $\ast$path)}{io_directory_create_parent(char *path)}}]{\setlength{\rightskip}{0pt plus 5cm}int io\+\_\+directory\+\_\+create\+\_\+parent (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_aaa99d4fcb2d73da0b4f999576139cbdf}{}\label{io_8h_aaa99d4fcb2d73da0b4f999576139cbdf}
+
+
+Create a directory in the specified path and all its parents. 
+
+If a the directory and its parents already exist, nothing is done. 
+\begin{DoxyParams}{Parameters}
+{\em path} & Dir path to create \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if created, 1 if error 
+\end{DoxyReturn}
+
+
+Definition at line 133 of file io.\+c.
+
+\index{io.\+h@{io.\+h}!io\+\_\+directory\+\_\+delete@{io\+\_\+directory\+\_\+delete}}
+\index{io\+\_\+directory\+\_\+delete@{io\+\_\+directory\+\_\+delete}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+directory\+\_\+delete(char $\ast$path)}{io_directory_delete(char *path)}}]{\setlength{\rightskip}{0pt plus 5cm}int io\+\_\+directory\+\_\+delete (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_a6624d60efc4bbe979fcaf6f1ff7706a1}{}\label{io_8h_a6624d60efc4bbe979fcaf6f1ff7706a1}
+
+
+Delete a directory and all childrens. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Directory path to delete \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if deleted, 1 if error 
+\end{DoxyReturn}
+
+
+Definition at line 152 of file io.\+c.
+
+\index{io.\+h@{io.\+h}!io\+\_\+directory\+\_\+exists@{io\+\_\+directory\+\_\+exists}}
+\index{io\+\_\+directory\+\_\+exists@{io\+\_\+directory\+\_\+exists}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+directory\+\_\+exists(char $\ast$path)}{io_directory_exists(char *path)}}]{\setlength{\rightskip}{0pt plus 5cm}bool io\+\_\+directory\+\_\+exists (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_a923afb970c89a949e354ca2e37e2b41a}{}\label{io_8h_a923afb970c89a949e354ca2e37e2b41a}
+
+
+Determine if a directory in the specified path exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & File path to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if exists, false otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 82 of file io.\+c.
+
+\index{io.\+h@{io.\+h}!io\+\_\+directory\+\_\+get\+\_\+all@{io\+\_\+directory\+\_\+get\+\_\+all}}
+\index{io\+\_\+directory\+\_\+get\+\_\+all@{io\+\_\+directory\+\_\+get\+\_\+all}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+directory\+\_\+get\+\_\+all(char $\ast$path)}{io_directory_get_all(char *path)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf io\+\_\+file\+\_\+list}$\ast$ io\+\_\+directory\+\_\+get\+\_\+all (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_adb8d68b54b043f5118a4cbfd49a8ec51}{}\label{io_8h_adb8d68b54b043f5118a4cbfd49a8ec51}
+
+
+Get all element contained in the specified directory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Dir path to scan \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+List of files 
+\end{DoxyReturn}
+
+
+Definition at line 87 of file io.\+c.
+
+\index{io.\+h@{io.\+h}!io\+\_\+directory\+\_\+get\+\_\+all\+\_\+free@{io\+\_\+directory\+\_\+get\+\_\+all\+\_\+free}}
+\index{io\+\_\+directory\+\_\+get\+\_\+all\+\_\+free@{io\+\_\+directory\+\_\+get\+\_\+all\+\_\+free}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+directory\+\_\+get\+\_\+all\+\_\+free(io\+\_\+file\+\_\+list $\ast$filelist)}{io_directory_get_all_free(io_file_list *filelist)}}]{\setlength{\rightskip}{0pt plus 5cm}void io\+\_\+directory\+\_\+get\+\_\+all\+\_\+free (
+\begin{DoxyParamCaption}
+\item[{{\bf io\+\_\+file\+\_\+list} $\ast$}]{filelist}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_a0a8c4afe4b5ca881249bd543d0e10893}{}\label{io_8h_a0a8c4afe4b5ca881249bd543d0e10893}
+
+
+Free a previously created list of files. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filelist} & File list to free \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 120 of file io.\+c.
+
+\index{io.\+h@{io.\+h}!io\+\_\+file\+\_\+delete@{io\+\_\+file\+\_\+delete}}
+\index{io\+\_\+file\+\_\+delete@{io\+\_\+file\+\_\+delete}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+file\+\_\+delete(char $\ast$path)}{io_file_delete(char *path)}}]{\setlength{\rightskip}{0pt plus 5cm}int io\+\_\+file\+\_\+delete (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_af87219af18ad7932389bf1f6074b490e}{}\label{io_8h_af87219af18ad7932389bf1f6074b490e}
+
+
+Delete a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & File path to delete \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if deleted, 1 if error 
+\end{DoxyReturn}
+
+
+Definition at line 73 of file io.\+c.
+
+\index{io.\+h@{io.\+h}!io\+\_\+file\+\_\+exists@{io\+\_\+file\+\_\+exists}}
+\index{io\+\_\+file\+\_\+exists@{io\+\_\+file\+\_\+exists}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+file\+\_\+exists(char $\ast$path)}{io_file_exists(char *path)}}]{\setlength{\rightskip}{0pt plus 5cm}bool io\+\_\+file\+\_\+exists (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_a159fbc793fca80d55a1f441af6c0fff6}{}\label{io_8h_a159fbc793fca80d55a1f441af6c0fff6}
+
+
+Determine if a file in the specified path exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & File path to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if exists, false otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 20 of file io.\+c.
+
+\index{io.\+h@{io.\+h}!io\+\_\+file\+\_\+read\+\_\+content@{io\+\_\+file\+\_\+read\+\_\+content}}
+\index{io\+\_\+file\+\_\+read\+\_\+content@{io\+\_\+file\+\_\+read\+\_\+content}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+file\+\_\+read\+\_\+content(char $\ast$path, char $\ast$dst\+\_\+buffer, size\+\_\+t buf\+\_\+size)}{io_file_read_content(char *path, char *dst_buffer, size_t buf_size)}}]{\setlength{\rightskip}{0pt plus 5cm}int io\+\_\+file\+\_\+read\+\_\+content (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path, }
+\item[{char $\ast$}]{dst\+\_\+buffer, }
+\item[{size\+\_\+t}]{buf\+\_\+size}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_a9954a448697a3890f6de7e204c0bbc63}{}\label{io_8h_a9954a448697a3890f6de7e204c0bbc63}
+
+
+Fully read a file and put it in the destination buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & File path to read \\
+\hline
+{\em dst\+\_\+buffer} & Buffer to put the result \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success result, return 0 only when it has fully read it, 1 if any error occurs 
+\end{DoxyReturn}
+
+
+Definition at line 25 of file io.\+c.
+
+\index{io.\+h@{io.\+h}!io\+\_\+file\+\_\+write@{io\+\_\+file\+\_\+write}}
+\index{io\+\_\+file\+\_\+write@{io\+\_\+file\+\_\+write}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+file\+\_\+write(char $\ast$path, char $\ast$content)}{io_file_write(char *path, char *content)}}]{\setlength{\rightskip}{0pt plus 5cm}int io\+\_\+file\+\_\+write (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path, }
+\item[{char $\ast$}]{content}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_aa7db87fd66e6470dc35ce6683302c27a}{}\label{io_8h_aa7db87fd66e6470dc35ce6683302c27a}
+
+
+Write the content in the specified path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & File path to write in \\
+\hline
+{\em content} & Content to put in the file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success result, return 0 only when it has fully written it, 1 if any error occurs 
+\end{DoxyReturn}
+
+
+Definition at line 45 of file io.\+c.
+
+\index{io.\+h@{io.\+h}!io\+\_\+file\+\_\+write\+\_\+fd@{io\+\_\+file\+\_\+write\+\_\+fd}}
+\index{io\+\_\+file\+\_\+write\+\_\+fd@{io\+\_\+file\+\_\+write\+\_\+fd}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+file\+\_\+write\+\_\+fd(int fd, char $\ast$content)}{io_file_write_fd(int fd, char *content)}}]{\setlength{\rightskip}{0pt plus 5cm}int io\+\_\+file\+\_\+write\+\_\+fd (
+\begin{DoxyParamCaption}
+\item[{int}]{fd, }
+\item[{char $\ast$}]{content}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_a0f360b2e15078bfa6c1870168c7c5290}{}\label{io_8h_a0f360b2e15078bfa6c1870168c7c5290}
+
+
+Write the content in the specified path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fd} & file descriptor to write in \\
+\hline
+{\em content} & Content to put in the file descriptor \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success result, return 0 only when it has fully written it, 1 if any error occurs 
+\end{DoxyReturn}
+
+
+Definition at line 61 of file io.\+c.
+
+\index{io.\+h@{io.\+h}!io\+\_\+link\+\_\+exists@{io\+\_\+link\+\_\+exists}}
+\index{io\+\_\+link\+\_\+exists@{io\+\_\+link\+\_\+exists}!io.\+h@{io.\+h}}
+\subsubsection[{\texorpdfstring{io\+\_\+link\+\_\+exists(char $\ast$path)}{io_link_exists(char *path)}}]{\setlength{\rightskip}{0pt plus 5cm}bool io\+\_\+link\+\_\+exists (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path}
+\end{DoxyParamCaption}
+)}\hypertarget{io_8h_aaec48033f093fde5912023e4dc887121}{}\label{io_8h_aaec48033f093fde5912023e4dc887121}
+
+
+Determine if a link in the specified path exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Link path to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if exists, false otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 169 of file io.\+c.
+

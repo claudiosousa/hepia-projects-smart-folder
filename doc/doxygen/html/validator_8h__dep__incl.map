@@ -3,8 +3,8 @@
 <area shape="rect" id="node7" href="$searchfolder_8h_source.html" title="searchfolder.h" alt="" coords="195,80,299,107"/>
 <area shape="rect" id="node9" href="$validator_8c.html" title="Critera and operator evaluation functions. " alt="" coords="323,80,406,107"/>
 <area shape="rect" id="node3" href="$finder_8c_source.html" title="finder.c" alt="" coords="5,155,71,181"/>
-<area shape="rect" id="node4" href="$linker_8h_source.html" title="linker.h" alt="" coords="95,155,159,181"/>
+<area shape="rect" id="node4" href="$linker_8h.html" title="The linker maintains an updated list of links to the found files. " alt="" coords="95,155,159,181"/>
 <area shape="rect" id="node6" href="$searchfolder_8c_source.html" title="searchfolder.c" alt="" coords="165,229,269,256"/>
-<area shape="rect" id="node5" href="$linker_8c_source.html" title="linker.c" alt="" coords="77,229,141,256"/>
-<area shape="rect" id="node8" href="$main_8c_source.html" title="main.c" alt="" coords="285,155,346,181"/>
+<area shape="rect" id="node5" href="$linker_8c.html" title="The linker maintains an updated list of links to the found files. " alt="" coords="77,229,141,256"/>
+<area shape="rect" id="node8" href="$main_8c.html" title="Main program: deamonise, parse argument and launch the search. " alt="" coords="285,155,346,181"/>
 </map>

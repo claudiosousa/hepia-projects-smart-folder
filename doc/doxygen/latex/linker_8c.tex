@@ -1,0 +1,96 @@
+\hypertarget{linker_8c}{}\section{linker.\+c File Reference}
+\label{linker_8c}\index{linker.\+c@{linker.\+c}}
+
+
+The linker maintains an updated list of links to the found files.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$libgen.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}linker.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}logger.\+h\char`\"{}}\\*
+Include dependency graph for linker.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{linker_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{linker_8c_a2d26744c8bc9442c30314d61f19bb2b5}{linker\+\_\+purge} (char $\ast$dst\+\_\+path, \hyperlink{structfinder__t}{finder\+\_\+t} $\ast$files)
+\begin{DoxyCompactList}\small\item\em Delete all links in the destination folder that are no longer in the given list. \end{DoxyCompactList}\item 
+void \hyperlink{linker_8c_a03bffbdcce1d8af640bd0cac561dfdae}{linker\+\_\+update} (char $\ast$dst\+\_\+path, \hyperlink{structfinder__t}{finder\+\_\+t} $\ast$files)
+\begin{DoxyCompactList}\small\item\em Update the links in the destination folder (create new ones and purge older ones). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The linker maintains an updated list of links to the found files. 
+
+The linker has two jobs\+:
+\begin{DoxyItemize}
+\item creates the links for the provided list of files found;
+\item deletes old links that are no longer present in the list.
+\end{DoxyItemize}
+
+In order to create the links, it simply take the base name of the target file and create the link with this name in the destination folder. But to manage duplicate, it count the number of files that has the same basename in the list before the current one and if it is not 0, append the number to the name.
+
+To purge the destination folder, it gets all the links in it. Then, for each link, it determines whether a file is no longer here by searching the target of the link in the list. If it is not found, the linker deletes the link in the destination folder.
+
+\begin{DoxyAuthor}{Author}
+Claudio Sousa, Gonzalez David 
+\end{DoxyAuthor}
+
+
+\subsection{Function Documentation}
+\index{linker.\+c@{linker.\+c}!linker\+\_\+purge@{linker\+\_\+purge}}
+\index{linker\+\_\+purge@{linker\+\_\+purge}!linker.\+c@{linker.\+c}}
+\subsubsection[{\texorpdfstring{linker\+\_\+purge(char $\ast$dst\+\_\+path, finder\+\_\+t $\ast$files)}{linker_purge(char *dst_path, finder_t *files)}}]{\setlength{\rightskip}{0pt plus 5cm}void linker\+\_\+purge (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{dst\+\_\+path, }
+\item[{{\bf finder\+\_\+t} $\ast$}]{files}
+\end{DoxyParamCaption}
+)}\hypertarget{linker_8c_a2d26744c8bc9442c30314d61f19bb2b5}{}\label{linker_8c_a2d26744c8bc9442c30314d61f19bb2b5}
+
+
+Delete all links in the destination folder that are no longer in the given list. 
+
+To determine whether a file is no longer here, it searchs the target of the link in the list. If it is not found, the linker delete the link. 
+\begin{DoxyParams}{Parameters}
+{\em dst\+\_\+path} & Where to put the links \\
+\hline
+{\em files} & List of files to link \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 36 of file linker.\+c.
+
+\index{linker.\+c@{linker.\+c}!linker\+\_\+update@{linker\+\_\+update}}
+\index{linker\+\_\+update@{linker\+\_\+update}!linker.\+c@{linker.\+c}}
+\subsubsection[{\texorpdfstring{linker\+\_\+update(char $\ast$dst\+\_\+path, finder\+\_\+t $\ast$files)}{linker_update(char *dst_path, finder_t *files)}}]{\setlength{\rightskip}{0pt plus 5cm}void linker\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{dst\+\_\+path, }
+\item[{{\bf finder\+\_\+t} $\ast$}]{files}
+\end{DoxyParamCaption}
+)}\hypertarget{linker_8c_a03bffbdcce1d8af640bd0cac561dfdae}{}\label{linker_8c_a03bffbdcce1d8af640bd0cac561dfdae}
+
+
+Update the links in the destination folder (create new ones and purge older ones). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dst\+\_\+path} & Where to put the links \\
+\hline
+{\em files} & List of files to link \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 66 of file linker.\+c.
+

@@ -1,0 +1,180 @@
+\hypertarget{ipc_8c}{}\section{ipc.\+c File Reference}
+\label{ipc_8c}\index{ipc.\+c@{ipc.\+c}}
+
+
+Manage communication between different instance of smartfolder.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$signal.\+h$>$}\\*
+{\ttfamily \#include $<$inttypes.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}ipc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}logger.\+h\char`\"{}}\\*
+Include dependency graph for ipc.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ipc_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bfseries I\+P\+C\+\_\+\+M\+A\+X\+\_\+\+P\+I\+D\+\_\+\+S\+I\+ZE}~10\hypertarget{ipc_8c_a62451a7cf42dd8bb5d114bdd83b60520}{}\label{ipc_8c_a62451a7cf42dd8bb5d114bdd83b60520}
+
+\item 
+\#define {\bfseries I\+P\+C\+\_\+\+H\+O\+M\+E\+\_\+\+P\+A\+TH}~\char`\"{}/.searchfolder/\char`\"{}\hypertarget{ipc_8c_a000cc2e9e8132b15572f3e3ac63ebfde}{}\label{ipc_8c_a000cc2e9e8132b15572f3e3ac63ebfde}
+
+\item 
+\#define {\bfseries I\+P\+C\+\_\+\+R\+U\+N\+\_\+\+P\+A\+TH}~\char`\"{}/run/\char`\"{}\hypertarget{ipc_8c_a1d9abc515eaca8f30f4215eadb7417a2}{}\label{ipc_8c_a1d9abc515eaca8f30f4215eadb7417a2}
+
+\item 
+\#define {\bfseries I\+P\+C\+\_\+\+H\+O\+M\+E\+\_\+\+R\+U\+N\+\_\+\+P\+A\+TH}~I\+P\+C\+\_\+\+H\+O\+M\+E\+\_\+\+P\+A\+TH I\+P\+C\+\_\+\+R\+U\+N\+\_\+\+P\+A\+TH\hypertarget{ipc_8c_aa70926ca30ee98b193e64ef623f44556}{}\label{ipc_8c_aa70926ca30ee98b193e64ef623f44556}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{ipc_8c_a22de351993e78407550fe96832679286}{ipc\+\_\+get\+\_\+pid\+\_\+file\+\_\+path} (char $\ast$dst\+\_\+path, char $\ast$pid\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Return the pid file path for the watch constructed from the folder. \end{DoxyCompactList}\item 
+void \hyperlink{ipc_8c_a3afaf4791a2c7adbc333713aa73a11a2}{ipc\+\_\+sig\+\_\+handler} ()\hypertarget{ipc_8c_a3afaf4791a2c7adbc333713aa73a11a2}{}\label{ipc_8c_a3afaf4791a2c7adbc333713aa73a11a2}
+
+\begin{DoxyCompactList}\small\item\em I\+PC signal handler for S\+I\+G\+T\+E\+R\+M$\vert$\+S\+I\+G\+I\+NT that remove the watch and optionally call a callback. \end{DoxyCompactList}\item 
+int \hyperlink{ipc_8c_a869a843644acd5eab7270099bc112a69}{ipc\+\_\+set\+\_\+watch} (char $\ast$dst\+\_\+path, ipc\+\_\+stop\+\_\+callback cb, void $\ast$cb\+\_\+arg)
+\begin{DoxyCompactList}\small\item\em Create the instance run file for further identification by other instances, and setup signal catch. \end{DoxyCompactList}\item 
+int \hyperlink{ipc_8c_a4f14d264fa040d8103d6e7a2f6088f44}{ipc\+\_\+remove\+\_\+watch} (char $\ast$dst\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Removes the watch file for the given search path. \end{DoxyCompactList}\item 
+int \hyperlink{ipc_8c_a3cbaa8bad6fdc71f32bb803d628fcf25}{ipc\+\_\+stop\+\_\+watch} (char $\ast$dst\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Stop the instance designated by the given search path, using the S\+I\+G\+T\+E\+RM signal. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static char \hyperlink{ipc_8c_aec456f2204fb2e615ce9e4884186e5f7}{g\+\_\+watch\+\_\+dst\+\_\+path} \mbox{[}\hyperlink{io_8h_a3459a8a15f99dc120380d828bc7a4cd8}{I\+O\+\_\+\+P\+A\+T\+H\+\_\+\+M\+A\+X\+\_\+\+S\+I\+ZE}\mbox{]} = \char`\"{}\char`\"{}\hypertarget{ipc_8c_aec456f2204fb2e615ce9e4884186e5f7}{}\label{ipc_8c_aec456f2204fb2e615ce9e4884186e5f7}
+
+\begin{DoxyCompactList}\small\item\em Destination path on which this instance operates on. \end{DoxyCompactList}\item 
+static ipc\+\_\+stop\+\_\+callback \hyperlink{ipc_8c_aa0e3adb6fceaeeb9422d6a46fdc30562}{g\+\_\+watch\+\_\+cb} = N\+U\+LL\hypertarget{ipc_8c_aa0e3adb6fceaeeb9422d6a46fdc30562}{}\label{ipc_8c_aa0e3adb6fceaeeb9422d6a46fdc30562}
+
+\begin{DoxyCompactList}\small\item\em Provided callback when a signal is received. \end{DoxyCompactList}\item 
+static void $\ast$ \hyperlink{ipc_8c_afc105ac7cbd447a0ab79b555cd65194f}{g\+\_\+watch\+\_\+cb\+\_\+arg} = N\+U\+LL\hypertarget{ipc_8c_afc105ac7cbd447a0ab79b555cd65194f}{}\label{ipc_8c_afc105ac7cbd447a0ab79b555cd65194f}
+
+\begin{DoxyCompactList}\small\item\em Callback data for the callback when signal is received. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Manage communication between different instance of smartfolder. 
+
+In order to do this, during initialisation (ipc\+\_\+set\+\_\+watch), it create a file in the user home directory and put the P\+ID of the current instance in it. The name of this file is constructed by taking the provided destination path and replacing all directory separator by an underscore.
+
+It also setup two signals catch (S\+I\+G\+I\+NT and S\+I\+G\+T\+E\+RM) for cleanup purpose. The callback and callback data are provided by the caller, and stored as global for usage in the signl handler. This is this handler that also remove the file in the user home directory.
+
+Now, to terminate an instance, it gets the P\+ID of the target instance by getting it in the concerned file. To get this file, it does the same string replacement in the provided destination folder to have the right name. Then, with the P\+ID, it launch a S\+I\+G\+T\+E\+RM signal to the instance.
+
+When a signal is received, the signal handler will first remove the file and call the callback if any.
+
+\begin{DoxyAuthor}{Author}
+Claudio Sousa, Gonzalez David 
+\end{DoxyAuthor}
+
+
+\subsection{Function Documentation}
+\index{ipc.\+c@{ipc.\+c}!ipc\+\_\+get\+\_\+pid\+\_\+file\+\_\+path@{ipc\+\_\+get\+\_\+pid\+\_\+file\+\_\+path}}
+\index{ipc\+\_\+get\+\_\+pid\+\_\+file\+\_\+path@{ipc\+\_\+get\+\_\+pid\+\_\+file\+\_\+path}!ipc.\+c@{ipc.\+c}}
+\subsubsection[{\texorpdfstring{ipc\+\_\+get\+\_\+pid\+\_\+file\+\_\+path(char $\ast$dst\+\_\+path, char $\ast$pid\+\_\+path)}{ipc_get_pid_file_path(char *dst_path, char *pid_path)}}]{\setlength{\rightskip}{0pt plus 5cm}static int ipc\+\_\+get\+\_\+pid\+\_\+file\+\_\+path (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{dst\+\_\+path, }
+\item[{char $\ast$}]{pid\+\_\+path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{ipc_8c_a22de351993e78407550fe96832679286}{}\label{ipc_8c_a22de351993e78407550fe96832679286}
+
+
+Return the pid file path for the watch constructed from the folder. 
+
+The pid filename is constructed by simply replacing the \textquotesingle{}/\textquotesingle{} character by \textquotesingle{}\+\_\+\textquotesingle{} 
+\begin{DoxyParams}{Parameters}
+{\em dst\+\_\+path} & The destination path to construct the filename from \\
+\hline
+{\em pid\+\_\+path} & String to store the resulting pid filename \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 59 of file ipc.\+c.
+
+\index{ipc.\+c@{ipc.\+c}!ipc\+\_\+remove\+\_\+watch@{ipc\+\_\+remove\+\_\+watch}}
+\index{ipc\+\_\+remove\+\_\+watch@{ipc\+\_\+remove\+\_\+watch}!ipc.\+c@{ipc.\+c}}
+\subsubsection[{\texorpdfstring{ipc\+\_\+remove\+\_\+watch(char $\ast$dst\+\_\+path)}{ipc_remove_watch(char *dst_path)}}]{\setlength{\rightskip}{0pt plus 5cm}int ipc\+\_\+remove\+\_\+watch (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{dst\+\_\+path}
+\end{DoxyParamCaption}
+)}\hypertarget{ipc_8c_a4f14d264fa040d8103d6e7a2f6088f44}{}\label{ipc_8c_a4f14d264fa040d8103d6e7a2f6088f44}
+
+
+Removes the watch file for the given search path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dst\+\_\+path} & The destination path that designate the instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error indicator\+: 0 for OK, 1 for an error 
+\end{DoxyReturn}
+
+
+Definition at line 132 of file ipc.\+c.
+
+\index{ipc.\+c@{ipc.\+c}!ipc\+\_\+set\+\_\+watch@{ipc\+\_\+set\+\_\+watch}}
+\index{ipc\+\_\+set\+\_\+watch@{ipc\+\_\+set\+\_\+watch}!ipc.\+c@{ipc.\+c}}
+\subsubsection[{\texorpdfstring{ipc\+\_\+set\+\_\+watch(char $\ast$dst\+\_\+path, ipc\+\_\+stop\+\_\+callback cb, void $\ast$cb\+\_\+arg)}{ipc_set_watch(char *dst_path, ipc_stop_callback cb, void *cb_arg)}}]{\setlength{\rightskip}{0pt plus 5cm}int ipc\+\_\+set\+\_\+watch (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{dst\+\_\+path, }
+\item[{ipc\+\_\+stop\+\_\+callback}]{cb, }
+\item[{void $\ast$}]{cb\+\_\+arg}
+\end{DoxyParamCaption}
+)}\hypertarget{ipc_8c_a869a843644acd5eab7270099bc112a69}{}\label{ipc_8c_a869a843644acd5eab7270099bc112a69}
+
+
+Create the instance run file for further identification by other instances, and setup signal catch. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dst\+\_\+path} & The destination path this instance operates on \\
+\hline
+{\em cb} & Callback when a stop signal is received \\
+\hline
+{\em cb\+\_\+arg} & Callback argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error indicator\+: 0 for OK, 1 for an error 
+\end{DoxyReturn}
+
+
+Definition at line 92 of file ipc.\+c.
+
+\index{ipc.\+c@{ipc.\+c}!ipc\+\_\+stop\+\_\+watch@{ipc\+\_\+stop\+\_\+watch}}
+\index{ipc\+\_\+stop\+\_\+watch@{ipc\+\_\+stop\+\_\+watch}!ipc.\+c@{ipc.\+c}}
+\subsubsection[{\texorpdfstring{ipc\+\_\+stop\+\_\+watch(char $\ast$dst\+\_\+path)}{ipc_stop_watch(char *dst_path)}}]{\setlength{\rightskip}{0pt plus 5cm}int ipc\+\_\+stop\+\_\+watch (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{dst\+\_\+path}
+\end{DoxyParamCaption}
+)}\hypertarget{ipc_8c_a3cbaa8bad6fdc71f32bb803d628fcf25}{}\label{ipc_8c_a3cbaa8bad6fdc71f32bb803d628fcf25}
+
+
+Stop the instance designated by the given search path, using the S\+I\+G\+T\+E\+RM signal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dst\+\_\+path} & The destination path that designate the instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error indicator\+: 0 for OK, 1 for an error 
+\end{DoxyReturn}
+
+
+Definition at line 146 of file ipc.\+c.
+

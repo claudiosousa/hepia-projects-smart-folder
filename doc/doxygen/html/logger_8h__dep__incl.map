@@ -1,0 +1,11 @@
+<map id="logger.h" name="logger.h">
+<area shape="rect" id="node2" href="$finder_8c_source.html" title="finder.c" alt="" coords="5,80,71,107"/>
+<area shape="rect" id="node3" href="$io_8c.html" title="Helpers function around system calls for IO purpose. " alt="" coords="95,80,138,107"/>
+<area shape="rect" id="node4" href="$ipc_8c.html" title="Manage communication between different instance of smartfolder. " alt="" coords="162,80,213,107"/>
+<area shape="rect" id="node5" href="$linker_8c.html" title="The linker maintains an updated list of links to the found files. " alt="" coords="237,80,301,107"/>
+<area shape="rect" id="node6" href="$logger_8c.html" title="Simple logger functions that allow logging of various informations and errors. " alt="" coords="325,80,393,107"/>
+<area shape="rect" id="node7" href="$main_8c.html" title="Main program: deamonise, parse argument and launch the search. " alt="" coords="418,80,479,107"/>
+<area shape="rect" id="node8" href="$parser_8c.html" title="Parses a string expression and return a formal representation. " alt="" coords="503,80,573,107"/>
+<area shape="rect" id="node9" href="$searchfolder_8c_source.html" title="searchfolder.c" alt="" coords="597,80,701,107"/>
+<area shape="rect" id="node10" href="$validator_8c.html" title="Critera and operator evaluation functions. " alt="" coords="725,80,807,107"/>
+</map>

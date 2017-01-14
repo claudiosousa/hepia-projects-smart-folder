@@ -1,0 +1,5 @@
+<map id="ipc.c" name="ipc.c">
+<area shape="rect" id="node7" href="$ipc_8h.html" title="Manage communication between different instance of smartfolder. " alt="" coords="468,80,519,107"/>
+<area shape="rect" id="node8" href="$io_8h.html" title="Helpers function around system calls for IO purpose. " alt="" coords="543,80,585,107"/>
+<area shape="rect" id="node12" href="$logger_8h.html" title="Simple logger functions that allow logging of various informations and errors. " alt="" coords="610,80,678,107"/>
+</map>

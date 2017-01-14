@@ -1,6 +1,7 @@
 /**
  * Simple logger functions that allow logging of various informations and errors.
  * @author Claudio Sousa, Gonzalez David
+ * @file
  */
 
 #ifndef LOGGER_H

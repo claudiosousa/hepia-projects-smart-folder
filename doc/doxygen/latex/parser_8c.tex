@@ -39,7 +39,7 @@ typedef \hyperlink{structparser__t}{parser\+\_\+t} $\ast$($\ast$ \hyperlink{pars
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \hyperlink{structparser__t}{parser\+\_\+t} $\ast$ \hyperlink{parser_8c_a47b4c85a9d0396d24026547068b0f819}{parse\+\_\+value} (char $\ast$argv, \hyperlink{parser_8h_a4dcbe7148b91f50b0e7f3e08e780861d}{parser\+\_\+crit\+\_\+t} \hyperlink{parser_8c_a763a1adefb032e8ebd05b1acfe86d7f8}{criteria})
+static \hyperlink{structparser__t}{parser\+\_\+t} $\ast$ \hyperlink{parser_8c_a47b4c85a9d0396d24026547068b0f819}{parse\+\_\+value} (char $\ast$argv, \hyperlink{parser_8h_a4dcbe7148b91f50b0e7f3e08e780861d}{parser\+\_\+crit\+\_\+t} \hyperlink{parser_8c_ac3b19f213cfa03092ef8941ffd1db755}{criteria})
 \begin{DoxyCompactList}\small\item\em Parses an expression value and evaluates value prefix. \end{DoxyCompactList}\item 
 static \hyperlink{structparser__t}{parser\+\_\+t} $\ast$ \hyperlink{parser_8c_afe16485de5b439108774ac9009d8516c}{parse\+\_\+name} (char $\ast$argv)
 \begin{DoxyCompactList}\small\item\em Parses N\+A\+ME criteria. \end{DoxyCompactList}\item 
@@ -53,7 +53,7 @@ static char \hyperlink{parser_8c_a1855729ff4d2fb0fca6e84e89469eff9}{parse\+\_\+e
 \begin{DoxyCompactList}\small\item\em Extracts the unity character of the value. \end{DoxyCompactList}\item 
 static \hyperlink{structparser__t}{parser\+\_\+t} $\ast$ \hyperlink{parser_8c_aee42f858f9459f7affc7b3c95afd7b4d}{parse\+\_\+size} (char $\ast$argv)
 \begin{DoxyCompactList}\small\item\em Parses S\+I\+ZE criteria. \end{DoxyCompactList}\item 
-static \hyperlink{structparser__t}{parser\+\_\+t} $\ast$ \hyperlink{parser_8c_ab6c6e61351a1fd8002d093f890617d17}{parse\+\_\+time} (char $\ast$argv, \hyperlink{parser_8h_a4dcbe7148b91f50b0e7f3e08e780861d}{parser\+\_\+crit\+\_\+t} \hyperlink{parser_8c_a763a1adefb032e8ebd05b1acfe86d7f8}{criteria})
+static \hyperlink{structparser__t}{parser\+\_\+t} $\ast$ \hyperlink{parser_8c_ab6c6e61351a1fd8002d093f890617d17}{parse\+\_\+time} (char $\ast$argv, \hyperlink{parser_8h_a4dcbe7148b91f50b0e7f3e08e780861d}{parser\+\_\+crit\+\_\+t} \hyperlink{parser_8c_ac3b19f213cfa03092ef8941ffd1db755}{criteria})
 \begin{DoxyCompactList}\small\item\em Parses T\+I\+ME criteria. \end{DoxyCompactList}\item 
 static \hyperlink{structparser__t}{parser\+\_\+t} $\ast$ \hyperlink{parser_8c_a93ea7c5840f4c1f42a6084459ed86cd3}{parse\+\_\+atime} (char $\ast$argv)
 \begin{DoxyCompactList}\small\item\em Parses A\+T\+I\+ME criteria. \end{DoxyCompactList}\item 
@@ -79,7 +79,7 @@ void \hyperlink{parser_8c_a680ceeada57c4645e365ba1745d41181}{parser\+\_\+free} (
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-static \hyperlink{structparser__t}{parser\+\_\+t} char $\ast$ \hyperlink{parser_8c_a763a1adefb032e8ebd05b1acfe86d7f8}{criteria} \mbox{[}\hyperlink{validator_8c_a20f8a4e237e6918372da5e1aec3426c8}{C\+R\+I\+T\+E\+R\+I\+A\+\_\+\+C\+O\+U\+NT}\mbox{]} = \{\char`\"{}-\/name\char`\"{}, \char`\"{}-\/group\char`\"{}, \char`\"{}-\/user\char`\"{}, \char`\"{}-\/perm\char`\"{}, \char`\"{}-\/size\char`\"{}, \char`\"{}-\/atime\char`\"{}, \char`\"{}-\/ctime\char`\"{}, \char`\"{}-\/mtime\char`\"{}\}
+static char $\ast$ \hyperlink{parser_8c_ac3b19f213cfa03092ef8941ffd1db755}{criteria} \mbox{[}\hyperlink{validator_8c_a20f8a4e237e6918372da5e1aec3426c8}{C\+R\+I\+T\+E\+R\+I\+A\+\_\+\+C\+O\+U\+NT}\mbox{]} = \{\char`\"{}-\/name\char`\"{}, \char`\"{}-\/group\char`\"{}, \char`\"{}-\/user\char`\"{}, \char`\"{}-\/perm\char`\"{}, \char`\"{}-\/size\char`\"{}, \char`\"{}-\/atime\char`\"{}, \char`\"{}-\/ctime\char`\"{}, \char`\"{}-\/mtime\char`\"{}\}
 \begin{DoxyCompactList}\small\item\em List of criteria string tokens. \end{DoxyCompactList}\item 
 static \hyperlink{parser_8c_ac724e9bd64934497a297ce90c3d1033e}{parse\+\_\+fn\+\_\+t} \hyperlink{parser_8c_ab8af9d65906b7a6d27351b73bf215518}{criteria\+\_\+type} \mbox{[}\hyperlink{validator_8c_a20f8a4e237e6918372da5e1aec3426c8}{C\+R\+I\+T\+E\+R\+I\+A\+\_\+\+C\+O\+U\+NT}\mbox{]}
 \begin{DoxyCompactList}\small\item\em List of of criteria parsing functions. \end{DoxyCompactList}\item 
@@ -495,7 +495,7 @@ Definition at line 339 of file parser.\+c.
 \subsection{Variable Documentation}
 \index{parser.\+c@{parser.\+c}!criteria@{criteria}}
 \index{criteria@{criteria}!parser.\+c@{parser.\+c}}
-\subsubsection[{\texorpdfstring{criteria}{criteria}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf parser\+\_\+t} char$\ast$ criteria\mbox{[}{\bf C\+R\+I\+T\+E\+R\+I\+A\+\_\+\+C\+O\+U\+NT}\mbox{]} = \{\char`\"{}-\/name\char`\"{}, \char`\"{}-\/group\char`\"{}, \char`\"{}-\/user\char`\"{}, \char`\"{}-\/perm\char`\"{}, \char`\"{}-\/size\char`\"{}, \char`\"{}-\/atime\char`\"{}, \char`\"{}-\/ctime\char`\"{}, \char`\"{}-\/mtime\char`\"{}\}\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{parser_8c_a763a1adefb032e8ebd05b1acfe86d7f8}{}\label{parser_8c_a763a1adefb032e8ebd05b1acfe86d7f8}
+\subsubsection[{\texorpdfstring{criteria}{criteria}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ criteria\mbox{[}{\bf C\+R\+I\+T\+E\+R\+I\+A\+\_\+\+C\+O\+U\+NT}\mbox{]} = \{\char`\"{}-\/name\char`\"{}, \char`\"{}-\/group\char`\"{}, \char`\"{}-\/user\char`\"{}, \char`\"{}-\/perm\char`\"{}, \char`\"{}-\/size\char`\"{}, \char`\"{}-\/atime\char`\"{}, \char`\"{}-\/ctime\char`\"{}, \char`\"{}-\/mtime\char`\"{}\}\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{parser_8c_ac3b19f213cfa03092ef8941ffd1db755}{}\label{parser_8c_ac3b19f213cfa03092ef8941ffd1db755}
 
 
 List of criteria string tokens. 

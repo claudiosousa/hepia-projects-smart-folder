@@ -1,4 +1,6 @@
 /**
+ * The linker maintains an updated list of links to the found files.
+ *
  * The linker has two jobs:
  *   - creates the links for the provided list of files found;
  *   - deletes old links that are no longer present in the list.
@@ -13,6 +15,7 @@
  * If it is not found, the linker deletes the link in the destination folder.
  *
  * @author Claudio Sousa, Gonzalez David
+ * @file
  */
 
 #ifndef LINKER_H

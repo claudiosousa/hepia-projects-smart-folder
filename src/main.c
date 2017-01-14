@@ -8,6 +8,7 @@
  *   - normal:    do what is above;
  *   - kill (-d): use the communication channel to stop the designated instance.
  * @author Claudio Sousa, Gonzalez David
+ * @file
  */
 
 #include <stdio.h>

@@ -1,4 +1,4 @@
 <map id="parser.c" name="parser.c">
 <area shape="rect" id="node7" href="$parser_8h.html" title="Parses a string expression and return a formal representation. " alt="" coords="390,80,459,107"/>
-<area shape="rect" id="node8" href="$logger_8h_source.html" title="logger.h" alt="" coords="484,80,552,107"/>
+<area shape="rect" id="node8" href="$logger_8h.html" title="Simple logger functions that allow logging of various informations and errors. " alt="" coords="484,80,552,107"/>
 </map>

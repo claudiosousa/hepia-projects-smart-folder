@@ -1,0 +1,126 @@
+\hypertarget{logger_8h}{}\section{logger.\+h File Reference}
+\label{logger_8h}\index{logger.\+h@{logger.\+h}}
+
+
+Simple logger functions that allow logging of various informations and errors.  
+
+
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{logger_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{logger_8h_a31cd41f12696a1cfa8f3d0ee7271eacd}{logger\+\_\+debug} (char $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em Log a message on S\+T\+D\+O\+UT if debug mode is enabled. \end{DoxyCompactList}\item 
+void \hyperlink{logger_8h_a251077259cd16790866368555b1ade54}{logger\+\_\+info} (char $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em Log a message on S\+T\+D\+O\+UT. \end{DoxyCompactList}\item 
+void \hyperlink{logger_8h_ae3babed41be6499526f89c1acf2ec37f}{logger\+\_\+error} (char $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em Log an error message on S\+T\+D\+E\+RR. \end{DoxyCompactList}\item 
+void \hyperlink{logger_8h_a8fea334aadc9bc5d968de863481b5f0a}{logger\+\_\+perror} (char $\ast$msg)
+\begin{DoxyCompactList}\small\item\em Log an error message on S\+T\+D\+E\+RR using perror (P\+O\+S\+IX) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Simple logger functions that allow logging of various informations and errors. 
+
+\begin{DoxyAuthor}{Author}
+Claudio Sousa, Gonzalez David 
+\end{DoxyAuthor}
+
+
+\subsection{Function Documentation}
+\index{logger.\+h@{logger.\+h}!logger\+\_\+debug@{logger\+\_\+debug}}
+\index{logger\+\_\+debug@{logger\+\_\+debug}!logger.\+h@{logger.\+h}}
+\subsubsection[{\texorpdfstring{logger\+\_\+debug(char $\ast$fmt,...)}{logger_debug(char *fmt,...)}}]{\setlength{\rightskip}{0pt plus 5cm}void logger\+\_\+debug (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}\hypertarget{logger_8h_a31cd41f12696a1cfa8f3d0ee7271eacd}{}\label{logger_8h_a31cd41f12696a1cfa8f3d0ee7271eacd}
+
+
+Log a message on S\+T\+D\+O\+UT if debug mode is enabled. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fmt} & Message to log with printf() format allowed \\
+\hline
+{\em ...} & Format args \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 17 of file logger.\+c.
+
+\index{logger.\+h@{logger.\+h}!logger\+\_\+error@{logger\+\_\+error}}
+\index{logger\+\_\+error@{logger\+\_\+error}!logger.\+h@{logger.\+h}}
+\subsubsection[{\texorpdfstring{logger\+\_\+error(char $\ast$fmt,...)}{logger_error(char *fmt,...)}}]{\setlength{\rightskip}{0pt plus 5cm}void logger\+\_\+error (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}\hypertarget{logger_8h_ae3babed41be6499526f89c1acf2ec37f}{}\label{logger_8h_ae3babed41be6499526f89c1acf2ec37f}
+
+
+Log an error message on S\+T\+D\+E\+RR. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fmt} & Message to log with printf() format allowed \\
+\hline
+{\em ...} & Format args \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 43 of file logger.\+c.
+
+\index{logger.\+h@{logger.\+h}!logger\+\_\+info@{logger\+\_\+info}}
+\index{logger\+\_\+info@{logger\+\_\+info}!logger.\+h@{logger.\+h}}
+\subsubsection[{\texorpdfstring{logger\+\_\+info(char $\ast$fmt,...)}{logger_info(char *fmt,...)}}]{\setlength{\rightskip}{0pt plus 5cm}void logger\+\_\+info (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}\hypertarget{logger_8h_a251077259cd16790866368555b1ade54}{}\label{logger_8h_a251077259cd16790866368555b1ade54}
+
+
+Log a message on S\+T\+D\+O\+UT. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fmt} & Message to log with printf() format allowed \\
+\hline
+{\em ...} & Format args \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 32 of file logger.\+c.
+
+\index{logger.\+h@{logger.\+h}!logger\+\_\+perror@{logger\+\_\+perror}}
+\index{logger\+\_\+perror@{logger\+\_\+perror}!logger.\+h@{logger.\+h}}
+\subsubsection[{\texorpdfstring{logger\+\_\+perror(char $\ast$msg)}{logger_perror(char *msg)}}]{\setlength{\rightskip}{0pt plus 5cm}void logger\+\_\+perror (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}\hypertarget{logger_8h_a8fea334aadc9bc5d968de863481b5f0a}{}\label{logger_8h_a8fea334aadc9bc5d968de863481b5f0a}
+
+
+Log an error message on S\+T\+D\+E\+RR using perror (P\+O\+S\+IX) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & Message to log \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 54 of file logger.\+c.
+
