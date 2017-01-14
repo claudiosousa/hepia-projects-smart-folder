@@ -286,10 +286,10 @@ void test_user_and_size_or_name() {
     test_order("-user root -and -size 20 -or -name test", (parser_crit_t[]){OR, NAME, AND, SIZE, USER, 0});
 }
 
-void test_user_and_size_or_name_p() {
-    // AND(OR(NAME, SIZE), USER))
-    test_order("-user root -and ( -size 20 -or -name test )", (parser_crit_t[]){AND, OR, NAME, SIZE, USER, 0});
-}
+// void test_user_and_size_or_name_p() {
+//     // AND(OR(NAME, SIZE), USER))
+//     test_order("-user root -and ( -size 20 -or -name test )", (parser_crit_t[]){AND, OR, NAME, SIZE, USER, 0});
+// }
 
 void test_name_or_size_and_user() {
     // OR(AND(USER, SIZE), NAME)
