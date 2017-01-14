@@ -12,3 +12,5 @@ IMplementattion doc to add to doxygen output:
   - Describe singleton IPC
   - Describe callback/args
 
+Test on mac os
+
