@@ -213,7 +213,7 @@ static parser_t *parse_mtime(char *argv) {
 /** Parses operator.*/
 static parser_t *parse_op(parser_crit_t op) {
     parser_t *res = malloc(sizeof(parser_t));
-    res->value = NULL;
+    res->next = res->value = NULL;
     res->crit = op;
     return res;
 }

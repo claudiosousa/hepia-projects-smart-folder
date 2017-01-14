@@ -286,8 +286,8 @@ void test_user_and_size_or_name() {
 }
 
 void test_user_and_size_or_name_p() {
-    //     // AND(OR(NAME, SIZE), USER))
-    //     test_order("-user root -and ( -size 20 -or -name test )", (parser_crit_t[]){AND, OR, NAME, SIZE, USER, 0});
+    // AND(OR(NAME, SIZE), USER))
+    test_order("-user root -and ( -size 20 -or -name test )", (parser_crit_t[]){AND, OR, NAME, SIZE, USER, 0});
 }
 
 void test_name_or_size_and_user() {
