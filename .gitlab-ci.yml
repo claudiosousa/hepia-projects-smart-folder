@@ -1,11 +1,18 @@
 image: alpine
 
-#compile:
-#  stage: build
-#  script:
-#  - make src
-#  only:
-#  - master
+buil_searchfolder:
+  stage: build
+  script:
+  - make src
+  only:
+  - master
+
+unit_tests:
+  stage: test
+  script:
+  - make tests
+  only:
+  - master
 
 pages:
   stage: deploy
