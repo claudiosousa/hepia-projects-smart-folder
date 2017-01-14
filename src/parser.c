@@ -220,7 +220,7 @@ static parser_t *parse_op(parser_crit_t op) {
 
 /** Function pointer for token parser functions*/
 typedef parser_t *(*parse_fn_t)(char *);
-parser_t
+
 /** List of criteria string tokens.
     The criteria in their string representation are used for recognizing then in the given expression.
     @see parser_crit_t
