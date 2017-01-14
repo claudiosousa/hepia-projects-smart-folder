@@ -1,3 +1,14 @@
+/** This files performs unit testing on the parser module.
+
+    Are unit tested:
+     - empty, wrong and incomplete expressions
+     - individual criteria
+     - implicit/explicit operators
+     - boolean operators priority
+     - parentheses forced priority
+     - combinations of all above
+*/
+
 #include <math.h>
 #include "../src/parser.h"
 #include "vendor/cutest.h"
@@ -306,6 +317,7 @@ void test_group_not_size_or_user_perm_p() {
                (parser_crit_t[]){AND, AND, PERM, NOT, OR, USER, SIZE, GROUP, 0});
 }
 
+//List of tests to be performed
 TEST_LIST = {{"parse empty", test_parse_empty},
              {"parse incomplete exp", test_parse_incomplete},
              {"parse incorrect exp", test_parse_incorrect},

@@ -13,7 +13,7 @@ typedef enum {
     OR = OPERATOR,  // operators below, order by priority DESC
     AND,
     NOT,
-    NAME = CRITERIA | 3,  // bellow are criteria
+    NAME = CRITERIA | 3,  // below are criteria
     USER,
     GROUP,
     PERM,
