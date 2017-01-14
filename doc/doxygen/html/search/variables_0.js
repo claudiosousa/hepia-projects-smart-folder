@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['perm_5fflags',['PERM_FLAGS',['../validator_8c.html#a119982f507a1f4dbe52025a97a127f9f',1,'validator.c']]],
-  ['perm_5foptions',['PERM_OPTIONS',['../validator_8c.html#a59a13bfa9a783bc3c4d64cc8671db7ba',1,'validator.c']]]
+  ['comp',['comp',['../structparser__t.html#a7bc05cec4ebb98215d11f1f354450f3d',1,'parser_t']]],
+  ['crit',['crit',['../structparser__t.html#af8e04406eee9097a92118be27b07eff7',1,'parser_t']]],
+  ['criteria',['criteria',['../parser_8c.html#a763a1adefb032e8ebd05b1acfe86d7f8',1,'parser.c']]],
+  ['criteria_5ftype',['criteria_type',['../parser_8c.html#ab8af9d65906b7a6d27351b73bf215518',1,'parser.c']]]
 ];

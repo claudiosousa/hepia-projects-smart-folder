@@ -1,4 +1,4 @@
-/** Critera and operator evaludation functions.
+/** Critera and operator evaluation functions.
     @file
 
     Contains the logic to evaluate each possible critera and operator.
@@ -51,6 +51,7 @@ typedef enum {
     @see validate_perm_owner_t
  */
 static int PERM_OPTIONS[PERM_OPTIONS_COUNT] = {R << U, W << U, X << U, R << G, W << G, X << G, R << O, W << O, X << O};
+
 /** List of all [OS permission flags](http://pubs.opengroup.org/onlinepubs/7908799/xsh/sysstat.h.html) matching the
    permission options.
 
@@ -120,7 +121,7 @@ static bool validate_size(char *filename, struct stat *filestat, parser_t *exp) 
     return exp->comp == EXACT ? refsize == filestat->st_size : (exp->comp == MIN) ^ !!(refsize < filestat->st_size);
 }
 
-/** Factorizes time related validation. */
+/** Validates TIME criteria. */
 static bool validate_time(time_t comp_time, parser_comp_t comp, long refseconds) {
     time_t now = time(NULL);
     long s_delta = (long)difftime(now, comp_time);
@@ -148,9 +149,8 @@ static bool validate_ctime(char *filename, struct stat *filestat, parser_t *exp)
 /** Function pointer for criteria validate functions*/
 typedef bool (*validate_fn_t)(char *, struct stat *, parser_t *);
 
-/** List of of criteria validate functions.
+/** List of  criteria validate functions.
 
-    Array contained the list of all the criteria specific validate functions
     The order is important as it must match the index of the criteria in `parser_crit_t`
 
     @see parser_crit_t
@@ -163,7 +163,7 @@ static validate_fn_t validators[CRITERIA_COUNT] = {&validate_or,    &validate_an
 
 /** Validates an expression token.
 
-    Retrieves the validate function corrsponding to the expression token,
+    Retrieves the validate function corresponding to the expression token,
     which can be a criteria or an operator
 */
 static bool validate_exp_token(char *filename, struct stat *filestat, parser_t *exp) {

@@ -1,8 +1,8 @@
-\hypertarget{validator_8c}{}\section{/home/claudio/git/smart-\/folder/src/validator.c File Reference}
-\label{validator_8c}\index{/home/claudio/git/smart-\/folder/src/validator.\+c@{/home/claudio/git/smart-\/folder/src/validator.\+c}}
+\hypertarget{validator_8c}{}\section{validator.\+c File Reference}
+\label{validator_8c}\index{validator.\+c@{validator.\+c}}
 
 
-Critera and operator evaludation functions.  
+Critera and operator evaluation functions.  
 
 
 {\ttfamily \#include $<$string.\+h$>$}\\*
@@ -68,8 +68,8 @@ static bool \hyperlink{validator_8c_ab8e50ae831fd783fc9d455494d26b905}{validate\
 \begin{DoxyCompactList}\small\item\em Validates P\+E\+RM criteria. \end{DoxyCompactList}\item 
 static bool \hyperlink{validator_8c_aa410d57420af99c3bdf2e174f3ab3321}{validate\+\_\+size} (char $\ast$filename, struct stat $\ast$filestat, \hyperlink{structparser__t}{parser\+\_\+t} $\ast$exp)
 \begin{DoxyCompactList}\small\item\em Validates S\+I\+ZE criteria. \end{DoxyCompactList}\item 
-static bool \hyperlink{validator_8c_a09e5b757b61865f2fe4f913e476db459}{validate\+\_\+time} (time\+\_\+t comp\+\_\+time, parser\+\_\+comp\+\_\+t comp, long refseconds)
-\begin{DoxyCompactList}\small\item\em Factorizes time related validation. \end{DoxyCompactList}\item 
+static bool \hyperlink{validator_8c_a09e5b757b61865f2fe4f913e476db459}{validate\+\_\+time} (time\+\_\+t comp\+\_\+time, \hyperlink{parser_8h_ac721d0db2049edef01e62a2e63ff0472}{parser\+\_\+comp\+\_\+t} comp, long refseconds)
+\begin{DoxyCompactList}\small\item\em Validates T\+I\+ME criteria. \end{DoxyCompactList}\item 
 static bool \hyperlink{validator_8c_a8ca6f2c0ab321df18548c3e12c87b703}{validate\+\_\+atime} (char $\ast$filename, struct stat $\ast$filestat, \hyperlink{structparser__t}{parser\+\_\+t} $\ast$exp)
 \begin{DoxyCompactList}\small\item\em Validates A\+T\+I\+ME criteria. \end{DoxyCompactList}\item 
 static bool \hyperlink{validator_8c_aee84fd5cf26129acf79e7dfd2a5185c1}{validate\+\_\+mtime} (char $\ast$filename, struct stat $\ast$filestat, \hyperlink{structparser__t}{parser\+\_\+t} $\ast$exp)
@@ -86,11 +86,11 @@ static int \hyperlink{validator_8c_a59a13bfa9a783bc3c4d64cc8671db7ba}{P\+E\+R\+M
 static int \hyperlink{validator_8c_a119982f507a1f4dbe52025a97a127f9f}{P\+E\+R\+M\+\_\+\+F\+L\+A\+GS} \mbox{[}\hyperlink{validator_8c_abe2627a9935b96daef8d9a2478934647}{P\+E\+R\+M\+\_\+\+O\+P\+T\+I\+O\+N\+S\+\_\+\+C\+O\+U\+NT}\mbox{]}
 \begin{DoxyCompactList}\small\item\em List of all \href{http://pubs.opengroup.org/onlinepubs/7908799/xsh/sysstat.h.html}{\tt OS permission flags} matching the permission options. \end{DoxyCompactList}\item 
 static \hyperlink{validator_8c_ad99afbcae8ae7f7cfee6a97184d5861b}{validate\+\_\+fn\+\_\+t} \hyperlink{validator_8c_a9839e177025c582f4ad9d7c007141636}{validators} \mbox{[}\hyperlink{validator_8c_a20f8a4e237e6918372da5e1aec3426c8}{C\+R\+I\+T\+E\+R\+I\+A\+\_\+\+C\+O\+U\+NT}\mbox{]}
-\begin{DoxyCompactList}\small\item\em List of of criteria validate functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em List of criteria validate functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Critera and operator evaludation functions. 
+Critera and operator evaluation functions. 
 
 Contains the logic to evaluate each possible critera and operator. 
 
@@ -103,7 +103,7 @@ Contains the logic to evaluate each possible critera and operator.
 Mask that to apply to {\ttfamily parser\+\_\+crit\+\_\+t} to get criteria index in the enum. 
 
 \begin{DoxySeeAlso}{See also}
-parser\+\_\+crit\+\_\+t 
+\hyperlink{parser_8h_a4dcbe7148b91f50b0e7f3e08e780861d}{parser\+\_\+crit\+\_\+t} 
 \end{DoxySeeAlso}
 
 
@@ -172,7 +172,7 @@ Validates A\+ND operators.
 
 
 
-Definition at line 72 of file validator.\+c.
+Definition at line 73 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validate\+\_\+atime@{validate\+\_\+atime}}
 \index{validate\+\_\+atime@{validate\+\_\+atime}!validator.\+c@{validator.\+c}}
@@ -189,7 +189,7 @@ Validates A\+T\+I\+ME criteria.
 
 
 
-Definition at line 131 of file validator.\+c.
+Definition at line 132 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validate\+\_\+ctime@{validate\+\_\+ctime}}
 \index{validate\+\_\+ctime@{validate\+\_\+ctime}!validator.\+c@{validator.\+c}}
@@ -206,7 +206,7 @@ Validates C\+T\+I\+ME criteria.
 
 
 
-Definition at line 143 of file validator.\+c.
+Definition at line 144 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validate\+\_\+exp\+\_\+token@{validate\+\_\+exp\+\_\+token}}
 \index{validate\+\_\+exp\+\_\+token@{validate\+\_\+exp\+\_\+token}!validator.\+c@{validator.\+c}}
@@ -221,7 +221,7 @@ Definition at line 143 of file validator.\+c.
 
 Validates an expression token. 
 
-Retrieves the validate function corrsponding to the expression token, which can be a criteria or an operator 
+Retrieves the validate function corresponding to the expression token, which can be a criteria or an operator 
 
 Definition at line 169 of file validator.\+c.
 
@@ -240,7 +240,7 @@ Validates G\+R\+O\+UP criteria.
 
 
 
-Definition at line 96 of file validator.\+c.
+Definition at line 97 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validate\+\_\+mtime@{validate\+\_\+mtime}}
 \index{validate\+\_\+mtime@{validate\+\_\+mtime}!validator.\+c@{validator.\+c}}
@@ -257,7 +257,7 @@ Validates M\+T\+I\+ME criteria.
 
 
 
-Definition at line 137 of file validator.\+c.
+Definition at line 138 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validate\+\_\+name@{validate\+\_\+name}}
 \index{validate\+\_\+name@{validate\+\_\+name}!validator.\+c@{validator.\+c}}
@@ -274,7 +274,7 @@ Validates N\+A\+ME criteria.
 
 
 
-Definition at line 83 of file validator.\+c.
+Definition at line 84 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validate\+\_\+not@{validate\+\_\+not}}
 \index{validate\+\_\+not@{validate\+\_\+not}!validator.\+c@{validator.\+c}}
@@ -291,7 +291,7 @@ Validates N\+OT operators.
 
 
 
-Definition at line 78 of file validator.\+c.
+Definition at line 79 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validate\+\_\+or@{validate\+\_\+or}}
 \index{validate\+\_\+or@{validate\+\_\+or}!validator.\+c@{validator.\+c}}
@@ -308,7 +308,7 @@ Validates OR operators.
 
 
 
-Definition at line 66 of file validator.\+c.
+Definition at line 67 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validate\+\_\+perm@{validate\+\_\+perm}}
 \index{validate\+\_\+perm@{validate\+\_\+perm}!validator.\+c@{validator.\+c}}
@@ -325,7 +325,7 @@ Validates P\+E\+RM criteria.
 
 
 
-Definition at line 102 of file validator.\+c.
+Definition at line 103 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validate\+\_\+size@{validate\+\_\+size}}
 \index{validate\+\_\+size@{validate\+\_\+size}!validator.\+c@{validator.\+c}}
@@ -342,24 +342,24 @@ Validates S\+I\+ZE criteria.
 
 
 
-Definition at line 117 of file validator.\+c.
+Definition at line 118 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validate\+\_\+time@{validate\+\_\+time}}
 \index{validate\+\_\+time@{validate\+\_\+time}!validator.\+c@{validator.\+c}}
 \subsubsection[{\texorpdfstring{validate\+\_\+time(time\+\_\+t comp\+\_\+time, parser\+\_\+comp\+\_\+t comp, long refseconds)}{validate_time(time_t comp_time, parser_comp_t comp, long refseconds)}}]{\setlength{\rightskip}{0pt plus 5cm}static bool validate\+\_\+time (
 \begin{DoxyParamCaption}
 \item[{time\+\_\+t}]{comp\+\_\+time, }
-\item[{parser\+\_\+comp\+\_\+t}]{comp, }
+\item[{{\bf parser\+\_\+comp\+\_\+t}}]{comp, }
 \item[{long}]{refseconds}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{validator_8c_a09e5b757b61865f2fe4f913e476db459}{}\label{validator_8c_a09e5b757b61865f2fe4f913e476db459}
 
 
-Factorizes time related validation. 
+Validates T\+I\+ME criteria. 
 
 
 
-Definition at line 124 of file validator.\+c.
+Definition at line 125 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validate\+\_\+user@{validate\+\_\+user}}
 \index{validate\+\_\+user@{validate\+\_\+user}!validator.\+c@{validator.\+c}}
@@ -376,7 +376,7 @@ Validates U\+S\+ER criteria.
 
 
 
-Definition at line 90 of file validator.\+c.
+Definition at line 91 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!validator\+\_\+validate@{validator\+\_\+validate}}
 \index{validator\+\_\+validate@{validator\+\_\+validate}!validator.\+c@{validator.\+c}}
@@ -417,7 +417,7 @@ List of all \href{http://pubs.opengroup.org/onlinepubs/7908799/xsh/sysstat.h.htm
 \end{DoxySeeAlso}
 
 
-Definition at line 60 of file validator.\+c.
+Definition at line 61 of file validator.\+c.
 
 \index{validator.\+c@{validator.\+c}!P\+E\+R\+M\+\_\+\+O\+P\+T\+I\+O\+NS@{P\+E\+R\+M\+\_\+\+O\+P\+T\+I\+O\+NS}}
 \index{P\+E\+R\+M\+\_\+\+O\+P\+T\+I\+O\+NS@{P\+E\+R\+M\+\_\+\+O\+P\+T\+I\+O\+NS}!validator.\+c@{validator.\+c}}
@@ -449,12 +449,12 @@ Definition at line 53 of file validator.\+c.
 \end{DoxyCode}
 
 
-List of of criteria validate functions. 
+List of criteria validate functions. 
 
-Array contained the list of all the criteria specific validate functions The order is important as it must match the index of the criteria in {\ttfamily parser\+\_\+crit\+\_\+t}
+The order is important as it must match the index of the criteria in {\ttfamily parser\+\_\+crit\+\_\+t}
 
 \begin{DoxySeeAlso}{See also}
-parser\+\_\+crit\+\_\+t 
+\hyperlink{parser_8h_a4dcbe7148b91f50b0e7f3e08e780861d}{parser\+\_\+crit\+\_\+t} 
 
 \hyperlink{validator_8c_ad99afbcae8ae7f7cfee6a97184d5861b}{validate\+\_\+fn\+\_\+t} 
 

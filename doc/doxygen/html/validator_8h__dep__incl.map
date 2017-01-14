@@ -1,10 +1,10 @@
-<map id="/home/claudio/git/smart&#45;folder/src/validator.h" name="/home/claudio/git/smart&#45;folder/src/validator.h">
-<area shape="rect" id="node2" href="$finder_8h_source.html" title="/home/claudio/git/smart\l&#45;folder/src/finder.h" alt="" coords="188,95,347,136"/>
-<area shape="rect" id="node7" href="$searchfolder_8h_source.html" title="/home/claudio/git/smart\l&#45;folder/src/searchfolder.h" alt="" coords="371,95,537,136"/>
-<area shape="rect" id="node9" href="$validator_8c.html" title="Critera and operator evaludation functions. " alt="" coords="561,95,720,136"/>
-<area shape="rect" id="node3" href="$finder_8c_source.html" title="/home/claudio/git/smart\l&#45;folder/src/finder.c" alt="" coords="5,184,164,225"/>
-<area shape="rect" id="node4" href="$linker_8h_source.html" title="/home/claudio/git/smart\l&#45;folder/src/linker.h" alt="" coords="188,184,347,225"/>
-<area shape="rect" id="node6" href="$searchfolder_8c_source.html" title="/home/claudio/git/smart\l&#45;folder/src/searchfolder.c" alt="" coords="327,273,493,315"/>
-<area shape="rect" id="node5" href="$linker_8c_source.html" title="/home/claudio/git/smart\l&#45;folder/src/linker.c" alt="" coords="144,273,303,315"/>
-<area shape="rect" id="node8" href="$main_8c_source.html" title="/home/claudio/git/smart\l&#45;folder/src/main.c" alt="" coords="473,184,632,225"/>
+<map id="validator.h" name="validator.h">
+<area shape="rect" id="node2" href="$finder_8h_source.html" title="finder.h" alt="" coords="100,80,165,107"/>
+<area shape="rect" id="node7" href="$searchfolder_8h_source.html" title="searchfolder.h" alt="" coords="195,80,299,107"/>
+<area shape="rect" id="node9" href="$validator_8c.html" title="Critera and operator evaluation functions. " alt="" coords="323,80,406,107"/>
+<area shape="rect" id="node3" href="$finder_8c_source.html" title="finder.c" alt="" coords="5,155,71,181"/>
+<area shape="rect" id="node4" href="$linker_8h_source.html" title="linker.h" alt="" coords="95,155,159,181"/>
+<area shape="rect" id="node6" href="$searchfolder_8c_source.html" title="searchfolder.c" alt="" coords="165,229,269,256"/>
+<area shape="rect" id="node5" href="$linker_8c_source.html" title="linker.c" alt="" coords="77,229,141,256"/>
+<area shape="rect" id="node8" href="$main_8c_source.html" title="main.c" alt="" coords="285,155,346,181"/>
 </map>
