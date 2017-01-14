@@ -175,7 +175,6 @@ static bool validate_exp_token(char *filename, struct stat *filestat, parser_t *
     return validators[exp->crit & CRITERIA_ORDER_MASK](filename, filestat, exp);
 }
 
-/** Validates a file against an expression. */
-bool validator_validate(char *filename, struct stat *filestat, parser_t *exp) {
-    return !exp || validate_exp_token(filename, filestat, exp);
+bool validator_validate(char *filename, struct stat *filestat, parser_t *expression) {
+    return !exp || validate_exp_token(filename, filestat, expression);
 }
