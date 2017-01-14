@@ -11,7 +11,9 @@ pages:
   stage: deploy
   script:
   - apk update && apk add doxygen && apk add graphviz
-  - doxygen doxygen/Doxyfile
+  - cd doxygen 
+  - doxygen Doxyfile
+  - cd ..
   - mv doxygen/html/ public/
   artifacts:
     paths:
