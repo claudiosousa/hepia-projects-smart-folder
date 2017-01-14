@@ -8,19 +8,19 @@
 
 /**
  * Log a message on STDOUT if debug mode is enabled.
- * @param fmt Message to log
+ * @param fmt Message to log with printf() format allowed
  * @param ... Format args
  */
 void logger_debug(char * fmt, ...);
 /**
  * Log a message on STDOUT.
- * @param fmt Message to log
+ * @param fmt Message to log with printf() format allowed
  * @param ... Format args
  */
 void logger_info(char * fmt, ...);
 /**
  * Log an error message on STDERR.
- * @param fmt Message to log
+ * @param fmt Message to log with printf() format allowed
  * @param ... Format args
  */
 void logger_error(char * fmt, ...);

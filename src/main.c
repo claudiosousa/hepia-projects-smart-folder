@@ -1,5 +1,12 @@
 /**
  * Main program: deamonise, parse argument and launch the search.
+ * Its role is to parse command-line arguments and:
+ *   - launch the parser to create the expression to validate against files;
+ *   - set up the communication channel between instance;
+ *   - launch the main searchfoler loop.
+ * Also, it can run in two mode:
+ *   - normal:    do what is above;
+ *   - kill (-d): use the communication channel to stop the designated instance.
  * @author Claudio Sousa, Gonzalez David
  */
 
@@ -14,7 +21,7 @@
 #include "logger.h"
 
 /**
- * Prints program usage
+ * Prints program usage.
  * @param prog_name Program name
  */
 void print_usage(char *prog_name) {
@@ -26,7 +33,7 @@ void print_usage(char *prog_name) {
 }
 
 /**
- * Program entry-point
+ * Program entry-point.
  * @param argc Number of arguments
  * @param argv Array of arguments
  */

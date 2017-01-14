@@ -1,5 +1,24 @@
 /**
  * Manage communication between different instance of smartfolder.
+ *
+ * In order to do this, during initialisation (ipc_set_watch),
+ * it create a file in the user home directory and put the PID of the current
+ * instance in it. The name of this file is constructed by taking the
+ * provided destination path and replacing all directory separator by an underscore.
+ *
+ * It also setup two signals catch (SIGINT and SIGTERM) for cleanup purpose.
+ * The callback and callback data are provided by the caller, and stored
+ * as global for usage in the signl handler. This is this handler that also remove the
+ * file in the user home directory.
+ *
+ * Now, to terminate an instance, it gets the PID of the target instance
+ * by getting it in the concerned file. To get this file, it does the
+ * same string replacement in the provided destination folder to have the right name.
+ * Then, with the PID, it launch a SIGTERM signal to the instance.
+ *
+ * When a signal is received, the signal handler will first remove the file
+ * and call the callback if any.
+ *
  * @author Claudio Sousa, Gonzalez David
  */
 
@@ -17,8 +36,17 @@
 #define IPC_RUN_PATH "/run/"
 #define IPC_HOME_RUN_PATH IPC_HOME_PATH IPC_RUN_PATH
 
+/**
+ * Destination path on which this instance operates on.
+ */
 static char g_watch_dst_path[IO_PATH_MAX_SIZE] = "";
+/**
+ * Provided callback when a signal is received
+ */
 static ipc_stop_callback g_watch_cb = NULL;
+/**
+ * Callback data for the callback when signal is received
+ */
 static void * g_watch_cb_arg = NULL;
 
 /**
@@ -50,7 +78,8 @@ static int ipc_get_pid_file_path(char *dst_path, char *pid_path) {
 }
 
 /**
- * IPC signal handler for SIGTERM that remove the watch and optionally call a callback
+ * IPC signal handler for SIGTERM|SIGINT that remove the watch
+ * and optionally call a callback.
  */
 void ipc_sig_handler() {
     ipc_remove_watch(g_watch_dst_path);

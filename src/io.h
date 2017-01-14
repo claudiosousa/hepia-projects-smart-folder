@@ -1,5 +1,5 @@
 /**
- * Helpers function around system calls for IO purpose
+ * Helpers function around system calls for IO purpose.
  * @author Claudio Sousa, Gonzalez David
  */
 
@@ -10,10 +10,23 @@
 #include <stdbool.h>
 #include <sys/stat.h>
 
+/**
+ * Maximum string size for path
+ */
 #define IO_PATH_MAX_SIZE 4096
+/**
+ * Path separator for path construction
+ */
 #define IO_PATH_SEP '/'
+/**
+ * Maximum files allowed in the list of files
+ */
 #define IO_DIR_MAX_FILES 1024
 
+/**
+ * Container for file lists (fixed size for simplification),
+ * used by io_directory_get_all().
+ */
 typedef struct io_file_list {
     char files[IO_DIR_MAX_FILES][IO_PATH_MAX_SIZE];
     size_t count;
