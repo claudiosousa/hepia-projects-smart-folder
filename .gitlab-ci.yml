@@ -1,3 +1,18 @@
 compile:
+  stage: build
   script: 
-    - make src
+  - make src
+  only:
+  - master
+
+doxygen:
+  stage: deploy
+  script:
+  - mkdir .public
+  - cp -r doc/doxygen/html/* .public
+  - mv .public public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
