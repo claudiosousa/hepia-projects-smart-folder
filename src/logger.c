@@ -12,6 +12,9 @@
 #include "logger.h"
 #include "io.h"
 
+/**
+ * Maximum size of the message to display
+ */
 #define LOGGER_MSG_MAX 256
 
 void logger_debug(char * fmt, ...) {

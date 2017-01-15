@@ -26,6 +26,9 @@
 #ifndef IPC_H
 #define IPC_H
 
+/**
+ * Callback signed used in the signal handler
+ */
 typedef void (*ipc_stop_callback)(void*);
 
 /**

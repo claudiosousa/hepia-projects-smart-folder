@@ -13,8 +13,17 @@
 #include "io.h"
 #include "logger.h"
 
+/**
+ * Buffer size for file content read
+ */
 #define IO_TMP_BUF_SIZE 4096
+/**
+ * Default file/directory permission on creation
+ */
 #define IO_DEFAULT_PERM 0644
+/**
+ * Default file/directory persmission on creation
+ */
 #define IO_DEFAULT_MODE S_IRWXU | S_IRWXG
 
 bool io_file_exists(char *path) {

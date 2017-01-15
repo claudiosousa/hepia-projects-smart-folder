@@ -29,7 +29,13 @@
  * used by io_directory_get_all().
  */
 typedef struct io_file_list {
+    /**
+     * Array of file path
+     */
     char files[IO_DIR_MAX_FILES][IO_PATH_MAX_SIZE];
+    /**
+     * Real number of elements in the above list
+     */
     size_t count;
 } io_file_list;
 
@@ -44,6 +50,7 @@ bool io_file_exists(char *path);
  * Fully read a file and put it in the destination buffer
  * @param path File path to read
  * @param dst_buffer Buffer to put the result
+ * @param buf_size Size of the destination buffer (result)
  * @return Success result, return 0 only when it has fully read it, 1 if any error occurs
  */
 int io_file_read_content(char *path, char *dst_buffer, size_t buf_size);
