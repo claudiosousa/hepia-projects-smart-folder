@@ -32,9 +32,21 @@
 #include "io.h"
 #include "logger.h"
 
+/**
+ * Max size of the sring used to store the PID of the instance
+ */
 #define IPC_MAX_PID_SIZE 10
+/**
+ * Root folder in the user home directory
+ */
 #define IPC_HOME_PATH "/.searchfolder/"
+/**
+ * Folder where to store the PID files
+ */
 #define IPC_RUN_PATH "/run/"
+/**
+ * Complete path from user home directory where to store the PID files
+ */
 #define IPC_HOME_RUN_PATH IPC_HOME_PATH IPC_RUN_PATH
 
 /**

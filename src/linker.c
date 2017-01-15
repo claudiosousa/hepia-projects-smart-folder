@@ -21,10 +21,47 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <inttypes.h>
 #include <libgen.h>
 #include "linker.h"
 #include "io.h"
 #include "logger.h"
+
+/**
+ * Count the number of times the current file appear in the list before itself.
+ * @param current_file Current treated file in the below list
+ * @param files List of files to link
+ * @return Number of times it appears
+ */
+unsigned int linker_get_count(finder_t *current_file, finder_t *files) {
+    unsigned int dup_count = 0;
+
+    while (files != current_file) {
+        if (strncmp(basename(files->filename), basename(current_file->filename), IO_PATH_MAX_SIZE) == 0) {
+            dup_count++;
+        }
+        files = files->next;
+    }
+
+    return dup_count;
+}
+
+/**
+ * Retreive the duplicate number from the filename
+ * @param link_filename Filename of the link
+ * @return Appending duplicate counter
+ */
+unsigned int linker_get_count_from_filename(char *link_filename) {
+    unsigned int dup_count = 0;
+
+    const char *dot = strrchr(link_filename, '.');
+    if ((dot != NULL) && (dot != link_filename)) {
+        const char *ext = dot + 1;
+        dup_count = strtoimax(ext, NULL, 10);
+    }
+
+    return dup_count;
+}
 
 /**
  * Delete all links in the destination folder that are no longer in the given list.
@@ -37,26 +74,37 @@ void linker_purge(char *dst_path, finder_t *files) {
     io_file_list *links = io_directory_get_all(dst_path);
     bool found = false;
     char link_del[IO_PATH_MAX_SIZE] = "";
-    char real_link_del[IO_PATH_MAX_SIZE] = "";
+    char link_del_target[IO_PATH_MAX_SIZE] = "";
     char real_dst_filepath[IO_PATH_MAX_SIZE] = "";
     finder_t *file;
 
     for (unsigned int i = 0; i < links->count; i++) {
         found = false;
         snprintf(link_del, IO_PATH_MAX_SIZE, "%s%c%s", dst_path, IO_PATH_SEP, links->files[i]);
-        realpath(link_del, real_link_del);
+        realpath(link_del, link_del_target);
 
         file = files;
         while (file && !found) {
             realpath(file->filename, real_dst_filepath);
-            found = (strncmp(real_link_del, real_dst_filepath, IO_PATH_MAX_SIZE) == 0);
-            file = file->next;
+            found = (strncmp(link_del_target, real_dst_filepath, IO_PATH_MAX_SIZE) == 0);
+
+            // If found, don't do next because we need this reference for duplicate count
+            if (!found) {
+                file = file->next;
+            }
+        }
+        // Avoid crash if the current file is not found
+        if (!found) {
+            file = files;
         }
 
-        if (!found) {
+        if ((!found) || (linker_get_count_from_filename(link_del) != linker_get_count(file, files))) {
+            logger_debug("Purge: %s | %u | %u\n", link_del, linker_get_count_from_filename(link_del), linker_get_count(file, files));
             if (io_file_delete(link_del) != 0) {
                 logger_error("Linker error: cannot purge '%s'\n", link_del);
             }
+        } else {
+            logger_debug("Don't purge: %s | %u | %u\n", link_del, linker_get_count_from_filename(link_del), linker_get_count(file, files));
         }
     }
 
@@ -69,18 +117,14 @@ void linker_update(char *dst_path, finder_t *files) {
     char real_dst_filepath[IO_PATH_MAX_SIZE] = "";
     unsigned int dup_count = 0;
     finder_t *file = files;
-    while (file) {
-        strncpy(filename_final, basename(file->filename), IO_PATH_MAX_SIZE);
 
-        // Count number of file that has the same name before it (in the list)
-        dup_count = 0;
-        finder_t *filecpy = files;
-        while (filecpy != file) {
-            if (strncmp(basename(filecpy->filename), filename_final, IO_PATH_MAX_SIZE) == 0) {
-                dup_count++;
-            }
-            filecpy = filecpy->next;
-        }
+    linker_purge(dst_path, files);
+
+    while (file) {
+        logger_debug("File found '%s'\n", file->filename);
+
+        dup_count = linker_get_count(file, files);
+        strncpy(filename_final, basename(file->filename), IO_PATH_MAX_SIZE);
 
         if (dup_count > 0) {
             snprintf(filename_final, IO_PATH_MAX_SIZE, "%s.%d", basename(file->filename), dup_count);
@@ -88,15 +132,13 @@ void linker_update(char *dst_path, finder_t *files) {
         snprintf(filepath_final, IO_PATH_MAX_SIZE, "%s%c%s", dst_path, IO_PATH_SEP, filename_final);
 
         if (!io_link_exists(filepath_final)) {
+            logger_debug("Create link '%s' | %s | %d\n", file->filename, filename_final, dup_count);
             realpath(file->filename, real_dst_filepath);
             symlink(real_dst_filepath, filepath_final);
         }
 
-        logger_debug("File found '%s' | %d\n", file->filename, dup_count);
-
         file = file->next;
     }
-    logger_debug("====== ITERATION FINISHED =======\n");
 
-    linker_purge(dst_path, files);
+    logger_debug("====== ITERATION FINISHED =======\n");
 }
