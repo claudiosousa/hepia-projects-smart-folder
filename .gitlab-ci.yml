@@ -1,9 +1,9 @@
-image: alpine
+image: ubuntu
 
 build_searchfolder:
   stage: build
   script:
-  - apk update && apk add make bash build-base gcc
+#  - apt-get update && apk apt-get install make bash build-base gcc
   - make src
   only:
   - master
