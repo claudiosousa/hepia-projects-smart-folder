@@ -176,5 +176,5 @@ static bool validate_exp_token(char *filename, struct stat *filestat, parser_t *
 }
 
 bool validator_validate(char *filename, struct stat *filestat, parser_t *expression) {
-    return !exp || validate_exp_token(filename, filestat, expression);
+    return !expression || validate_exp_token(filename, filestat, expression);
 }
