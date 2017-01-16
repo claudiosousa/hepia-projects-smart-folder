@@ -1,9 +1,9 @@
-image: ubuntu
+image: alpine
 
 build_searchfolder:
   stage: build
   script:
-#  - apt-get update && apk apt-get install make bash build-base gcc
+  - apk update && apk add make bash build-base gcc
   - make src
   only:
   - master
@@ -19,7 +19,7 @@ unit_tests:
 pages:
   stage: deploy
   script:
-  - apk update && apk add doxygen graphviz
+  - apk update && apk add doxygen graphviz font-adobe-100dpi
   - cd doxygen
   - mkdir html
   - doxygen Doxyfile > html/log.txt
