@@ -19,7 +19,7 @@ unit_tests:
 pages:
   stage: deploy
   script:
-  - apk update && apk add doxygen graphviz
+  - apk update && apk add doxygen graphviz font-adobe-100dpi
   - cd doxygen
   - mkdir html
   - doxygen Doxyfile > html/log.txt
