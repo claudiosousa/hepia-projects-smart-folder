@@ -201,7 +201,6 @@ Ce module centralise l'affichage des logs de débogage.
 L'interface est semblable à celle de \textit{find}\footnote{\url{https://linux.die.net/man/1/find}}.
 Voici la liste des options prises en charge:\\
 
-
 Critères:
 \begin{itemize}
 	\renewcommand\labelitemi{}
@@ -212,7 +211,7 @@ Critères:
 		\item Le nom de fichier est exactement \underline{fname}
 		\item Exemple, les fichiers només  "todo.txt": \textit{-name todo.txt}
 	\end{itemize}
-	\item \textit{-name}: -\underline{fname} 
+	\item \textit{-name}: -\underline{fname}
 	\begin{itemize}
 		\item     Le nom de fichier contient \underline{fname}.
 		\item     Exemple, les fichiers contenant ".txt":
@@ -225,7 +224,7 @@ Critères:
 	\end{itemize}
 	\item \textit{-user}: \underline{uname}
 	\begin{itemize}
-		\item 		Le fichier est possédé par utilisateur \underline{uname} 
+		\item 		Le fichier est possédé par utilisateur \underline{uname}
 		\item 	   	Exemple, les fichiers possédés par l'utilisateur \textit{claudio}: \textit{-user claudio}
 	\end{itemize}
 	\item \textit{-perm}: \underline{perm}
@@ -256,7 +255,7 @@ Critères:
 		\end{itemize}
 		Exemples:
 		\begin{itemize}
-			\item \textit{-size 200c}: fichiers de taille 200 bytes		
+			\item \textit{-size 200c}: fichiers de taille 200 bytes
 			\item \textit{-size -30k}: fichiers de taille inférieure à 30KB
 			\item \textit{-size +2M}: fichiers de taille supérieure à 2MB
 		\end{itemize}
@@ -267,7 +266,7 @@ Critères:
 		\item	Le suffix indique l'unité utilisée:
 		\begin{itemize}
 			\item \textit{'m'}: minutes
-			\item \textit{'d'}: jours 
+			\item \textit{'d'}: jours
 		\end{itemize}
 		Le préfixe \textit{[+-]} indique la comparaison utilisée, comme pour le critère \underline{-size} ci-dessus.\\
 		Exemples:
@@ -278,18 +277,18 @@ Critères:
 	\end{itemize}
 	\item \textit{-ctime}: \underline{[+-]time[md]}
 	\begin{itemize}
-		\item 	Le statut du fichier fut changé depuis \underline{time}. 
+		\item 	Le statut du fichier fut changé depuis \underline{time}.
 		\item Pour plus détails, voir l'explication pour le critère \underline{-atime}
 	\end{itemize}
 	\item \textit{-mtime}: \underline{[+-]time[md]}
 	\begin{itemize}
 		\item 	Le fichier fut changé depuis \underline{time}.\\
-		Pour plus détails, voir l'explication pour le critère \underline{-atime}	\\	
+		Pour plus détails, voir l'explication pour le critère \underline{-atime} \\
 	\end{itemize}
 \end{itemize}
 
-
-Les differents critères énumérés ci-dessus peuvent être combinés avec les opérateurs listés ci-dessous, énumérés dans l'ordre de précédence décroissante:\\
+Les differents critères énumérés ci-dessus peuvent être combinés avec les opérateurs listés ci-dessous,
+énumérés dans l'ordre de précédence décroissante: \\
 
 Opérateurs:
 \begin{itemize}
