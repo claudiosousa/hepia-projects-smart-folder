@@ -1,3 +1,6 @@
+Parser:
+  - Implement free
+
 AT END:
   - discuss with David about renaming to parser_validator
   - verify usage of system functions instead of C lib functions !!!!!!
