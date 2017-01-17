@@ -299,4 +299,47 @@ Opérateurs:
 	\item \textit{-or}: applique le \textit{OR} logique  entre les critères à gauche et à droite de l'opérateur
 \end{itemize}
 
+\newpage
+
+% -----------------------------------------------------------------------------
+\subsection{Changelog}
+
+La liste ci-dessous décrit l'ensemble des changements apportés à ce document d'architecture.
+
+\begin{itemize}
+    \item mise à jour du diagramme pour l'ajout de:
+    \begin{itemize}
+        \item IO:
+        \begin{itemize}
+            \item structure: \textit{io\_file\_list};
+            \item fonction: \textit{io\_file\_write\_fd};
+            \item fonction: \textit{io\_directory\_get\_all};
+            \item fonction: \textit{io\_directory\_create\_parent};
+            \item fonction: \textit{io\_directory\_delete};
+            \item fonction: \textit{io\_link\_exists}.
+        \end{itemize}
+    \end{itemize}
+    \begin{itemize}
+        \item Logger:
+        \begin{itemize}
+            \item fonction: \textit{logger\_debug};
+            \item fonction: \textit{logger\_info};
+            \item fonction: \textit{logger\_error};
+            \item fonction: \textit{logger\_perror}.
+        \end{itemize}
+    \end{itemize}
+    \begin{itemize}
+        \item Parser:
+        \begin{itemize}
+            \item énumération: \textit{parser\_crit\_type\_t};
+            \item énumération: \textit{parser\_crit\_t};
+            \item énumération: \textit{parser\_comp\_t};
+            \item fonction: \textit{parser\_free}.
+        \end{itemize}
+    \end{itemize}
+    \begin{itemize}
+        \item SmartFolder: renommé en SearchFolder.
+    \end{itemize}
+\end{itemize}
+
 \end{document}
