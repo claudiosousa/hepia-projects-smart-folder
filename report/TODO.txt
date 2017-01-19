@@ -8,8 +8,9 @@ architecture document fixes:
 IMplementattion doc to add to doxygen output:
  - tester doxygen
  -  unit test
-  - Describe singleton IPC
-  - Describe callback/args
+ - Describe singleton IPC
+ - Describe callback/args
+ - Intro implementation
 
 Test on mac os
 
