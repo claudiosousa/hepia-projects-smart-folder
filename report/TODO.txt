@@ -5,12 +5,5 @@ architecture document fixes:
  - time postfix is optional (seconds by default)
  - time postfix is case insensitive
 
-IMplementattion doc to add to doxygen output:
- - tester doxygen
- -  unit test
- - Describe singleton IPC
- - Describe callback/args
- - Intro implementation
-
 Test on mac os
 
