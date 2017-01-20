@@ -290,9 +290,9 @@ Critères:
 	\item \textit{-size}: \underline{[+-]size[GMkc]}
 	\begin{itemize}
 		\item 		Le fichier a la taille \underline{size}.
-		\item 		Le suffix indique l'unité utilisée:
+		\item 		Le suffix indique l'unité utilisée (insensible à la casse):
 		\begin{itemize}
-			\item \textit{'c'}: bytes
+			\item \textit{'c'}: bytes (par défaut si non précisé)
 			\item \textit{'k'}: Kilobytes
 			\item \textit{'M'}: Megabytes
 			\item \textit{'G'}: Gigabytes
@@ -310,12 +310,14 @@ Critères:
 			\item \textit{-size +2M}: fichiers de taille supérieure à 2MB
 		\end{itemize}
 	\end{itemize}
-	\item \textit{-atime}: \underline{[+-]time[md]}
+	\item \textit{-atime}: \underline{[+-]time[dmhs]}
 	\begin{itemize}
 		\item	Le fichier fut accédé depuis \underline{time}. La référence de temps est le moment présent.
-		\item	Le suffix indique l'unité utilisée:
+		\item	Le suffix indique l'unité utilisée (insensible à la casse):
 		\begin{itemize}
+            \item \textit{'s'}: secondes (par défaut si non précisé)
 			\item \textit{'m'}: minutes
+            \item \textit{'h'}: heures
 			\item \textit{'d'}: jours
 		\end{itemize}
 		Le préfixe \textit{[+-]} indique la comparaison utilisée, comme pour le critère \underline{-size} ci-dessus.\\
@@ -392,6 +394,14 @@ La liste ci-dessous décrit l'ensemble des changements apportés à ce document 
     \end{itemize}
     \item ajout d'une section \textit{Flux général d'exécution};
     \item ajout d'une section \textit{implémentation};
+    \item Expression:
+    \begin{itemize}
+        \item les suffixes de taille (\textit{size}) sont insensibles à la casse.
+        \item si le suffixe de taille (\textit{size}) n'est pas précisé, alors l'unité par défaut est l'octet (byte).
+        \item ajout de deux suffixe de temps (\textit{atime}, \textit{ctime}, \textit{mtime}): 's' pour seconde et 'h' pour heures.
+        \item les suffixes de temps (\textit{atime}, \textit{ctime}, \textit{mtime}) sont insensibles à la casse.
+        \item si le suffixe de temps (\textit{atime}, \textit{ctime}, \textit{mtime}) n'est pas précisé, alors l'unité par défaut est la seconde.
+    \end{itemize}
 \end{itemize}
 
 \end{document}
