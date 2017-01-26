@@ -17,12 +17,12 @@ The criteria above may be combined using logical operators (*and, or, not*) or p
 
 This example links all backup files that are bigger that 10 mega whose creation date is older than 30 days:
 
-*./searchfolder destdir backup -name .bkp -size +10M -ctime -30d*
+`./searchfolder destdir backup -name .bkp -size +10M -ctime -30d`
 
 This example links all files on the system whose permission are for everyone and
 the group owner is *root* or the owner is not *root*:
 
-*./searchfolder destdir / (-group root -or -not -user root) -and -perm 777*
+`./searchfolder destdir / (-group root -or -not -user root) -and -perm 777`
 
 ## Documentation
 For further information please have a look at:
