@@ -207,7 +207,7 @@ Le diagramme ci-dessous décrit le flux général de l'application:
     \label{Flow général d'exécution}
 \end{figure}
 
-L'application commence par décoder les 2 premiers arguments pour savoir dans quel mode il doit être exécuté. \\
+L'application commence par décoder le premier argument pour savoir dans quel mode il doit être exécuté. \\
 
 En mode \textit{recherche}, il commence par se mettre en arrière-plan.
 Puis, il donne le reste des argument au Parser d'expression pour la validation des fichiers.
@@ -219,7 +219,7 @@ Puis, avec cette liste, le programme met à jour les liens dans le dossier de de
 les liens qui ne figurent plus dans la liste, puis crée ceux qui y sont nouveaux.
 La recherche se termine par une attente de quelques secondes et recommence. \\
 
-En mode \textit{stop}, se contente de lire le PID dans le fichier créé par l'instance cible et
+En mode \textit{stop}, il se contente de lire le PID dans le fichier créé par l'instance cible et
 lui envoie un signal de terminaison (SIGTERM).
 Ceci provoque l'exécution d'un \textit{handler} sur l'instance concernée qui place un indicateur
 pour que la boucle de recherche s'arrête.
@@ -236,11 +236,25 @@ Tous les modules possèdent une description complète en début de fichier.
 Toutes les fonctions publiques ont été documentées dans le fichier d'header,
 alors que les fonctions privées ont été documentées dans le fichier d'implémentation. \\
 
-Le diagramme de modules (figure \ref{Architecture du SmartFolder}) donne toutes les fonctions publiques de chaque module.
+Le diagramme d'architecture (figure \ref{Architecture du SmartFolder}) donne toutes les fonctions et structures publiques de chaque module. \\
+
+Le code source, testes unitaires et source du rapport se trouve à l'adresse \url{https://gitlab.com/hepia-projects/smart-folder/tree/master}. \\
 
 \subsection{Testes unitaires}
 
-Le module \textit{Parser} a été entièrement tester à l'aide de \href{http://cutest.sourceforge.net/}{CuTest}.
+Le module \textit{Parser} a été entièrement testé à l'aide de \href{http://cutest.sourceforge.net/}{CuTest}.
+Ce module fut choisit en raison de sa complexité.
+Les tests unitaires se trouve dans le dossier \textit{tests} et peut être exécuté avec \textit{make run}. \\
+
+L'image ci-dessous donne la sortie des tests unitaires du module \textit{Parser}:
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{unit_test_result.jpg}
+    \end{center}
+    \caption{Sortie des tests unitaires du module \textit{Parser}}
+    \label{Sortie des tests unitaires du module Parser}
+\end{figure}
 
 \newpage
 
@@ -393,7 +407,7 @@ La liste ci-dessous décrit l'ensemble des changements apportés à ce document 
         \item SmartFolder: renommé en SearchFolder.
     \end{itemize}
     \item ajout d'une section \textit{Flux général d'exécution};
-    \item ajout d'une section \textit{implémentation};
+    \item ajout d'une section \textit{Implémentation};
     \item Expression:
     \begin{itemize}
         \item les suffixes de taille (\textit{size}) sont insensibles à la casse.
