@@ -27,7 +27,7 @@
 \setlength{\headheight}{33pt}
 \renewcommand{\headrulewidth}{0.5pt}
 \lhead{\includegraphics[height=1cm]{hepia.jpg}}
-\chead{SmartFolder}
+\chead{SearchFolder}
 \rhead{Claudio Sousa - David Gonzalez}
 \renewcommand{\footrulewidth}{0.5pt}
 \lfoot{26 janvier 2017}
@@ -43,7 +43,7 @@
 \title
 {
     \Huge{Programmation système} \\
-    \Huge{SmartFolder}
+    \Huge{SearchFolder}
 }
 \author
 {
@@ -365,6 +365,15 @@ Opérateurs:
 	\item \textit{-or}: applique le \textit{OR} logique  entre les critères à gauche et à droite de l'opérateur
 \end{itemize}
 
+\subsubsection{Exemples}
+
+Cet exemple lie tous les fichiers de backup de plus de 10 mégas dont la date de création est plus vieux que 30 jours: \\
+\textit{./searchfolder destdir backup -name .bkp -size +10M -ctime -30d} \\
+
+Cet exemple lie tous les fichier sur le système dont les permission sont données à tout le monde et
+que le groupe propriétaire est celui de \textit{root} ou l'utilisateur propriétaire n'est pas \textit{root}: \\
+\textit{./searchfolder destdir / (-group root -or -not -user root) -and -perm 777}
+
 \newpage
 
 % -----------------------------------------------------------------------------
@@ -415,6 +424,7 @@ La liste ci-dessous décrit l'ensemble des changements apportés à ce document 
         \item ajout de deux suffixe de temps (\textit{atime}, \textit{ctime}, \textit{mtime}): 's' pour seconde et 'h' pour heures.
         \item les suffixes de temps (\textit{atime}, \textit{ctime}, \textit{mtime}) sont insensibles à la casse.
         \item si le suffixe de temps (\textit{atime}, \textit{ctime}, \textit{mtime}) n'est pas précisé, alors l'unité par défaut est la seconde.
+        \item ajout d'exemples.
     \end{itemize}
 \end{itemize}
 

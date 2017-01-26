@@ -13,8 +13,19 @@ The filtering expression syntax is closely inspired by the *find* command. The u
 
 The criteria above may be combined using logical operators (*and, or, not*) or parenthesis.
 
+## Examples
+
+This example links all backup files that are bigger that 10 mega whose creation date is older than 30 days:
+
+**./searchfolder destdir backup -name .bkp -size +10M -ctime -30d**
+
+This example links all files on the system whose permission are for everyone and
+the group owner is \textit{root} or the owner is not \textit{root}:
+
+**./searchfolder destdir / (-group root -or -not -user root) -and -perm 777**
+
 ## Documentation
 For further information please have a look at:
  - [Code documentation](https://hepia-projects.gitlab.io/smart-folder/)
- - [Architecture document](https://gitlab.com/hepia-projects/smart-folder/raw/241c3db48603ed35ae2515ab321b59c2d513c413/report/SmartFolder-architecture-document.pdf)
+ - [Architecture document](https://gitlab.com/hepia-projects/smart-folder/raw/master/report/SmartFolder-architecture-document.pdf)
 
