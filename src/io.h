@@ -19,25 +19,21 @@
  * Path separator for path construction
  */
 #define IO_PATH_SEP '/'
-/**
- * Maximum files allowed in the list of files
- */
-#define IO_DIR_MAX_FILES 1024
 
 /**
  * Container for file lists (fixed size for simplification),
  * used by io_directory_get_all().
  */
-typedef struct io_file_list {
+typedef struct io_file_list_t {
     /**
-     * Array of file path
+     * File path
      */
-    char files[IO_DIR_MAX_FILES][IO_PATH_MAX_SIZE];
+    char *file;
     /**
-     * Real number of elements in the above list
+     * Next file in the chained list
      */
-    size_t count;
-} io_file_list;
+    struct io_file_list_t *next;
+} io_file_list_t;
 
 /**
  * Determine if a file in the specified path exists
@@ -90,13 +86,13 @@ bool io_directory_exists(char *path);
  * @param path Dir path to scan
  * @return List of files
  */
-io_file_list * io_directory_get_all(char *path);
+io_file_list_t *io_directory_get_all(char *path);
 
 /**
  * Free a previously created list of files
  * @param filelist File list to free
  */
-void io_directory_get_all_free(io_file_list *filelist);
+void io_directory_get_all_free(io_file_list_t *filelist);
 
 /**
  * Create a directory in the specified path

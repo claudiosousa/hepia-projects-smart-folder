@@ -1,4 +1,4 @@
-FLAGS=-g -ggdb -lm -Wall -Wextra -Werror -std=c99 -D_POSIX_SOURCE -D_GNU_SOURCE -DDEBUG
+FLAGS=-g -ggdb -lm -Wall -Wextra -Werror -std=c99 -D_POSIX_SOURCE -D_GNU_SOURCE
 LIBS=
 
 searchfolder: main.c ipc.o searchfolder.o parser.o validator.o finder.o linker.o io.o logger.o
@@ -19,7 +19,7 @@ validator.o: validator.c validator.h
 finder.o: finder.c finder.h vendor/uthash.h
 	gcc $(FLAGS) -c finder.c vendor/uthash.h
 
-linker.o: linker.c linker.h
+linker.o: linker.c linker.h io.o
 	gcc $(FLAGS) -c linker.c
 
 io.o: io.c io.h

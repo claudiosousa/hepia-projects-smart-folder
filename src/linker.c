@@ -71,16 +71,17 @@ unsigned int linker_get_count_from_filename(char *link_filename) {
  * @param files List of files to link
  */
 void linker_purge(char *dst_path, finder_t *files) {
-    io_file_list *links = io_directory_get_all(dst_path);
+    io_file_list_t *links = io_directory_get_all(dst_path);
     bool found = false;
     char link_del[IO_PATH_MAX_SIZE] = "";
     char link_del_target[IO_PATH_MAX_SIZE] = "";
     char real_dst_filepath[IO_PATH_MAX_SIZE] = "";
     finder_t *file;
 
-    for (unsigned int i = 0; i < links->count; i++) {
+    io_file_list_t *workinglink = links;
+    while (workinglink) {
         found = false;
-        snprintf(link_del, IO_PATH_MAX_SIZE, "%s%c%s", dst_path, IO_PATH_SEP, links->files[i]);
+        snprintf(link_del, IO_PATH_MAX_SIZE, "%s%c%s", dst_path, IO_PATH_SEP, workinglink->file);
         realpath(link_del, link_del_target);
 
         file = files;
@@ -99,13 +100,16 @@ void linker_purge(char *dst_path, finder_t *files) {
         }
 
         if ((!found) || (linker_get_count_from_filename(link_del) != linker_get_count(file, files))) {
-            logger_debug("Purge: %s | %u | %u\n", link_del, linker_get_count_from_filename(link_del), linker_get_count(file, files));
+            logger_debug("Purge: %s | %u | %u\n", link_del, linker_get_count_from_filename(link_del),
+                         linker_get_count(file, files));
             if (io_file_delete(link_del) != 0) {
                 logger_error("Linker error: cannot purge '%s'\n", link_del);
             }
         } else {
-            logger_debug("Don't purge: %s | %u | %u\n", link_del, linker_get_count_from_filename(link_del), linker_get_count(file, files));
+            logger_debug("Don't purge: %s | %u | %u\n", link_del, linker_get_count_from_filename(link_del),
+                         linker_get_count(file, files));
         }
+        workinglink = workinglink->next;
     }
 
     io_directory_get_all_free(links);

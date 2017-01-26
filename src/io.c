@@ -93,8 +93,8 @@ bool io_directory_exists(char *path) {
     return (stat(path, &buffer) == 0) && S_ISDIR(buffer.st_mode);
 }
 
-io_file_list * io_directory_get_all(char *path) {
-    io_file_list *filelist = NULL;
+io_file_list_t *io_directory_get_all(char *path) {
+    io_file_list_t *filelist = NULL;
     DIR *dir = NULL;
     struct dirent *entry = NULL;
 
@@ -104,21 +104,14 @@ io_file_list * io_directory_get_all(char *path) {
         return NULL;
     }
 
-    filelist = malloc(sizeof(io_file_list));
-    if (filelist == NULL) {
-        logger_perror("IO: error: file_list malloc failed");
-        return NULL;
-    }
-    filelist->count = 0;
-
-    while (((entry = readdir(dir)) != NULL) && (filelist->count < IO_DIR_MAX_FILES)) {
+    while ((entry = readdir(dir)) != NULL) {
         if ((strncmp(entry->d_name, ".", 2) != 0) && (strncmp(entry->d_name, "..", 3) != 0)) {
-            strncpy(filelist->files[filelist->count++], entry->d_name, IO_PATH_MAX_SIZE);
+            io_file_list_t *previousfile = filelist;
+            filelist = malloc(sizeof(io_file_list_t));
+            filelist->next = previousfile;
+            filelist->file = malloc(sizeof(char) * (1 + strlen(entry->d_name)));
+            strncpy(filelist->file, entry->d_name, 1 + strlen(entry->d_name));
         }
-    }
-    if (filelist->count >= IO_DIR_MAX_FILES)
-    {
-        logger_error("IO: error: maximum file number exceeded: '%d'\n", IO_DIR_MAX_FILES);
     }
 
     closedir(dir);
@@ -126,8 +119,14 @@ io_file_list * io_directory_get_all(char *path) {
     return filelist;
 }
 
-void io_directory_get_all_free(io_file_list *filelist) {
-    free(filelist);
+void io_directory_get_all_free(io_file_list_t *filelist) {
+    io_file_list_t *previous;
+    while (filelist) {
+        previous = filelist;
+        filelist = filelist->next;
+        free(previous->file);
+        free(previous);
+    }
 }
 
 int io_directory_create(char *path) {
@@ -141,7 +140,7 @@ int io_directory_create(char *path) {
 
 int io_directory_create_parent(char *path) {
     char path_progressive[IO_PATH_MAX_SIZE] = "";
-    char * path_sep_pos = strchr(path, IO_PATH_SEP);
+    char *path_sep_pos = strchr(path, IO_PATH_SEP);
 
     while (path_sep_pos != NULL) {
         strncpy(path_progressive, path, path_sep_pos - path + 1);
@@ -160,10 +159,12 @@ int io_directory_create_parent(char *path) {
 
 int io_directory_delete(char *path) {
     char file_del[IO_PATH_MAX_SIZE] = "";
-    io_file_list * files = io_directory_get_all(path);
-    for (unsigned int i = 0; i < files->count; i++) {
-        sprintf(file_del, "%s%c%s", path, IO_PATH_SEP, files->files[i]);
+    io_file_list_t *files = io_directory_get_all(path);
+    io_file_list_t *workingfile = files;
+    while (workingfile) {
+        sprintf(file_del, "%s%c%s", path, IO_PATH_SEP, workingfile->file);
         io_file_delete(file_del);
+        workingfile = workingfile->next;
     }
     io_directory_get_all_free(files);
 
