@@ -146,8 +146,10 @@ static finder_t *finder_find_in_dir(char *dir, finder_t *filelist, parser_t *exp
     struct stat file_stat;
     stat(dir, &file_stat);
 
-    if (finder_hash_exist(file_stat.st_ino))
+    if (finder_hash_exist(file_stat.st_ino)) {
+        closedir(d);
         return filelist;
+    }
 
     finder_hash_add(file_stat.st_ino);
 

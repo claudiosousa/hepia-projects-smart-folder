@@ -299,8 +299,9 @@ static void move_token(parser_t **to, parser_t **from) {
 /** Orders a chained list of `parser_t`.
 
     The chained list is reordered in a infix notation that encodes the priority depending
-    on the operators relative priority and the usage of parenthesis. Therefor, by using the perfect ordering, parenthesis can be stripted out
-    and consequently the returned ordered chained list does not contain any parenthesis tokens.
+    on the operators relative priority and the usage of parenthesis. Therefor, by using the perfect ordering,
+   parenthesis can be stripted out and consequently the returned ordered chained list does not contain any parenthesis
+   tokens.
 
     Based on the [Shunting yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm) by Edsger Dijkstra.
 
@@ -364,5 +365,10 @@ parser_t *parser_parse(char *expression[], size_t size) {
 }
 
 void parser_free(parser_t *expression) {
-    (void)expression;
+    parser_t *previous;
+    while (expression) {
+        previous = expression;
+        expression = expression->next;
+        free(previous);
+    }
 }
